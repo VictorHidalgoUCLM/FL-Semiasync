@@ -1,0 +1,66 @@
+global:
+  evaluation_interval: 5s
+  scrape_interval: 5s
+
+scrape_configs:
+  - honor_labels: true
+    job_name: Prometheus_master
+    metrics_path: /federate
+    params:
+      match[]:
+        - '{__name__=~".+"}'
+    static_configs:
+      - labels:
+          client: victor
+          country: ES
+          environment: RP1
+          hostname: raspberrypi1
+          target: 172.24.100.98:9090
+        targets:
+          - 172.24.100.98:9090
+      - labels:
+          client: victor
+          country: ES
+          environment: RP4
+          hostname: raspberry4
+          target: 172.24.100.10:9090
+        targets:
+          - 172.24.100.10:9090
+      - labels:
+          client: victor
+          country: ES
+          environment: RP3
+          hostname: raspberry3
+          target: 172.24.100.105:9090
+        targets:
+          - 172.24.100.105:9090
+      - labels:
+          client: victor
+          country: ES
+          environment: RP6
+          hostname: raspberry6
+          target: 172.24.100.11:9090
+        targets:
+          - 172.24.100.11:9090
+      - labels:
+          client: victor
+          country: ES
+          environment: RP7
+          hostname: raspberry7
+          target: 172.24.100.152:9090
+        targets:
+          - 172.24.100.152:9090
+
+  - job_name: node_exporter
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 'node_exporter:9100'
+
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 'cadvisor:8080'
+        labels:
+          hostname: "victorPC"

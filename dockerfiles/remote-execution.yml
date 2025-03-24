@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  superlink:
+    image: flwr/superlink:1.15.1
+    container_name: superlink
+    ports:
+      - "9091:9091"
+      - "9092:9092"
+      - "9093:9093"
+    networks:
+      - master_default
+    command:
+    - --insecure
+    - --isolation
+    - process
+
+  serverapp:
+    build:
+      context: ..
+      dockerfile: dockerfiles/serverapp.Dockerfile 
+    container_name: serverapp
+    networks:
+      - master_default
+    command:
+      - --insecure
+      - --serverappio-api-address
+      - superlink:9091
+    depends_on:
+      - superlink
+    volumes:
+      - ../remote-execution/results:/app/results/remote-execution:rw
+      - ../projectconf.toml:/app/projectconf.toml:rw
+
+networks:
+  master_default:
+    external: true
