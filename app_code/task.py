@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from nets.mobilenet import MobileNetV1
+from app_code.nets.mobilenet import MobileNetV1
 
 import torch
 from torch.utils.data import DataLoader, Subset
