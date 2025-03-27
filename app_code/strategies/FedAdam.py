@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
 
@@ -14,28 +14,38 @@ from flwr.server.client_proxy import ClientProxy
 
 from .FedOpt import FedOptCustom
 
+
 class FedAdamCustom(FedOptCustom):
-    def __init__(self,
-                 eta: float = 1e-1,
-                 eta_l: float = 1e-1,
-                 beta_1: float = 0.9,
-                 beta_2: float = 0.99,
-                 tau: float = 1e-9,
-                 *args,
-                 **kwargs):
-        super().__init__(eta=eta,
-                         eta_l=eta_l,
-                         beta_1=beta_1,
-                         beta_2=beta_2,
-                         tau=tau,
-                         *args,
-                         **kwargs)
+    def __init__(
+        self,
+        eta: float = 1e-1,
+        eta_l: float = 1e-1,
+        beta_1: float = 0.9,
+        beta_2: float = 0.99,
+        tau: float = 1e-9,
+        *args: Any,
+        **kwargs: Optional[Dict[str, Any]],
+    ):
+        """Initialize the FedAdamCustom strategy.
+
+        Args:
+            eta: The global learning rate. Default is 1e-1.
+            eta_l: The local learning rate. Default is 1e-1.
+            beta_1: First moment decay rate. Default is 0.9.
+            beta_2: Second moment decay rate. Default is 0.99.
+            tau: The threshold value for adaptive updates. Default is 1e-9.
+            *args: Additional positional arguments for the superclass.
+            **kwargs: Additional keyword arguments for the superclass.
+        """
+
+        super().__init__(
+            eta=eta, eta_l=eta_l, beta_1=beta_1, beta_2=beta_2, tau=tau, *args, **kwargs
+        )
 
     def __repr__(self) -> str:
         """Compute a string representation of the strategy."""
         rep = f"FedAdam(accept_failures={self.accept_failures})"
         return rep
-
 
     def aggregate_fit(
         self,

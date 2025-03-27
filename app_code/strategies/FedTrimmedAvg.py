@@ -1,5 +1,5 @@
 from logging import WARNING
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 
 from flwr.common import (
     FitRes,
@@ -14,13 +14,18 @@ from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate_trimmed_avg
 from .FedAvg import FedAvgCustom
 
+
 class FedTrimmedAvgCustom(FedAvgCustom):
-    def __init__(self,
-                 beta: float = 0.2,
-                 *args,
-                 **kwargs):
-        super().__init__(*args,
-                         **kwargs)
+    def __init__(
+        self, beta: float = 0.2, *args: Any, **kwargs: Optional[Dict[str, any]]
+    ):
+        """Configurable FedMedian strategy implementation.
+
+        Args:
+            beta: Fraction of values to trim.
+        """
+
+        super().__init__(*args, **kwargs)
         self.beta = beta
 
     def __repr__(self) -> str:

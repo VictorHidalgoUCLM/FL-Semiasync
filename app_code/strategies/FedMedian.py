@@ -14,6 +14,7 @@ from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate_median
 from .FedAvg import FedAvgCustom
 
+
 class FedMedianCustom(FedAvgCustom):
     """Configurable FedMedian strategy implementation."""
 

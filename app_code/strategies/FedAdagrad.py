@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
 
@@ -14,25 +14,32 @@ from flwr.server.client_proxy import ClientProxy
 
 from .FedOpt import FedOptCustom
 
-class FedAdagradCustom(FedOptCustom):
-    def __init__(self,
-                 eta: float = 1e-2,
-                 eta_l: float = 0.0316,
-                 tau: float = 1e-3,
-                 *args,
-                 **kwargs):
-        super().__init__(eta=eta,
-                         eta_l=eta_l,
-                         tau=tau,
-                         *args,
-                         **kwargs)
 
+class FedAdagradCustom(FedOptCustom):
+    def __init__(
+        self,
+        eta: float = 1e-2,
+        eta_l: float = 0.0316,
+        tau: float = 1e-3,
+        *args: Any,
+        **kwargs: Optional[Dict[str, Any]],
+    ):
+        """Initialize the FedAdagradCustom strategy.
+
+        Args:
+            eta: The global learning rate. Default is 1e-2.
+            eta_l: The local learning rate. Default is 0.0316.
+            tau: The threshold value for adaptive updates. Default is 1e-3.
+            *args: Additional positional arguments for the superclass.
+            **kwargs: Additional keyword arguments for the superclass.
+        """
+
+        super().__init__(eta=eta, eta_l=eta_l, tau=tau, *args, **kwargs)
 
     def __repr__(self) -> str:
         """Compute a string representation of the strategy."""
         rep = f"FedAdagrad(accept_failures={self.accept_failures})"
         return rep
-
 
     def aggregate_fit(
         self,

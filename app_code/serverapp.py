@@ -5,6 +5,8 @@ from .start_driver import start_driver
 
 
 class ServerAppCustom(ServerApp):
+    """Intermediate class that inherits from ServerApp so it can be used with custom start_driver."""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

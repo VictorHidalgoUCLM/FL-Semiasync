@@ -82,12 +82,12 @@ def start_driver(  # pylint: disable=too-many-arguments, too-many-locals
     )
     log(INFO, "")
 
-    # Start the thread updating nodes
+    # Start the thread updating nodes. Uses customized driver.
     thread, f_stop, c_done = start_update_client_manager_thread(
         driver, initialized_server.client_manager()
     )
 
-    # Start training
+    # Start training. Run_fl is a customized version of original.
     hist = run_fl(
         server=initialized_server,
         config=initialized_config,
@@ -115,10 +115,14 @@ def run_fl(
     for line in io.StringIO(str(hist)):
         log(INFO, "\t%s", line.strip("\n"))
 
-    projectconf = toml.load(os.environ.get('CONFIG_PATH'))
+    projectconf = toml.load(os.environ.get("CONFIG_PATH"))
 
+    # Prints message with current config for logging when a run ends.
     log(INFO, "")
-    log(INFO, f"Training {projectconf['tempConfig']['federation']} {projectconf['tempConfig']['strategy']} {projectconf['tempConfig']['execution_name']} {projectconf['tempConfig']['num_exec']} ended")
+    log(
+        INFO,
+        f"Training {projectconf['tempConfig']['federation']} {projectconf['tempConfig']['strategy']} {projectconf['tempConfig']['execution_name']} {projectconf['tempConfig']['num_exec']} ended",
+    )
 
     # Graceful shutdown
     server.disconnect_all_clients(timeout=config.round_timeout)

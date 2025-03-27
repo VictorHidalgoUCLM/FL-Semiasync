@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
 
@@ -18,15 +18,28 @@ from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate_qffl
 from .FedAvg import FedAvgCustom
 
+
 class QFedAvgCustom(FedAvgCustom):
-    def __init__(self,
-                 parameters_fit: dict = {'evaluate_on_fit': True},
-                 q_param: float = 0.2,
-                 qffl_learning_rate: float = 0.1,
-                 *args,
-                 **kwargs):
-        super().__init__(*args,
-                         **kwargs)
+    def __init__(
+        self,
+        parameters_fit: dict = {"evaluate_on_fit": True},
+        q_param: float = 0.2,
+        qffl_learning_rate: float = 0.1,
+        *args: Any,
+        **kwargs: Optional[Dict[str, Any]],
+    ):
+        """
+        Initializes the QFedAvgCustom strategy for federated learning.
+
+        Args:
+            parameters_fit: A dictionary containing the configuration for the fitting process.
+            q_param: A parameter controlling the custom aggregation process.
+            qffl_learning_rate: The learning rate for the QFedAvg strategy.
+            *args: Additional positional arguments for the superclass.
+            **kwargs: Additional keyword arguments for the superclass.
+        """
+
+        super().__init__(*args, **kwargs)
         self.learning_rate = qffl_learning_rate
         self.q_param = q_param
         self.parameters = parameters_fit
@@ -42,9 +55,7 @@ class QFedAvgCustom(FedAvgCustom):
         self, server_round: int, parameters: Parameters, client_manager: ClientManager
     ) -> list[tuple[ClientProxy, FitIns]]:
         """Configure the next round of training."""
-        fit_config = super().configure_fit(
-            server_round, parameters, client_manager
-        )
+        fit_config = super().configure_fit(server_round, parameters, client_manager)
 
         weights = parameters_to_ndarrays(parameters)
         self.pre_weights = weights
@@ -59,9 +70,7 @@ class QFedAvgCustom(FedAvgCustom):
         failures: list[Union[tuple[ClientProxy, FitRes], BaseException]],
     ) -> tuple[Optional[Parameters], dict[str, Scalar]]:
         """Aggregate fit results using weighted average."""
-        _, aggregated_metrics = super().aggregate_fit(
-            server_round, results, failures
-        )
+        _, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
 
         def norm_grad(grad_list: NDArrays) -> float:
             # input: nested gradients
@@ -84,9 +93,9 @@ class QFedAvgCustom(FedAvgCustom):
         weights_before = self.pre_weights
         losses = []
         examples = []
-        
+
         for _, fit_res in results:
-            losses.append(fit_res.num_examples * fit_res.metrics['loss'])
+            losses.append(fit_res.num_examples * fit_res.metrics["loss"])
             examples.append(fit_res.num_examples)
 
         loss = sum(losses) / sum(examples)

@@ -1,95 +1,107 @@
 import os
-import toml
+from typing import List, Tuple
 
-# Flower imports
 import flwr as fl
+import toml
 from flwr.common import Context, ndarrays_to_parameters
 from flwr.server import ServerAppComponents, ServerConfig
 from flwr.server.client_manager import SimpleClientManager
-from .serverapp import ServerAppCustom
 
-# Typing imports
-from typing import List, Tuple
-
-# Custom server import
 from .server import CustomServer
-
-# Task-related imports
+from .serverapp import ServerAppCustom
 from app_code.task import Net, get_weights
-
-# Strategy imports
-from app_code.strategies.FedAvg import FedAvgCustom
-from app_code.strategies.FedProx import FedProxCustom
-from app_code.strategies.FedYogi import FedYogiCustom
 from app_code.strategies.FedAdam import FedAdamCustom
 from app_code.strategies.FedAdagrad import FedAdagradCustom
-from app_code.strategies.FedTrimmedAvg import FedTrimmedAvgCustom
-from app_code.strategies.QFedAvg import QFedAvgCustom
+from app_code.strategies.FedAvg import FedAvgCustom
 from app_code.strategies.FedMedian import FedMedianCustom
+from app_code.strategies.FedProx import FedProxCustom
+from app_code.strategies.FedTrimmedAvg import FedTrimmedAvgCustom
+from app_code.strategies.FedYogi import FedYogiCustom
+from app_code.strategies.QFedAvg import QFedAvgCustom
 
-projectconf = toml.load(os.environ.get('CONFIG_PATH'))
+projectconf = toml.load(os.environ.get("CONFIG_PATH"))
 
-num_exec = projectconf['tempConfig']['num_exec']
-strategy_name = projectconf['tempConfig']['strategy']
+num_exec = projectconf["tempConfig"]["num_exec"]
+strategy_name = projectconf["tempConfig"]["strategy"]
+
 
 # Create strategy based on the strategy selected in the configuration file
-def fedAvg(configurations):
+def create_fedAvg(configurations):
+    """Create FedAvg based on configurations parameter."""
     strategy = FedAvgCustom(**configurations)
     return strategy
 
-def fedProx(configurations):
-    strategy = FedProxCustom(**configurations,
-                            parameters_fit= {
-                                'proximal_mu': projectconf['fedProx']['proximal_mu'],
-                                }
-                            )
+
+def create_fedProx(configurations):
+    """Create FedProx based on configurations parameter. Includes proximal_mu."""
+    strategy = FedProxCustom(
+        **configurations,
+        parameters_fit={
+            "proximal_mu": projectconf["fedProx"]["proximal_mu"],
+        }
+    )
     return strategy
 
-def fedYogi(configurations):
+
+def create_fedYogi(configurations):
+    """Create FedYogi based on configurations parameter."""
     strategy = FedYogiCustom(**configurations)
     return strategy
 
-def fedAdam(configurations):
+
+def create_fedAdam(configurations):
+    """Create FedYogi based on configurations parameter."""
     strategy = FedAdamCustom(**configurations)
     return strategy
 
-def fedAdagrad(configurations):
+
+def create_fedAdagrad(configurations):
+    """Create FedAdagrad based on configurations parameter."""
     strategy = FedAdagradCustom(**configurations)
     return strategy
 
-def fedTrimmedAvg(configurations):
+
+def create_fedTrimmedAvg(configurations):
+    """Create FedTrimmedAvg based on configurations parameter."""
     strategy = FedTrimmedAvgCustom(**configurations)
     return strategy
 
-def QFedAvg(configurations):
+
+def create_QFedAvg(configurations):
+    """Create QFedAvg based on configurations parameter."""
     strategy = QFedAvgCustom(**configurations)
     return strategy
 
-def fedMedian(configurations):
+
+def create_fedMedian(configurations):
+    """Create FedMedian based on configurations parameter."""
     strategy = FedMedianCustom(**configurations)
     return strategy
 
-# Default function if the strategy is not selected correctly
-def default():
+
+def default_strategy():
+    """Default function if strategy is not selected correctly."""
     return "Nothing selected"
 
-# Map strategy names to functions
-switch = {
-    "FedAvg": fedAvg,
-    "FedProx": fedProx,
-    "FedYogi": fedYogi,
-    "FedAdam": fedAdam,
-    "FedAdagrad": fedAdagrad,
-    "FedTrimmedAvg": fedTrimmedAvg,
-    "QFedAvg": QFedAvg,
-    "FedMedian": fedMedian,
-}
+
+def get_strategy_mapping():
+    """Returns a dictionary with strategy name as key and function as value."""
+    return {
+        "FedAvg": create_fedAvg,
+        "FedProx": create_fedProx,
+        "FedYogi": create_fedYogi,
+        "FedAdam": create_fedAdam,
+        "FedAdagrad": create_fedAdagrad,
+        "FedTrimmedAvg": create_fedTrimmedAvg,
+        "QFedAvg": create_QFedAvg,
+        "FedMedian": create_fedMedian,
+    }
 
 
-# Function for calculating the weighted average metric
 def fit_weighted_average(
-        metrics: List[Tuple[int, fl.common.Metrics]]) -> fl.common.Metrics:
-
+    metrics: List[Tuple[int, fl.common.Metrics]],
+) -> fl.common.Metrics:
+    """Function for calculating weighted average metrics on fit."""
     accuracies = [num_examples * m["accuracy"] for num_examples, m in metrics]
     losses = [num_examples * m["loss"] for num_examples, m in metrics]
     losses_distributed = [num_examples * m["loss_distributed"] for num_examples, m in metrics]
@@ -99,12 +111,21 @@ def fit_weighted_average(
 
     examples = [num_examples for num_examples, _ in metrics]
 
-    return {"accuracy": sum(accuracies) / sum(examples), "loss": sum(losses) / sum(examples), "loss_distributed": sum(losses_distributed) / sum(examples), "recall": sum(recalls) / sum(examples), "precision": sum(precisions) / sum(examples), "f1": sum(f1s) / sum(examples)}
+    return {
+        "accuracy": sum(accuracies) / sum(examples),
+        "loss": sum(losses) / sum(examples),
+        "loss_distributed": sum(losses_distributed) / sum(examples),
+        "recall": sum(recalls) / sum(examples),
+        "precision": sum(precisions) / sum(examples),
+        "f1": sum(f1s) / sum(examples),
+    }
+
 
 # Function for calculating the weighted average metric
 def evaluate_weighted_average(
-        metrics: List[Tuple[int, fl.common.Metrics]]) -> fl.common.Metrics:
-
+    metrics: List[Tuple[int, fl.common.Metrics]],
+) -> fl.common.Metrics:
+    """Function for calculating weighted average metrics on evaluate"""
     accuracies = [num_examples * m["accuracy"] for num_examples, m in metrics]
     recalls = [num_examples * m["recall"] for num_examples, m in metrics]
     precisions = [num_examples * m["precision"] for num_examples, m in metrics]
@@ -112,63 +133,86 @@ def evaluate_weighted_average(
 
     examples = [num_examples for num_examples, _ in metrics]
 
-    return {"accuracy": sum(accuracies) / sum(examples), "recall": sum(recalls) / sum(examples), "precision": sum(precisions) / sum(examples), "f1": sum(f1s) / sum(examples)}
+    return {
+        "accuracy": sum(accuracies) / sum(examples),
+        "recall": sum(recalls) / sum(examples),
+        "precision": sum(precisions) / sum(examples),
+        "f1": sum(f1s) / sum(examples),
+    }
 
 
 def server_side_parameters():
-    # Initialize model parameters
+    """Initialize model parameters on server side."""
     ndarrays = get_weights(Net())
     parameters = ndarrays_to_parameters(ndarrays)
 
     return parameters
 
 
-# Dictionary mapping names to functions
-functions_dict = {
-    'fit_weighted_average': fit_weighted_average,
-    'evaluate_weighted_average': evaluate_weighted_average,
-    'server_side': server_side_parameters,
-    'None': None,
-}
+def create_configurations():
+    """Returns complete configurations for strategies."""
+    functions_dict = {
+        "fit_weighted_average": fit_weighted_average,
+        "evaluate_weighted_average": evaluate_weighted_average,
+        "server_side": server_side_parameters,
+        "None": None,
+    }
 
-configurations = {
-    "fraction_fit": projectconf['config']["fraction_fit"],
-    "fraction_evaluate": projectconf['config']["fraction_evaluate"],
-    "min_fit_clients": projectconf['config']["min_fit_clients"],
-    "min_evaluate_clients": projectconf['config']["min_evaluate_clients"],
-    "min_available_clients": projectconf['config']["min_available_clients"],
-    "evaluate_fn": functions_dict.get(projectconf['config']["evaluate_fn"], None),
-    "on_fit_config_fn": functions_dict.get(projectconf['config']["on_fit_config_fn"], None),
-    "on_evaluate_config_fn": functions_dict.get(projectconf['config']["on_evaluate_config_fn"], None),
-    "accept_failures": projectconf['config']["accept_failures"],
-    "initial_parameters": functions_dict.get(projectconf['config']["initial_parameters"], None),
-    "fit_metrics_aggregation_fn": functions_dict.get(projectconf['config']["fit_metrics_aggregation_fn"], None),
-    "evaluate_metrics_aggregation_fn": functions_dict.get(projectconf['config']["evaluate_metrics_aggregation_fn"], None),
-    "num_exec": num_exec,
-    "strategy_name": strategy_name,
-    "debug": projectconf['config']['debug']
-}
+    configurations = {
+        "fraction_fit": projectconf["config"]["fraction_fit"],
+        "fraction_evaluate": projectconf["config"]["fraction_evaluate"],
+        "min_fit_clients": projectconf["config"]["min_fit_clients"],
+        "min_evaluate_clients": projectconf["config"]["min_evaluate_clients"],
+        "min_available_clients": projectconf["config"]["min_available_clients"],
+        "evaluate_fn": functions_dict.get(projectconf["config"]["evaluate_fn"], None),
+        "on_fit_config_fn": functions_dict.get(projectconf["config"]["on_fit_config_fn"], None),
+        "on_evaluate_config_fn": functions_dict.get(projectconf["config"]["on_evaluate_config_fn"], None),
+        "accept_failures": projectconf["config"]["accept_failures"],
+        "initial_parameters": functions_dict.get(projectconf["config"]["initial_parameters"], None),
+        "fit_metrics_aggregation_fn": functions_dict.get(projectconf["config"]["fit_metrics_aggregation_fn"], None),
+        "evaluate_metrics_aggregation_fn": functions_dict.get(projectconf["config"]["evaluate_metrics_aggregation_fn"], None),
+        "num_exec": num_exec,
+        "strategy_name": strategy_name,
+        "debug": projectconf["config"]["debug"],
+    }
 
-# Map values from configuration to functions based on the dictionary
-for key, value in configurations.items():
-    if value in functions_dict:
-        configurations[key] = functions_dict[value]
+    # Map values from configuration to functions based on the dictionary
+    for key, value in configurations.items():
+        if value in functions_dict:
+            configurations[key] = functions_dict[value]
 
-configurations["initial_parameters"] = configurations["initial_parameters"]()
+    # Call function for initializing parameters
+    if callable(configurations["initial_parameters"]):
+        configurations["initial_parameters"] = configurations["initial_parameters"]()
 
-# Select strategy based on the name provided in the configuration file
-selected_strategy = switch.get(strategy_name, default)
-strategy = selected_strategy(configurations)
+    return configurations
+
+
+def select_strategy():
+    """Returns the selected strategy configurated."""
+    configurations = create_configurations()  # Get configurations
+    strategy_name = configurations["strategy_name"]
+
+    strategy_mapping = get_strategy_mapping()
+    selected_strategy_function = strategy_mapping.get(strategy_name, default_strategy)
+    return selected_strategy_function(configurations)
+
 
 def server_fn(context: Context):
-    # Read from config
-    num_rounds = projectconf['tempConfig']['step_rounds']
-    offset = projectconf['tempConfig']['last_round']
+    """Configure and return a Flwr ServerAppComponents with CustomServer for semi-asynchrony."""
+
+    num_rounds = projectconf["tempConfig"]["step_rounds"]
+    offset = projectconf["tempConfig"]["last_round"]
+    strategy = select_strategy()
 
     strategy.set_round_offset(offset)
     config = ServerConfig(num_rounds=num_rounds)
 
-    return ServerAppComponents(config=config, server=CustomServer(client_manager=SimpleClientManager(), strategy=strategy))
+    return ServerAppComponents(
+        config=config,
+        server=CustomServer(client_manager=SimpleClientManager(), strategy=strategy),
+    )
+
 
 # Create ServerApp
 app = ServerAppCustom(server_fn=server_fn)

@@ -26,7 +26,7 @@ config = {
     'initial_parameters': "server_side",
     'fit_metrics_aggregation_fn': "fit_weighted_average",
     'evaluate_metrics_aggregation_fn': "evaluate_weighted_average",
-    'rounds': 200,
+    'rounds': 30,
 }
 
 devices = {
@@ -38,11 +38,11 @@ devices = {
 }
 
 clients = {
-    'raspberrypi1': [1, 32, 1024],
-    'raspberry4': [1, 32, 1024],
-    'raspberry3': [1, 32, 1024],
-    'raspberry6': [1, 32, 1024],
-    'raspberry7': [1, 32, 1024],
+    'raspberrypi1': [1, 32, 256],
+    'raspberry4': [1, 32, 256],
+    'raspberry3': [1, 32, 256],
+    'raspberry6': [1, 32, 256],
+    'raspberry7': [1, 32, 256],
 }
 
 prometheus_conf = {
@@ -59,11 +59,11 @@ remote_execution = {
 }
 
 names = {
-    'supernode-1': [1, 32, 1024],
-    'supernode-2': [1, 32, 1024],
-    'supernode-3': [1, 32, 1024],
-    'supernode-4': [1, 32, 1024],
-    'supernode-5': [1, 32, 1024],
+    'supernode-1': [1, 32, 256],
+    'supernode-2': [1, 32, 256],
+    'supernode-3': [1, 32, 256],
+    'supernode-4': [1, 32, 256],
+    'supernode-5': [1, 32, 256],
     'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5",]
 }
 
