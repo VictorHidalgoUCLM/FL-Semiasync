@@ -22,6 +22,7 @@ def load_data(partition_id: int, num_partitions: int, partition_type: str):
     """Load partition CIFAR10 data."""
     # Only initialize `FederatedDataset` once
     global fds
+
     if fds is None:  # If dataset has not been loaded before
         # Load data with an iid partition
         if partition_type == "iid":
@@ -153,7 +154,7 @@ def train(
     net.to(device)
     criterion = torch.nn.CrossEntropyLoss().to(device)  # Loss function
     optimizer = torch.optim.SGD(
-        net.parameters(), lr=0.1
+        net.parameters(), lr=0.01
     )  # Optimizer with learning rate 0.1
 
     net.train()

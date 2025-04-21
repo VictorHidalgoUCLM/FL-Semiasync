@@ -3,7 +3,7 @@ import os
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
-from logging import INFO
+from logging import INFO, WARNING
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -17,6 +17,7 @@ from flwr.common import (
     Parameters,
     Scalar,
     parameters_to_ndarrays,
+    ndarrays_to_parameters,
 )
 from flwr.common.logger import log
 from flwr.server.client_manager import ClientManager
@@ -74,8 +75,8 @@ class FedAvgCustom(FedAvg):
         self,
         num_exec: int,
         strategy_name: str,
-        debug: bool,
         *args: Any,
+        debug: bool = False,
         **kwargs: Optional[Dict[str, Any]],
     ):
         """Initialize the FedAvgCustom strategy.
@@ -83,7 +84,7 @@ class FedAvgCustom(FedAvg):
         Args:
             num_exec: Execution number for logging and tracking purposes.
             strategy_name: Name of the strategy being used.
-            debug: Boolean flag to enable or disable debug mode.
+            debug: Boolean to enable or disable (T/F) debug mode.
             *args: Additional positional arguments for the superclass.
             **kwargs: Additional keyword arguments for the superclass.
         """
@@ -105,13 +106,7 @@ class FedAvgCustom(FedAvg):
 
         # Extract Prometheus and federation configurations
         self.prometheus_conf = self.config.get("prometheus_conf", {})
-        self.federation_conf = self.config[self.config["tempConfig"]["federation"]]
-
-        # Define nodes and exclude "clientapps" from the list
-        nodes = list(self.config["names"].keys())
-        self.nodes = ["server"] + [
-            dispositivo for dispositivo in nodes if dispositivo != "clientapps"
-        ]
+        self.federation_conf = self.config[self.config["tempConfig"]["federation"]]        
 
         # Define epochs and metrics for tracking
         self.epochs = ["fit", "ev"]
@@ -121,16 +116,17 @@ class FedAvgCustom(FedAvg):
         self.data = {}
         self.timestamps = {}
 
-        # Populate data and timestamps structures for each node and epoch
-        for node in self.nodes:
-            self.timestamps.setdefault(node, {})
-            self.data.setdefault(node, {})
+        # Populate data and timestamps structures for server for each epoch
+        self.timestamps.setdefault("server", {})
+        self.data.setdefault("server", {})
 
-            for epoch in self.epochs:
-                self.timestamps[node].setdefault(epoch, {})
-                self.data[node].setdefault(
-                    epoch, {metric: 0 for metric in self.metrics}
-                )
+        self.nodes = ["server"]
+
+        for epoch in self.epochs:
+            self.timestamps["server"].setdefault(epoch, {})
+            self.data["server"].setdefault(
+                epoch, {metric: 0 for metric in self.metrics}
+            )
 
     def set_round_offset(self, offset: int):
         """Set the round offset for the current instance.
@@ -155,8 +151,7 @@ class FedAvgCustom(FedAvg):
             fit_ins: The fit instructions to configure.
             parameters_fit: Additional parameters for the fit configuration.
             server_round: The current server round.
-        """
-
+        """    
         if server_round == 1:
             # Retrieve client properties during the first round
             prop = client.get_properties(
@@ -167,25 +162,36 @@ class FedAvgCustom(FedAvg):
                 id = prop.properties["user"]
                 self.client_mapping[client.cid] = id
 
-        # Retrieve the mapped user ID for the client
-        id = self.client_mapping[client.cid]
+            # Get the client-specific configuration from the loaded configuration
+            client_conf = self.config["names"].get(id)
 
-        # Get the client-specific configuration from the loaded configuration
-        client_conf = self.config["names"].get(id)
+            # Set the fit instructions configuration
+            fit_ins.config = {
+                "epochs": client_conf[0],
+                "batch_size": client_conf[1],
+                "subset_size": client_conf[2],
+                "server_round": server_round,
+                "debug": self.debug,
+            }
 
-        # Set the fit instructions configuration
-        fit_ins.config = {
-            "epochs": client_conf[0],
-            "batch_size": client_conf[1],
-            "subset_size": client_conf[2],
-            "server_round": server_round,
-            "debug": self.debug,
-        }
+            # Add any additional parameters to the fit configuration
+            if parameters_fit is not None:
+                for key, value in parameters_fit.items():
+                    fit_ins.config[key] = value
 
-        # Add any additional parameters to the fit configuration
-        if parameters_fit is not None:
-            for key, value in parameters_fit.items():
-                fit_ins.config[key] = value
+            # Retrieve the mapped user ID for the client
+            id = self.client_mapping[client.cid]
+
+            self.nodes.append(id)
+
+            self.timestamps.setdefault(id, {})
+            self.data.setdefault(id, {})
+
+            for epoch in self.epochs:
+                self.timestamps[id].setdefault(epoch, {})
+                self.data[id].setdefault(
+                    epoch, {metric: 0 for metric in self.metrics}
+                )
 
     def configure_fit(
         self,
@@ -206,7 +212,7 @@ class FedAvgCustom(FedAvg):
                 )
 
         # Initialize the data analyst and start the export thread during the first round
-        if server_round == 1:
+        if server_round == 1 and not self.debug:
             self.init_time = time.time()  # Initial time once first config has been done
 
             analyst = DataAnalyst(
@@ -232,14 +238,15 @@ class FedAvgCustom(FedAvg):
             )
             export_thread.start()
 
-        return fit_config
+        return fit_config, self.client_mapping
 
     def aggregate_fit(
         self,
         server_round: int,
         results: List[Tuple[fl.server.client_proxy.ClientProxy, fl.common.FitRes]],
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
-        times: Dict[str, List[float]] = {},
+        counters: List[int],
+        times: Dict[str, List[float]] = {}
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results from clients and save aggregated parameters periodically.
 
@@ -252,12 +259,9 @@ class FedAvgCustom(FedAvg):
         Returns:
             A tuple containing the aggregated parameters and metrics.
         """
-
         # Call aggregate_fit from base class (FedAvg) to aggregate parameters and metrics
-        aggregated_parameters, aggregated_metrics = super().aggregate_fit(
-            server_round, results, failures
-        )
-
+        aggregated_parameters, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
+        
         # Extract the config parameters
         temp_config = self.config["tempConfig"]
         checkpoint_path = self.config["paths"]["checkpoint"]
@@ -356,7 +360,7 @@ class FedAvgCustom(FedAvg):
         # Write client-specific metrics to self.data from evaluate
         for client, evaluate_res in results:
             id = self.client_mapping[client.cid]
-            self.timestamps[id]["ev"] = times.get(id, {})
+            self.timestamps[id]["ev"] = times[id]
 
             for metric in self.metrics:
                 if metric == "loss":
@@ -366,7 +370,6 @@ class FedAvgCustom(FedAvg):
 
         # If metrics are not empty
         if loss_aggregated is not None and metrics_aggregated is not None:
-
             for metric in self.metrics:
                 if metric == "loss":
                     self.data["server"]["ev"][metric] = loss_aggregated

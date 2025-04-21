@@ -43,7 +43,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=0 num-partitions=5 partition-type="iid"
+    - partition-id=0 num-partitions=5 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9094
     - --isolation
@@ -69,8 +69,8 @@ services:
     environment:
     - DEVICE=supernode-1
     mem_limit: 2g
-    cpuset: 10,11
-    cpus: 2
+    cpuset: '10'
+    cpus: 1
   supernode-2:
     image: flwr/supernode:1.15.1
     container_name: supernode-2
@@ -83,7 +83,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=1 num-partitions=5 partition-type="iid"
+    - partition-id=1 num-partitions=5 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9095
     - --isolation
@@ -109,8 +109,8 @@ services:
     environment:
     - DEVICE=supernode-2
     mem_limit: 2g
-    cpuset: 12,13
-    cpus: 2
+    cpuset: '11'
+    cpus: 1
   supernode-3:
     image: flwr/supernode:1.15.1
     container_name: supernode-3
@@ -123,7 +123,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=2 num-partitions=5 partition-type="iid"
+    - partition-id=2 num-partitions=5 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9096
     - --isolation
@@ -149,8 +149,8 @@ services:
     environment:
     - DEVICE=supernode-3
     mem_limit: 2g
-    cpuset: 14,15
-    cpus: 0.2
+    cpuset: '12'
+    cpus: 0.3
   supernode-4:
     image: flwr/supernode:1.15.1
     container_name: supernode-4
@@ -163,7 +163,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=3 num-partitions=5 partition-type="iid"
+    - partition-id=3 num-partitions=5 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9097
     - --isolation
@@ -189,8 +189,8 @@ services:
     environment:
     - DEVICE=supernode-4
     mem_limit: 2g
-    cpuset: 16,17
-    cpus: 2
+    cpuset: '13'
+    cpus: 1
   supernode-5:
     image: flwr/supernode:1.15.1
     container_name: supernode-5
@@ -203,7 +203,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=4 num-partitions=5 partition-type="iid"
+    - partition-id=4 num-partitions=5 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9098
     - --isolation
@@ -229,8 +229,8 @@ services:
     environment:
     - DEVICE=supernode-5
     mem_limit: 2g
-    cpuset: 18,19
-    cpus: 2
+    cpuset: '14'
+    cpus: 1
 networks:
   master_default:
     external: true

@@ -95,7 +95,6 @@ def check_docker_logs(event, federation, strategy, execution_name, num_exec):
             # Verifica si la última línea contiene el patrón deseado
             if PATTERN in result.stdout.strip():
                 pattern_found_event.set()
-                print("Pattern found")
 
         except subprocess.CalledProcessError as e:
             print(f"Error al ejecutar el comando: {e}")
@@ -171,8 +170,7 @@ def get_last_round(config, strategy_name, num_exec, federation, name, wait=False
     """
     directory_name = config['paths']['localCheckpoint'].format(strategy=strategy_name, num_exec=num_exec, federation=federation, sub_execution=name)
 
-    if not os.path.exists(directory_name):
-        os.makedirs(directory_name)
+    os.makedirs(directory_name, exist_ok=True)
 
     file_pattern = "round-*-weights.npz"
     timeout = 50
@@ -280,7 +278,7 @@ def main():
                 toml.dump(config, f)
 
             if federation == 'local-execution':
-                local_run(f"python local_execution_yaml.py -c {len(clients)} -t 2 -d {data_type}", True)   
+                local_run(f"python local_execution_yaml.py -c {len(clients)} -t 1 -d {data_type}", True)
 
             for strategy in strategies:
                 for sync_number in sync_list:

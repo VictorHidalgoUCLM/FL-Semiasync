@@ -52,7 +52,7 @@ class CustomServer(Server):
         self.client_mapping = (
             {}
         )  # Dictionary that associates client identifier with client names
-        self.time = time.time()  # Saves init time of class to use as reference
+        self.init_time = 0  # Saves init time of class to use as reference
         self.inner_rounds = (
             {}
         )  # Dictionary that stores inner round for each client's id
@@ -60,22 +60,6 @@ class CustomServer(Server):
         self.client_dictionary = {}
 
         self.projectconf = toml.load(os.environ.get("CONFIG_PATH"))
-
-    def map_clients(self, group_id, client_instructions):
-        """Map client cid with client's id (name)"""
-        if group_id == 1:
-            with ThreadPoolExecutor() as executor_prop:
-                for client, _ in client_instructions:
-                    future_prop = executor_prop.submit(
-                        client.get_properties,
-                        GetPropertiesIns({}),
-                        timeout=None,
-                        group_id=10,
-                    )
-                    prop = future_prop.result()
-                    if prop.properties["user"]:
-                        client_id = prop.properties["user"]
-                        self.client_mapping[client.cid] = client_id  # Association
 
     def evaluate_round(
         self,
@@ -156,7 +140,7 @@ class CustomServer(Server):
             )  # Gets current client_id
 
             with self.lock:  # Uses lock to update shared variables
-                times[client_id] = time.time() - self.time
+                times[client_id] = time.time() - self.init_time
                 finished_fs[client_id] = future  # New finished future
                 self.futures[client_id] = None  # Clears future asociated to a client
 
@@ -179,7 +163,7 @@ class CustomServer(Server):
     ]:
         """Perform a single round of federated averaging."""
         # Get clients and their respective instructions from strategy
-        client_instructions = self.strategy.configure_fit(
+        client_instructions, self.client_mapping = self.strategy.configure_fit(
             server_round=server_round,
             parameters=self.parameters,
             client_manager=self._client_manager,
@@ -195,10 +179,11 @@ class CustomServer(Server):
             self._client_manager.num_available(),
         )
 
-        self.map_clients(server_round, client_instructions)
+        if server_round == 1:
+            self.init_time = self.strategy.init_time
 
         # Collect `fit` results from all clients participating in this round
-        results, failures, times = self.fit_clients(
+        results, failures, times, counters = self.fit_clients(
             client_instructions=client_instructions,
             max_workers=self.max_workers,
             timeout=timeout,
@@ -216,7 +201,7 @@ class CustomServer(Server):
         aggregated_result: tuple[
             Optional[Parameters],
             dict[str, Scalar],
-        ] = self.strategy.aggregate_fit(server_round, results, failures, times)
+        ] = self.strategy.aggregate_fit(server_round, results, failures, counters, times)
 
         parameters_aggregated, metrics_aggregated = aggregated_result
         return parameters_aggregated, metrics_aggregated, (results, failures)
@@ -256,6 +241,8 @@ class CustomServer(Server):
                     if parameters_aggregated is not None:
                         ins.parameters = parameters_aggregated
 
+                    ins.config["inner_round"] = client_data["inner_round"]
+
                     future = self.executor.submit(
                         fit_client, client, ins, timeout, group_id
                     )
@@ -269,7 +256,7 @@ class CustomServer(Server):
 
                 with self.lock:
                     completed += 1
-                    _update_client_data(client_data=client_data, init_time=self.time)
+                    _update_client_data(client_data=client_data, init_time=self.init_time)
 
                     finished_fs.append(
                         (future, self.client_dictionary[client_id]["counter"])
@@ -280,13 +267,14 @@ class CustomServer(Server):
 
             inter_results: list[tuple[ClientProxy, FitRes]] = []
             inter_failures: list[Union[tuple[ClientProxy, FitRes], BaseException]] = []
+            inter_counters: list[int] = []
             for future, counter in finished_fs:
                 _handle_finished_future_after_fit(
                     future=future,
                     results=inter_results,
                     failures=inter_failures,
+                    counters=inter_counters,
                     counter=counter,
-                    alpha=0.5,
                 )
 
             aggregated_ndarrays = aggregate_inplace(inter_results)
@@ -300,22 +288,23 @@ class CustomServer(Server):
             client_data = self.client_dictionary[client_id]
 
             with self.lock:
-                _update_client_data(client_data=client_data, init_time=self.time)
+                _update_client_data(client_data=client_data, init_time=self.init_time)
 
                 finished_fs.append(
-                        (future, self.client_dictionary[client_id]["counter"])
+                        (future, client_data["counter"])
                 )
 
         # Gather results
         results: list[tuple[ClientProxy, FitRes]] = []
         failures: list[Union[tuple[ClientProxy, FitRes], BaseException]] = []
+        counters: list[int] = []
         for future, counter in finished_fs:
             _handle_finished_future_after_fit(
                 future=future,
                 results=results,
                 failures=failures,
+                counters=counters,
                 counter=counter,
-                alpha=0.5,
             )
         return (
             results,
@@ -324,6 +313,7 @@ class CustomServer(Server):
                 client_id: client_data["times"]
                 for client_id, client_data in self.client_dictionary.items()
             },
+            counters,
         )
 
 
@@ -331,8 +321,8 @@ def _handle_finished_future_after_fit(
     future: concurrent.futures.Future,  # type: ignore
     results: List[Tuple[ClientProxy, FitRes]],
     failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
+    counters: List[int],
     counter: int,
-    alpha: float,
 ) -> None:
     """Rewrites original: Convert finished future into either a result or a failure. Counter is used
     to take into account the number of times each client has executed before.
@@ -347,14 +337,10 @@ def _handle_finished_future_after_fit(
     result: Tuple[ClientProxy, FitRes] = future.result()
     _, res = result
 
-    penalty = 1 / (1 + alpha * (counter - 1))
-    normal_penalty = max(penalty, 0.4)
-
-    res.num_examples *= normal_penalty
-
     # Check result status code
     if res.status.code == Code.OK:
         results.append(result)
+        counters.append(counter)
         return
 
     # Not successful, client returned a result where the status code is not OK

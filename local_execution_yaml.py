@@ -84,7 +84,7 @@ for i in range (1, n+1):
     cpuset_list = [str(10 + j + (i - 1) * cpus) for j in range(cpus)]
     cpuset_string = ','.join(cpuset_list)
 
-    cpus_limit = cpus if i != 3 else 0.2
+    cpus_limit = cpus if i != 3 else 0.3
     #cpus_limit = cpus
 
     client_config = {

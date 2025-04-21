@@ -15,9 +15,9 @@ def darken_color(color, factor=0.7):
     # Blend with black: decrease brightness by a factor
     return tuple(color * factor)
 
-projectconf = 'projectconf.toml'
+projectconf = '../projectconf.toml'
 data_types = ['iid', 'noniid']
-strategies = ['FedAvg_homogeneous', 'FedAvg_heterogeneous']
+strategies = ['FedAvg_homogeneous_good', 'FedAvg_heterogeneous_good']
 federations = ['local-execution']
 
 acc_columns = ['accuracy_1', 'accuracy_2', 'accuracy_3', 'accuracy_4', 'accuracy_5']
@@ -102,7 +102,7 @@ for federation in federations:
             fig, axs = plt.subplots(1, 1, figsize=(10, 6))  # 'sharex=True' para compartir el eje x (timestamp)
 
             for i in range(1, 6):
-                axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"accuracy_{i}"], marker='o', linestyle='-', label=f"M = {i}", color=og_colors[i-1])
+                axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"accuracy_{i}"], marker='o', markersize=4, linestyle='-', label=f"M = {i}", color=og_colors[i-1])
 
             # Establece los límites del eje Y usando el rango global calculado
             axs.set_ylim(y_min_global - 0.1, y_max_global + 0.1)  # Un margen pequeño para mayor claridad
@@ -115,7 +115,7 @@ for federation in federations:
 
             plt.tight_layout()
 
-            plt.savefig(f'{federation}/results/{strategy}/results_{data_type}.png')
+            plt.savefig(f'../{federation}/results/{strategy}/results_{data_type}.png')
 
     final_results_df = pd.DataFrame(results_list)
     final_results_df.index = [f'{strategy}_{data_type}' for strategy in strategies for data_type in data_types]

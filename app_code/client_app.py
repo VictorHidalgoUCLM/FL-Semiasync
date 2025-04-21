@@ -14,7 +14,6 @@ import torch
 import os
 import time
 
-
 class FlowerClient(NumPyClient):
     """FlowerClient handles training and evaluation of a PyTorch model on a local dataset."""
 
@@ -23,9 +22,7 @@ class FlowerClient(NumPyClient):
         self.net = net  # Model used for training
         self.trainloader = trainloader  # Training data
         self.valloader = valloader  # Validation data
-        self.device = torch.device(
-            "cuda:0" if torch.cuda.is_available() else "cpu"
-        )  # Device used for training
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")  # Device used for training
         self.net.to(self.device)  # Send model to device
 
     def get_properties(self, config):
@@ -34,7 +31,6 @@ class FlowerClient(NumPyClient):
 
     def fit(self, parameters, config):
         """Train the model on the client's local dataset."""
-        # Debug mode used for faking times on each client
         if config.get("debug", False):
             dev = os.getenv("DEVICE")
             if dev == "supernode-5":
@@ -48,7 +44,7 @@ class FlowerClient(NumPyClient):
 
             return (  # Debug mode returns emtpy metric values
                 parameters,
-                len(self.valloader.dataset),
+                len(self.trainloader.dataset),
                 {
                     "accuracy": 0.0,
                     "loss": 0.0,
@@ -91,6 +87,18 @@ class FlowerClient(NumPyClient):
 
     def evaluate(self, parameters, config):
         """Evaluate the model on the client's local dataset."""
+        if config.get("debug", False):
+            return (  # Debug mode returns emtpy metric values
+                0.0,
+                len(self.valloader.dataset),
+                {
+                    "accuracy": 0.0,
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                },
+            )
+        
         set_weights(
             self.net, parameters
         )  # Set model weights to the ones received from the server (aggregated weights)
@@ -118,14 +126,9 @@ def client_fn(context: Context):
     """Load data and return a Flower client."""
     net = Net()  # Create model instance
     partition_id = context.node_config["partition-id"]  # Get partition id from context
-    num_partitions = context.node_config[
-        "num-partitions"
-    ]  # Get total number of partitions from context
+    num_partitions = context.node_config["num-partitions"]  # Get total number of partitions from context
     partition_type = context.node_config["partition-type"]
-    trainloader, valloader = load_data(
-        partition_id, num_partitions, partition_type
-    )  # Create train and val loaders
-
+    trainloader, valloader = load_data(partition_id, num_partitions, partition_type)
     # Return Client instance
     return FlowerClient(net, trainloader, valloader).to_client()
 
