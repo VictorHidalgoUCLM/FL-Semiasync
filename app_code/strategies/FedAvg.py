@@ -162,18 +162,6 @@ class FedAvgCustom(FedAvg):
                 id = prop.properties["user"]
                 self.client_mapping[client.cid] = id
 
-            # Get the client-specific configuration from the loaded configuration
-            client_conf = self.config["names"].get(id)
-
-            # Set the fit instructions configuration
-            fit_ins.config = {
-                "epochs": client_conf[0],
-                "batch_size": client_conf[1],
-                "subset_size": client_conf[2],
-                "server_round": server_round,
-                "debug": self.debug,
-            }
-
             # Add any additional parameters to the fit configuration
             if parameters_fit is not None:
                 for key, value in parameters_fit.items():
@@ -192,6 +180,21 @@ class FedAvgCustom(FedAvg):
                 self.data[id].setdefault(
                     epoch, {metric: 0 for metric in self.metrics}
                 )
+
+        # Retrieve the mapped user ID for the client in case it was not done before
+        id = self.client_mapping[client.cid]
+
+        # Get the client-specific configuration from the loaded configuration
+        client_conf = self.config["names"].get(id)
+
+        # Set the fit instructions configuration
+        fit_ins.config = {
+            "epochs": client_conf[0],
+            "batch_size": client_conf[1],
+            "subset_size": client_conf[2],
+            "server_round": server_round,
+            "debug": self.debug,
+        }
 
     def configure_fit(
         self,

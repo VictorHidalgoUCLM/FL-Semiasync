@@ -45,6 +45,14 @@ parser.add_argument(
     required=True
 )
 
+parser.add_argument(
+    '-w',
+    '--window_size',
+    type=int,
+    help="Cantidad de ejecuciones a realizar",
+    required=True
+)
+
 def main():
     args = parser.parse_args()
 
@@ -58,8 +66,9 @@ def main():
     strategy = args.strategy
     data_type = args.data_type
     number_execution = args.number_execution
+    window_size = args.window_size
 
-    execution_name = f"sync{sync_client}_data{data_type}"
+    execution_name = f"sync{sync_client}_data{data_type}_window{window_size}"
 
     try:
         config = toml.load(projectconf)

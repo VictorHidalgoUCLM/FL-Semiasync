@@ -49,6 +49,16 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '-w',
+    '--window_size',
+    type=int,
+    nargs='+',
+    help="Lista del número de clientes con los que se sincronizan internamente las rondas de entrenamiento",
+    default=[1024],
+    required=False
+)
+
+parser.add_argument(
     '-t',
     '--data_list',
     type=str,
@@ -216,7 +226,7 @@ def init_containers(federation, devices, data_type):
                 --network flwr-network \
                 --env DEVICE=supernode-{i} \
                 --detach \
-                flwr/supernode:1.15.1 \
+                flwr/supernode:1.18.0 \
                 --insecure \
                 --superlink 172.24.100.143:9092 \
                 --node-config 'partition-id={i-1} num-partitions={len(devices)}  partition-type=\"{data_type}\"' \
@@ -249,108 +259,110 @@ def main():
     sync_list = args.sync_clients
     data_list = args.data_list
     number_execution = args.number_execution
+    window_size = args.window_size
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
-
-    writeConfig_cmd = 'python configWriter.py'
-    local_run(writeConfig_cmd, False)
-
-    try:
-        config = toml.load(projectconf)
-    except FileNotFoundError:
-        print(f"El archivo {projectconf} no se encuentra. Asegúrate de que exista.")
-        exit(1)
 
     strategies = ["FedAvg"]
 
     for data_type in data_list:
         for federation in federations:
-            config['tempConfig']['federation'] = federation
+            for size in window_size:
+                writeConfig_cmd = f'python configWriter.py {size}'
+                local_run(writeConfig_cmd, False)
 
-            devices = config.get("devices", {})
-            clients = config.get("clients", {})
-            rounds = config['config']['rounds']
+                try:
+                    config = toml.load(projectconf)
+                except FileNotFoundError:
+                    print(f"El archivo {projectconf} no se encuentra. Asegúrate de que exista.")
+                    exit(1)
 
-            config['config']['debug'] = debug_mode
+                config['tempConfig']['federation'] = federation
 
-            with open(projectconf, 'w') as f:
-                toml.dump(config, f)
+                devices = config.get("devices", {})
+                clients = config.get("clients", {})
+                rounds = config['config']['rounds']
 
-            if federation == 'local-execution':
-                local_run(f"python local_execution_yaml.py -c {len(clients)} -t 1 -d {data_type}", True)
+                config['config']['debug'] = debug_mode
 
-            for strategy in strategies:
-                for sync_number in sync_list:
-                    for act_exec in range(1, number_execution+1):   
-                        init_containers(federation, devices, data_type) 
+                with open(projectconf, 'w') as f:
+                    toml.dump(config, f)
 
-                        # Send an HTTP POST request to delete data series on the server
-                        requests.post(url, params=params)
+                if federation == 'local-execution':
+                    local_run(f"python local_execution_yaml.py -c {len(clients)} -t 1 -d {data_type}", True)
 
-                        execution_name = f"sync{sync_number}_data{data_type}"
+                for strategy in strategies:
+                    for sync_number in sync_list:
+                        for act_exec in range(1, number_execution+1):   
+                            init_containers(federation, devices, data_type) 
 
-                        config['tempConfig']['strategy'] = strategy
-                        config['tempConfig']['execution_name'] = execution_name
-                        config['tempConfig']['num_exec'] = act_exec
+                            # Send an HTTP POST request to delete data series on the server
+                            requests.post(url, params=params)
 
-                        if sync_number > len(clients):
-                            print("Defaulting to asynchrony because m was higher than amount of clients")
-                            sync_number = len(clients)
+                            execution_name = f"sync{sync_number}_data{data_type}_window{size}"
 
-                        config['synchrony'] = sync_number
+                            config['tempConfig']['strategy'] = strategy
+                            config['tempConfig']['execution_name'] = execution_name
+                            config['tempConfig']['num_exec'] = act_exec
 
-                        with open(projectconf, 'w') as f:
-                            toml.dump(config, f)
+                            if sync_number > len(clients):
+                                print("Defaulting to asynchrony because m was higher than amount of clients")
+                                sync_number = len(clients)
 
-                        last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
-                        step_rounds = rounds - last_round
-
-                        while step_rounds > 0:
-                            config['tempConfig']['step_rounds'] = step_rounds
-                            config['tempConfig']['last_round'] = last_round
+                            config['synchrony'] = sync_number
 
                             with open(projectconf, 'w') as f:
                                 toml.dump(config, f)
 
-                            local_run(f"flwr run . {federation}", False)
-                            docker_logs = local_Popen(f"docker logs -f serverapp", True)
-
-                            log_thread = threading.Thread(target=check_docker_logs, args=(event,federation,strategy,execution_name,act_exec,), daemon=True)
-                            log_thread.start()
-
-                            log_thread.join()
-
-                            docker_logs.terminate()
-                            docker_logs.wait()
-
-                            # Exit if abrupt termination (SIGINT)
-                            if event.is_set():
-                                print("Ctrl-C detected, stopping everything...")
-                                event.clear()
-
-                                local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
-
-                                if federation == "remote-execution":
-                                    for i, (user, ip) in enumerate(devices.items(), start=1):
-                                        stop_remote_code(i, user, ip)
-
-                                
-                                if handler_flag:
-                                    exit()
-
-                            last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
-                            print(f"Inner last round {last_round}")
+                            last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
                             step_rounds = rounds - last_round
 
-                        graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec}"
-                        local_run(graphfl_cmd, True)
+                            while step_rounds > 0:
+                                config['tempConfig']['step_rounds'] = step_rounds
+                                config['tempConfig']['last_round'] = last_round
 
-                        local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
+                                with open(projectconf, 'w') as f:
+                                    toml.dump(config, f)
 
-                        if federation == "remote-execution":
-                            for i, (user, ip) in enumerate(devices.items(), start=1):
-                                stop_remote_code(i, user, ip)
+                                local_run(f"flwr run . {federation}", False)
+                                docker_logs = local_Popen(f"docker logs -f serverapp", True)
+
+                                log_thread = threading.Thread(target=check_docker_logs, args=(event,federation,strategy,execution_name,act_exec,), daemon=True)
+                                log_thread.start()
+
+                                log_thread.join()
+
+                                docker_logs.terminate()
+                                docker_logs.wait()
+
+                                # Exit if abrupt termination (SIGINT)
+                                if event.is_set():
+                                    print("Ctrl-C detected, stopping everything...")
+                                    event.clear()
+
+                                    local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
+
+                                    if federation == "remote-execution":
+                                        for i, (user, ip) in enumerate(devices.items(), start=1):
+                                            stop_remote_code(i, user, ip)
+
+                                    
+                                    if handler_flag:
+                                        exit()
+
+                                last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
+                                print(f"Inner last round {last_round}")
+                                step_rounds = rounds - last_round
+
+                            graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec} -w {size}"
+                            local_run(graphfl_cmd, True)
+
+                            local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
+
+                            if federation == "remote-execution":
+                                for i, (user, ip) in enumerate(devices.items(), start=1):
+                                    stop_remote_code(i, user, ip)
 
     
 if __name__ == "__main__":

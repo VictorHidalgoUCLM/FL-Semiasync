@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   superlink:
-    image: flwr/superlink:1.15.1
+    image: flwr/superlink:1.18.0
     container_name: superlink
     ports:
     - 9091:9091
@@ -14,6 +14,7 @@ services:
     - --isolation
     - process
     cpuset: 5,6
+    mem_limit: 2g
   serverapp:
     build:
       context: ..
@@ -31,8 +32,9 @@ services:
     - ../local-execution/results:/app/results/local-execution:rw
     - ../projectconf.toml:/app/projectconf.toml:rw
     cpuset: 7,8,9
+    mem_limit: 2g
   supernode-1:
-    image: flwr/supernode:1.15.1
+    image: flwr/supernode:1.18.0
     container_name: supernode-1
     ports:
     - 9094:9094
@@ -53,6 +55,7 @@ services:
     environment:
     - DEVICE=supernode-1
     cpuset: '0'
+    mem_limit: 1g
   client-1:
     build:
       context: ..
@@ -72,7 +75,7 @@ services:
     cpuset: '10'
     cpus: 1
   supernode-2:
-    image: flwr/supernode:1.15.1
+    image: flwr/supernode:1.18.0
     container_name: supernode-2
     ports:
     - 9095:9095
@@ -93,6 +96,7 @@ services:
     environment:
     - DEVICE=supernode-2
     cpuset: '1'
+    mem_limit: 1g
   client-2:
     build:
       context: ..
@@ -112,7 +116,7 @@ services:
     cpuset: '11'
     cpus: 1
   supernode-3:
-    image: flwr/supernode:1.15.1
+    image: flwr/supernode:1.18.0
     container_name: supernode-3
     ports:
     - 9096:9096
@@ -133,6 +137,7 @@ services:
     environment:
     - DEVICE=supernode-3
     cpuset: '2'
+    mem_limit: 1g
   client-3:
     build:
       context: ..
@@ -152,7 +157,7 @@ services:
     cpuset: '12'
     cpus: 0.3
   supernode-4:
-    image: flwr/supernode:1.15.1
+    image: flwr/supernode:1.18.0
     container_name: supernode-4
     ports:
     - 9097:9097
@@ -173,6 +178,7 @@ services:
     environment:
     - DEVICE=supernode-4
     cpuset: '3'
+    mem_limit: 1g
   client-4:
     build:
       context: ..
@@ -192,7 +198,7 @@ services:
     cpuset: '13'
     cpus: 1
   supernode-5:
-    image: flwr/supernode:1.15.1
+    image: flwr/supernode:1.18.0
     container_name: supernode-5
     ports:
     - 9098:9098
@@ -213,6 +219,7 @@ services:
     environment:
     - DEVICE=supernode-5
     cpuset: '4'
+    mem_limit: 1g
   client-5:
     build:
       context: ..

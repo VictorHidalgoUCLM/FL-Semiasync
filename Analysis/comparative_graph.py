@@ -17,7 +17,7 @@ def darken_color(color, factor=0.7):
 
 projectconf = '../projectconf.toml'
 data_types = ['iid', 'noniid']
-strategies = ['FedAvg_homogeneous_good', 'FedAvg_heterogeneous_good']
+strategies = ['FedAvg_homogeneous', 'FedAvg_heterogeneous']
 federations = ['local-execution']
 
 acc_columns = ['accuracy_1', 'accuracy_2', 'accuracy_3', 'accuracy_4', 'accuracy_5']
@@ -44,6 +44,9 @@ for federation in federations:
             for sync_client in [1, 2, 3, 4, 5]:
                 log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}", num_exec=1)
                 time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}", num_exec=1)
+
+                log_path = f"../{log_path}"
+                time_path = f"../{time_path}"
 
                 temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
                 temp_time_df = pd.read_csv(time_path)[["server_ev"]]
@@ -107,11 +110,13 @@ for federation in federations:
             # Establece los límites del eje Y usando el rango global calculado
             axs.set_ylim(y_min_global - 0.1, y_max_global + 0.1)  # Un margen pequeño para mayor claridad
 
-            axs.set_xlabel("Timestamp (s)")
-            axs.set_ylabel("Accuracy")
+            axs.set_xlabel("Timestamp (s)", fontsize=18)
+            axs.set_ylabel("Accuracy", fontsize=18)
             axs.axvline(x=max_time, color='black', linestyle='--')
-            axs.legend()
+            axs.legend(fontsize=16)
             axs.grid(True)
+
+            axs.tick_params(axis='both', which='major', labelsize=16)
 
             plt.tight_layout()
 
@@ -160,4 +165,4 @@ for federation in federations:
             cell = table[(i+1, -1)]
             cell.set_facecolor(darken_color((1, 1, 1), factor=0.75))
 
-    plt.savefig(f'{federation}/results', dpi=1000)
+    plt.savefig(f'../{federation}/results', dpi=1000)

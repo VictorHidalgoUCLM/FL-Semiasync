@@ -1,7 +1,20 @@
 import toml
+import sys
 
 # Variables needed later
 file_path = 'projectconf.toml'
+
+default_sliding_window = 1024
+
+if len(sys.argv) > 1:
+    try:
+        new_value = int(sys.argv[1])
+    except ValueError:
+        print("Error, no es un número entero. Usando default (new_value)...")
+        new_value = default_sliding_window
+    
+else:
+    new_value = default_sliding_window
 
 # Each dictionary is one kind of configuration for the project
 paths = {
@@ -26,7 +39,7 @@ config = {
     'initial_parameters': "server_side",
     'fit_metrics_aggregation_fn': "fit_weighted_average",
     'evaluate_metrics_aggregation_fn': "evaluate_weighted_average",
-    'rounds': 50,
+    'rounds': 100,
 }
 
 devices = {
@@ -38,11 +51,11 @@ devices = {
 }
 
 clients = {
-    'raspberrypi1': [1, 32, 1024],
-    'raspberry4': [1, 32, 1024],
-    'raspberry3': [1, 32, 1024],
-    'raspberry6': [1, 32, 1024],
-    'raspberry7': [1, 32, 1024],
+    'raspberrypi1': [1, 32, new_value],
+    'raspberry4': [1, 32, new_value],
+    'raspberry3': [1, 32, new_value],
+    'raspberry6': [1, 32, new_value],
+    'raspberry7': [1, 32, new_value],
 }
 
 prometheus_conf = {
@@ -59,11 +72,11 @@ remote_execution = {
 }
 
 names = {
-    'supernode-1': [1, 32, 1024],
-    'supernode-2': [1, 32, 1024],
-    'supernode-3': [1, 32, 1024],
-    'supernode-4': [1, 32, 1024],
-    'supernode-5': [1, 32, 1024],
+    'supernode-1': [1, 32, new_value],
+    'supernode-2': [1, 32, new_value],
+    'supernode-3': [1, 32, new_value],
+    'supernode-4': [1, 32, new_value],
+    'supernode-5': [1, 32, new_value],
     'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5",]
 }
 
