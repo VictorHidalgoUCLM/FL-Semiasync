@@ -1,10 +1,14 @@
 # Semiasynchronous Federated Learning (FL) over Flwr Framework - PhD Research
 
+---
+
 ## Introduction
 
 This repository contains the implementation of a **Semiasynchronous Federated Learning (FL)** system using the well-known **Flwr framework** for Federated Learning. The main goal of this research is to explore and implement **semiasynchronous behavior** within FL systems to improve **communication efficiency** and **convergence speed** while maintaining client data privacy.
 
 Federated Learning is a decentralized approach where clients collaboratively train a shared model without centralizing their data. Traditional FL requires synchronized updates, but this research aims to enable more flexibility by allowing clients to send updates asynchronously, which can reduce idle times and improve scalability.
+
+---
 
 ## Project Objectives
 - Implement **semiasynchronous FL** within the **Flwr framework**.
@@ -12,9 +16,16 @@ Federated Learning is a decentralized approach where clients collaboratively tra
 - Experiment with different **configurations** and **federation modes** (local-execution vs. remote-execution).
 - Assess the effect of **client data distributions** (iid vs noniid) on training performance.
 
+---
+
 ## Get Started
 
 Follow the steps below to set up the project on your local machine.
+
+### 0. Prerequisites
+- Docker from official guide and being able to execute containers with non-root user.
+- Python3 and Python3 venv packages.
+- Git package.
 
 ### 1. Clone the repository
 ```bash
@@ -25,6 +36,8 @@ git clone https://github.com/VictorHidalgoUCLM/FL_Semiasync.git
 ```bash
 cd FL_Semiasync
 python -m venv Flwr
+
+source Flwr/bin/activate
 ```
 
 ### 3. Install project dependencies
