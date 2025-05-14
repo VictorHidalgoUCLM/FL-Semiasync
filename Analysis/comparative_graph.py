@@ -16,8 +16,8 @@ def darken_color(color, factor=0.7):
     return tuple(color * factor)
 
 projectconf = '../projectconf.toml'
-data_types = ['iid', 'noniid']
-strategies = ['FedAvg_homogeneous_good', 'FedAvg_heterogeneous_good']
+data_types = ['iid']
+strategies = ['FedAvg']
 federations = ['local-execution']
 
 acc_columns = ['accuracy_1', 'accuracy_2', 'accuracy_3', 'accuracy_4', 'accuracy_5']
@@ -39,83 +39,90 @@ for federation in federations:
     time_objective = []
     for strategy in strategies:
         for data_type in data_types:
-            merged_df = None
+            for window_size in [32, 64, 128, 256, 512, 1024, 1536, 2048]:
+                merged_df = None
 
-            for sync_client in [1, 2, 3, 4, 5]:
-                log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}", num_exec=1)
-                time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}", num_exec=1)
+                for sync_client in [5]:
+                    log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_window{window_size}", num_exec=1)
+                    time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_window{window_size}", num_exec=1)
 
-                temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
-                temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                    log_path = f"../{log_path}"
+                    time_path = f"../{time_path}"
 
-                final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
-                final_df.columns = [f'accuracy_{sync_client}', f'loss_{sync_client}', f'timestamp_{sync_client}']
+                    temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                    temp_time_df = pd.read_csv(time_path)[["server_ev"]]
 
-                if merged_df is None:
-                    merged_df = final_df
-                else:
-                    merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
+                    final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                    final_df.columns = [f'accuracy_{sync_client}', f'loss_{sync_client}', f'timestamp_{sync_client}']
 
-            for i in range(1, 6):
-                # Calculamos el mínimo y máximo de accuracy para establecer el rango global
-                y_min_global = min(y_min_global, merged_df[f"accuracy_{i}"].min())
-                y_max_global = max(y_max_global, merged_df[f"accuracy_{i}"].max())
+                    if merged_df is None:
+                        merged_df = final_df
+                    else:
+                        merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
 
-            max_time = merged_df[time_columns].iloc[-1].min()
-            time_objective.append(max_time)
+                print(merged_df)
+                for i in range(1, 6):
+                    # Calculamos el mínimo y máximo de accuracy para establecer el rango global
+                    y_min_global = min(y_min_global, merged_df[f"accuracy_{i}"].min())
+                    y_max_global = max(y_max_global, merged_df[f"accuracy_{i}"].max())
 
-            estimations = []
+                max_time = merged_df[time_columns].iloc[-1].min()
+                time_objective.append(max_time)
 
-            for timestamp, accuracy in zip(time_columns, acc_columns):
-                temp_df = merged_df[[timestamp]]
+                estimations = []
 
-                if max_time in temp_df[timestamp].values:
-                    index_below = len(temp_df) - 1
-                    index_above = index_below
+                for timestamp, accuracy in zip(time_columns, acc_columns):
+                    temp_df = merged_df[[timestamp]]
 
-                else:
-                    index_below = temp_df[temp_df[timestamp] <= max_time].index[-1]
-                    index_above = temp_df[temp_df[timestamp] > max_time].index[0]
+                    if max_time in temp_df[timestamp].values:
+                        index_below = len(temp_df) - 1
+                        index_above = index_below
 
-                y_below = merged_df[accuracy].loc[index_below]
-                y_above = merged_df[accuracy].loc[index_above]
+                    else:
+                        index_below = temp_df[temp_df[timestamp] <= max_time].index[-1]
+                        index_above = temp_df[temp_df[timestamp] > max_time].index[0]
 
-                x_below = merged_df[timestamp].loc[index_below]
-                x_above = merged_df[timestamp].loc[index_above]
+                    y_below = merged_df[accuracy].loc[index_below]
+                    y_above = merged_df[accuracy].loc[index_above]
 
-                if index_below == index_above:
-                    estimation = y_below
-                else:
-                    estimation = y_below + ((max_time - x_below) * (y_above - y_below) / (x_above - x_below))
+                    x_below = merged_df[timestamp].loc[index_below]
+                    x_above = merged_df[timestamp].loc[index_above]
 
-                estimations.append(estimation)
-            
-            simplified_df = pd.Series(estimations, index=acc_columns)
-            simplified_df[acc_columns] = simplified_df[acc_columns].div(simplified_df['accuracy_5'], axis=0)
-            simplified_df[acc_columns] = simplified_df[acc_columns] - 1
-            simplified_df[acc_columns] = simplified_df[acc_columns] * 100
-            simplified_df[acc_columns] = simplified_df[acc_columns].round(2)
-            simplified_df = simplified_df.drop('accuracy_5')
+                    if index_below == index_above:
+                        estimation = y_below
+                    else:
+                        estimation = y_below + ((max_time - x_below) * (y_above - y_below) / (x_above - x_below))
 
-            results_list.append(simplified_df)
+                    estimations.append(estimation)
+                
+                simplified_df = pd.Series(estimations, index=acc_columns)
+                simplified_df[acc_columns] = simplified_df[acc_columns].div(simplified_df['accuracy_5'], axis=0)
+                simplified_df[acc_columns] = simplified_df[acc_columns] - 1
+                simplified_df[acc_columns] = simplified_df[acc_columns] * 100
+                simplified_df[acc_columns] = simplified_df[acc_columns].round(2)
+                simplified_df = simplified_df.drop('accuracy_5')
 
-            fig, axs = plt.subplots(1, 1, figsize=(10, 6))  # 'sharex=True' para compartir el eje x (timestamp)
+                results_list.append(simplified_df)
 
-            for i in range(1, 6):
-                axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"accuracy_{i}"], marker='o', markersize=4, linestyle='-', label=f"M = {i}", color=og_colors[i-1])
+                fig, axs = plt.subplots(1, 1, figsize=(10, 6))  # 'sharex=True' para compartir el eje x (timestamp)
 
-            # Establece los límites del eje Y usando el rango global calculado
-            axs.set_ylim(y_min_global - 0.1, y_max_global + 0.1)  # Un margen pequeño para mayor claridad
+                for i in range(1, 6):
+                    axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"accuracy_{i}"], marker='o', markersize=4, linestyle='-', label=f"M = {i}", color=og_colors[i-1])
 
-            axs.set_xlabel("Timestamp (s)")
-            axs.set_ylabel("Accuracy")
-            axs.axvline(x=max_time, color='black', linestyle='--')
-            axs.legend()
-            axs.grid(True)
+                # Establece los límites del eje Y usando el rango global calculado
+                axs.set_ylim(y_min_global - 0.1, y_max_global + 0.1)  # Un margen pequeño para mayor claridad
 
-            plt.tight_layout()
+                axs.set_xlabel("Timestamp (s)", fontsize=18)
+                axs.set_ylabel("Accuracy", fontsize=18)
+                axs.axvline(x=max_time, color='black', linestyle='--')
+                axs.legend(fontsize=16)
+                axs.grid(True)
 
-            plt.savefig(f'../{federation}/results/{strategy}/results_{data_type}.png')
+                axs.tick_params(axis='both', which='major', labelsize=16)
+
+                plt.tight_layout()
+
+                plt.savefig(f'../{federation}/results/{strategy}/results_{data_type}.png')
 
     final_results_df = pd.DataFrame(results_list)
     final_results_df.index = [f'{strategy}_{data_type}' for strategy in strategies for data_type in data_types]
@@ -160,4 +167,4 @@ for federation in federations:
             cell = table[(i+1, -1)]
             cell.set_facecolor(darken_color((1, 1, 1), factor=0.75))
 
-    plt.savefig(f'{federation}/results', dpi=1000)
+    plt.savefig(f'../{federation}/results', dpi=1000)

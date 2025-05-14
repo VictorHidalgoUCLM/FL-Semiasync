@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -162,18 +163,6 @@ class FedAvgCustom(FedAvg):
                 id = prop.properties["user"]
                 self.client_mapping[client.cid] = id
 
-            # Get the client-specific configuration from the loaded configuration
-            client_conf = self.config["names"].get(id)
-
-            # Set the fit instructions configuration
-            fit_ins.config = {
-                "epochs": client_conf[0],
-                "batch_size": client_conf[1],
-                "subset_size": client_conf[2],
-                "server_round": server_round,
-                "debug": self.debug,
-            }
-
             # Add any additional parameters to the fit configuration
             if parameters_fit is not None:
                 for key, value in parameters_fit.items():
@@ -192,6 +181,21 @@ class FedAvgCustom(FedAvg):
                 self.data[id].setdefault(
                     epoch, {metric: 0 for metric in self.metrics}
                 )
+
+        # Retrieve the mapped user ID for the client in case it was not done before
+        id = self.client_mapping[client.cid]
+
+        # Get the client-specific configuration from the loaded configuration
+        client_conf = self.config["names"].get(id)
+
+        # Set the fit instructions configuration
+        fit_ins.config = {
+            "epochs": client_conf[0],
+            "batch_size": client_conf[1],
+            "subset_size": client_conf[2],
+            "server_round": server_round,
+            "debug": self.debug,
+        }
 
     def configure_fit(
         self,
@@ -302,6 +306,20 @@ class FedAvgCustom(FedAvg):
                 log(INFO, f"")
                 log(INFO, f"Saving round {server_round} aggregated_ndarrays...")
                 log(INFO, f"")
+
+                saved_files = [
+                    f for f in os.listdir(directory_name) if re.match(r"round-\d+-weights\.npz", f)
+                ]
+
+                def extract_round_number(filename):
+                    match = re.search(r"round-(\d+)-weights\.npz", filename)
+                    return int(match.group(1)) if match else float('inf')
+
+                saved_files.sort(key=extract_round_number)
+
+                if len(saved_files) >= 5:
+                    oldest_file = saved_files[0]
+                    os.remove(os.path.join(directory_name, oldest_file))
 
                 # Save the aggregated arrays to the file
                 filename = f"{directory_name}/round-{server_round + self.round_offset}-weights.npz"
