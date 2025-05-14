@@ -112,7 +112,7 @@ for i in range(max_client_id + 1):
     if scp_process.returncode == 0:
         print(f"Env transferred successfully to {remote_host}!")
  
-        comm = "cd slave && docker-compose down && docker-compose up -d"
+        comm = "cd slave && docker compose down && docker compose up -d"
         subprocess.Popen(comm, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, text=True)
 
     else:
@@ -121,7 +121,7 @@ for i in range(max_client_id + 1):
     shutil.rmtree(local_data)
     os.remove(local_env)
 
-comm = "cd master && docker-compose down && docker-compose up -d"
+comm = "cd master && docker compose down && docker compose up -d"
 
 try:
     # Ejecutar el comando y capturar la salida y los errores

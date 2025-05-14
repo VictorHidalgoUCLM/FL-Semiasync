@@ -5,16 +5,20 @@ import sys
 file_path = 'projectconf.toml'
 
 default_sliding_window = 1024
+default_new_rounds = 100
 
 if len(sys.argv) > 1:
     try:
         new_value = int(sys.argv[1])
+        new_rounds = int(sys.argv[2])
     except ValueError:
         print("Error, no es un número entero. Usando default (new_value)...")
         new_value = default_sliding_window
+        new_rounds = default_new_rounds
     
 else:
     new_value = default_sliding_window
+    new_rounds = default_new_rounds
 
 # Each dictionary is one kind of configuration for the project
 paths = {
@@ -39,7 +43,7 @@ config = {
     'initial_parameters': "server_side",
     'fit_metrics_aggregation_fn': "fit_weighted_average",
     'evaluate_metrics_aggregation_fn': "evaluate_weighted_average",
-    'rounds': 100,
+    'rounds': new_rounds,
 }
 
 devices = {

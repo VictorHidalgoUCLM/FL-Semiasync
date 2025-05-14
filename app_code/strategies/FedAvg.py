@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -305,6 +306,20 @@ class FedAvgCustom(FedAvg):
                 log(INFO, f"")
                 log(INFO, f"Saving round {server_round} aggregated_ndarrays...")
                 log(INFO, f"")
+
+                saved_files = [
+                    f for f in os.listdir(directory_name) if re.match(r"round-\d+-weights\.npz", f)
+                ]
+
+                def extract_round_number(filename):
+                    match = re.search(r"round-(\d+)-weights\.npz", filename)
+                    return int(match.group(1)) if match else float('inf')
+
+                saved_files.sort(key=extract_round_number)
+
+                if len(saved_files) >= 5:
+                    oldest_file = saved_files[0]
+                    os.remove(os.path.join(directory_name, oldest_file))
 
                 # Save the aggregated arrays to the file
                 filename = f"{directory_name}/round-{server_round + self.round_offset}-weights.npz"

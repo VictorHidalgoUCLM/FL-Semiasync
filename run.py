@@ -77,6 +77,15 @@ parser.add_argument(
     default=1
 )
 
+parser.add_argument(
+    '-r',
+    '--rounds',
+    type=int,
+    help="Cantidad de ejecuciones a realizar",
+    required=False,
+    default=100
+)
+
 def signal_handler(sig, frame, event):
     """
     Receives the signal to terminate the program, activates the event to 
@@ -211,7 +220,7 @@ def get_last_round(config, strategy_name, num_exec, federation, name, wait=False
 
 
 def init_containers(federation, devices, data_type):
-    local_run(f"docker-compose -f dockerfiles/{federation}.yml up --build -d", True)
+    local_run(f"docker compose -f dockerfiles/{federation}.yml up --build -d", True)
     time.sleep(2)
 
     if federation == "remote-execution":
@@ -260,6 +269,9 @@ def main():
     data_list = args.data_list
     number_execution = args.number_execution
     window_size = args.window_size
+    rounds = args.rounds
+
+    max_window = max(window_size)
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
@@ -269,7 +281,9 @@ def main():
     for data_type in data_list:
         for federation in federations:
             for size in window_size:
-                writeConfig_cmd = f'python configWriter.py {size}'
+                new_rounds = args.rounds * max_window / size
+
+                writeConfig_cmd = f'python configWriter.py {size} {int(new_rounds)}'
                 local_run(writeConfig_cmd, False)
 
                 try:
@@ -341,7 +355,7 @@ def main():
                                     print("Ctrl-C detected, stopping everything...")
                                     event.clear()
 
-                                    local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
+                                    local_run(f"docker compose -f dockerfiles/{federation}.yml down")
 
                                     if federation == "remote-execution":
                                         for i, (user, ip) in enumerate(devices.items(), start=1):
@@ -358,7 +372,7 @@ def main():
                             graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec} -w {size}"
                             local_run(graphfl_cmd, True)
 
-                            local_run(f"docker-compose -f dockerfiles/{federation}.yml down")
+                            local_run(f"docker compose -f dockerfiles/{federation}.yml down")
 
                             if federation == "remote-execution":
                                 for i, (user, ip) in enumerate(devices.items(), start=1):
