@@ -13,7 +13,7 @@ services:
     - --insecure
     - --isolation
     - process
-    cpuset: 5,6
+    cpuset: '8'
     mem_limit: 2g
   serverapp:
     build:
@@ -31,7 +31,7 @@ services:
     volumes:
     - ../local-execution/results:/app/results/local-execution:rw
     - ../projectconf.toml:/app/projectconf.toml:rw
-    cpuset: 7,8,9
+    cpuset: '9'
     mem_limit: 2g
   supernode-1:
     image: flwr/supernode:1.18.0
@@ -45,7 +45,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=0 num-partitions=5 partition-type="iid"
+    - partition-id=0 num-partitions=8 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9094
     - --isolation
@@ -86,7 +86,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=1 num-partitions=5 partition-type="iid"
+    - partition-id=1 num-partitions=8 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9095
     - --isolation
@@ -127,7 +127,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=2 num-partitions=5 partition-type="iid"
+    - partition-id=2 num-partitions=8 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9096
     - --isolation
@@ -155,7 +155,7 @@ services:
     - DEVICE=supernode-3
     mem_limit: 2g
     cpuset: '12'
-    cpus: 0.3
+    cpus: 1
   supernode-4:
     image: flwr/supernode:1.18.0
     container_name: supernode-4
@@ -168,7 +168,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=3 num-partitions=5 partition-type="iid"
+    - partition-id=3 num-partitions=8 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9097
     - --isolation
@@ -209,7 +209,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=4 num-partitions=5 partition-type="iid"
+    - partition-id=4 num-partitions=8 partition-type="noniid"
     - --clientappio-api-address
     - 0.0.0.0:9098
     - --isolation
@@ -237,6 +237,129 @@ services:
     - DEVICE=supernode-5
     mem_limit: 2g
     cpuset: '14'
+    cpus: 1
+  supernode-6:
+    image: flwr/supernode:1.18.0
+    container_name: supernode-6
+    ports:
+    - 9099:9099
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=5 num-partitions=8 partition-type="noniid"
+    - --clientappio-api-address
+    - 0.0.0.0:9099
+    - --isolation
+    - process
+    depends_on:
+    - superlink
+    environment:
+    - DEVICE=supernode-6
+    cpuset: '5'
+    mem_limit: 1g
+  client-6:
+    build:
+      context: ..
+      dockerfile: dockerfiles/clientapp.Dockerfile
+    container_name: client-6
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-6:9099
+    depends_on:
+    - supernode-6
+    environment:
+    - DEVICE=supernode-6
+    mem_limit: 2g
+    cpuset: '15'
+    cpus: 1
+  supernode-7:
+    image: flwr/supernode:1.18.0
+    container_name: supernode-7
+    ports:
+    - 9100:9100
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=6 num-partitions=8 partition-type="noniid"
+    - --clientappio-api-address
+    - 0.0.0.0:9100
+    - --isolation
+    - process
+    depends_on:
+    - superlink
+    environment:
+    - DEVICE=supernode-7
+    cpuset: '6'
+    mem_limit: 1g
+  client-7:
+    build:
+      context: ..
+      dockerfile: dockerfiles/clientapp.Dockerfile
+    container_name: client-7
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-7:9100
+    depends_on:
+    - supernode-7
+    environment:
+    - DEVICE=supernode-7
+    mem_limit: 2g
+    cpuset: '16'
+    cpus: 1
+  supernode-8:
+    image: flwr/supernode:1.18.0
+    container_name: supernode-8
+    ports:
+    - 9101:9101
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=7 num-partitions=8 partition-type="noniid"
+    - --clientappio-api-address
+    - 0.0.0.0:9101
+    - --isolation
+    - process
+    depends_on:
+    - superlink
+    environment:
+    - DEVICE=supernode-8
+    cpuset: '7'
+    mem_limit: 1g
+  client-8:
+    build:
+      context: ..
+      dockerfile: dockerfiles/clientapp.Dockerfile
+    container_name: client-8
+    networks:
+    - master_default
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-8:9101
+    depends_on:
+    - supernode-8
+    environment:
+    - DEVICE=supernode-8
+    mem_limit: 2g
+    cpuset: '17'
     cpus: 1
 networks:
   master_default:

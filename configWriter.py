@@ -33,13 +33,13 @@ paths = {
 config = {
     'fraction_fit': 1,
     'fraction_evaluate': 1,
-    'min_fit_clients': 5,
-    'min_evaluate_clients': 5,
-    'min_available_clients': 5,
+    'min_fit_clients': 8,
+    'min_evaluate_clients': 8,
+    'min_available_clients': 8,
     'evaluate_fn': "None",
     'on_fit_config_fn': "None",
     'on_evaluate_config_fn': "None",
-    'accept_failures': False,
+    'accept_failures': True,
     'initial_parameters': "server_side",
     'fit_metrics_aggregation_fn': "fit_weighted_average",
     'evaluate_metrics_aggregation_fn': "evaluate_weighted_average",
@@ -52,6 +52,9 @@ devices = {
     'raspberry3': 'raspberry3',
     'raspberry6': 'raspberry6',
     'raspberry7': 'raspberry7',
+    'raspberry2': 'raspberry2',
+    'raspberry5': 'raspberry5',
+    'raspberry8': 'raspberry8',
 }
 
 clients = {
@@ -60,6 +63,9 @@ clients = {
     'raspberry3': [1, 32, new_value],
     'raspberry6': [1, 32, new_value],
     'raspberry7': [1, 32, new_value],
+    'raspberry2': [1, 32, new_value],
+    'raspberry5': [1, 32, new_value],
+    'raspberry8': [1, 32, new_value],
 }
 
 prometheus_conf = {
@@ -81,7 +87,10 @@ names = {
     'supernode-3': [1, 32, new_value],
     'supernode-4': [1, 32, new_value],
     'supernode-5': [1, 32, new_value],
-    'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5",]
+    'supernode-6': [1, 32, new_value],
+    'supernode-7': [1, 32, new_value],
+    'supernode-8': [1, 32, new_value],
+    'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5", "client-6", "client-7", "client-8",]
 }
 
 fedProx = {

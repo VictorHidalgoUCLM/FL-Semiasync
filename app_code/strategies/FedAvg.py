@@ -27,7 +27,6 @@ from flwr.server.strategy import FedAvg
 
 from app_code.strategies.data_analyst import DataAnalyst
 
-
 class ExportThread(threading.Thread):
     """A thread class responsible for periodically executing queries and exporting data
     using the provided DataAnalyst instance.
@@ -77,7 +76,6 @@ class FedAvgCustom(FedAvg):
         num_exec: int,
         strategy_name: str,
         *args: Any,
-        debug: bool = False,
         **kwargs: Optional[Dict[str, Any]],
     ):
         """Initialize the FedAvgCustom strategy.
@@ -85,7 +83,6 @@ class FedAvgCustom(FedAvg):
         Args:
             num_exec: Execution number for logging and tracking purposes.
             strategy_name: Name of the strategy being used.
-            debug: Boolean to enable or disable (T/F) debug mode.
             *args: Additional positional arguments for the superclass.
             **kwargs: Additional keyword arguments for the superclass.
         """
@@ -97,7 +94,6 @@ class FedAvgCustom(FedAvg):
         self.strategy_name = strategy_name
         self.init_time = 0  # Record the initialization time
         self.client_mapping = {}  # Mapping of client IDs to user IDs
-        self.debug = debug  # Debug mode flag
 
         # Round offset for custom round numbering
         self.round_offset = 0
@@ -116,10 +112,13 @@ class FedAvgCustom(FedAvg):
         # Initialize data and timestamps dictionaries
         self.data = {}
         self.timestamps = {}
+        self.prev_loss = {}
 
         # Populate data and timestamps structures for server for each epoch
         self.timestamps.setdefault("server", {})
         self.data.setdefault("server", {})
+
+        self.filename = None
 
         self.nodes = ["server"]
 
@@ -128,6 +127,9 @@ class FedAvgCustom(FedAvg):
             self.data["server"].setdefault(
                 epoch, {metric: 0 for metric in self.metrics}
             )
+
+        self.m = self.config["synchrony"]
+        self.prop = {}
 
     def set_round_offset(self, offset: int):
         """Set the round offset for the current instance.
@@ -162,11 +164,7 @@ class FedAvgCustom(FedAvg):
                 # Map the client ID to the user ID
                 id = prop.properties["user"]
                 self.client_mapping[client.cid] = id
-
-            # Add any additional parameters to the fit configuration
-            if parameters_fit is not None:
-                for key, value in parameters_fit.items():
-                    fit_ins.config[key] = value
+                self.prop[id] = prop
 
             # Retrieve the mapped user ID for the client
             id = self.client_mapping[client.cid]
@@ -193,9 +191,13 @@ class FedAvgCustom(FedAvg):
             "epochs": client_conf[0],
             "batch_size": client_conf[1],
             "subset_size": client_conf[2],
-            "server_round": server_round,
-            "debug": self.debug,
+            "server_round": server_round
         }
+
+        # Add any additional parameters to the fit configuration
+        if parameters_fit is not None:
+            for key, value in parameters_fit.items():
+                fit_ins.config[key] = value
 
     def configure_fit(
         self,
@@ -216,7 +218,7 @@ class FedAvgCustom(FedAvg):
                 )
 
         # Initialize the data analyst and start the export thread during the first round
-        if server_round == 1 and not self.debug:
+        if server_round == 1:
             self.init_time = time.time()  # Initial time once first config has been done
 
             analyst = DataAnalyst(
@@ -322,8 +324,8 @@ class FedAvgCustom(FedAvg):
                     os.remove(os.path.join(directory_name, oldest_file))
 
                 # Save the aggregated arrays to the file
-                filename = f"{directory_name}/round-{server_round + self.round_offset}-weights.npz"
-                np.savez(filename, *aggregated_ndarrays)
+                self.filename = f"{directory_name}/round-{server_round + self.round_offset}-weights.npz"
+                np.savez(self.filename, *aggregated_ndarrays)
 
             # Write server-specific metrics to self.data
             for metric in self.metrics:

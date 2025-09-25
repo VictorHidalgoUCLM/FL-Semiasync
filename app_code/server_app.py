@@ -1,5 +1,8 @@
 import os
 from typing import List, Tuple
+import fnmatch
+import re
+import numpy as np
 
 import flwr as fl
 import toml
@@ -18,12 +21,12 @@ from app_code.strategies.FedProx import FedProxCustom
 from app_code.strategies.FedTrimmedAvg import FedTrimmedAvgCustom
 from app_code.strategies.FedYogi import FedYogiCustom
 from app_code.strategies.QFedAvg import QFedAvgCustom
+from app_code.strategies.FedMOpt import FedMOpt
 
 projectconf = toml.load(os.environ.get("CONFIG_PATH"))
 
 num_exec = projectconf["tempConfig"]["num_exec"]
 strategy_name = projectconf["tempConfig"]["strategy"]
-
 
 # Create strategy based on the strategy selected in the configuration file
 def create_fedAvg(configurations):
@@ -78,6 +81,11 @@ def create_fedMedian(configurations):
     strategy = FedMedianCustom(**configurations)
     return strategy
 
+def create_fedMOpt(configurations):
+    """Create FedMOpt based on configurations parameter."""
+    strategy = FedMOpt(**configurations)
+    return strategy
+
 
 def default_strategy():
     """Default function if strategy is not selected correctly."""
@@ -95,6 +103,7 @@ def get_strategy_mapping():
         "FedTrimmedAvg": create_fedTrimmedAvg,
         "QFedAvg": create_QFedAvg,
         "FedMedian": create_fedMedian,
+        "FedMOpt": create_fedMOpt,
     }
 
 
@@ -104,7 +113,6 @@ def fit_weighted_average(
     """Function for calculating weighted average metrics on fit."""
     accuracies = [num_examples * m["accuracy"] for num_examples, m in metrics]
     losses = [num_examples * m["loss"] for num_examples, m in metrics]
-    losses_distributed = [num_examples * m["loss_distributed"] for num_examples, m in metrics]
     recalls = [num_examples * m["recall"] for num_examples, m in metrics]
     precisions = [num_examples * m["precision"] for num_examples, m in metrics]
     f1s = [num_examples * m["f1"] for num_examples, m in metrics]
@@ -114,7 +122,6 @@ def fit_weighted_average(
     return {
         "accuracy": sum(accuracies) / sum(examples),
         "loss": sum(losses) / sum(examples),
-        "loss_distributed": sum(losses_distributed) / sum(examples),
         "recall": sum(recalls) / sum(examples),
         "precision": sum(precisions) / sum(examples),
         "f1": sum(f1s) / sum(examples),
@@ -173,7 +180,6 @@ def create_configurations():
         "evaluate_metrics_aggregation_fn": functions_dict.get(projectconf["config"]["evaluate_metrics_aggregation_fn"], None),
         "num_exec": num_exec,
         "strategy_name": strategy_name,
-        "debug": projectconf["config"]["debug"],
     }
 
     # Map values from configuration to functions based on the dictionary
@@ -197,15 +203,42 @@ def select_strategy():
     selected_strategy_function = strategy_mapping.get(strategy_name, default_strategy)
     return selected_strategy_function(configurations)
 
+def load_parameters():
+    federation = projectconf["tempConfig"]["federation"]
+    sub_execution = projectconf["tempConfig"]["execution_name"]
+    
+    checkpoint_path = projectconf["paths"]["checkpoint"].format(
+        federation=federation, 
+        strategy=strategy_name, 
+        sub_execution=sub_execution, 
+        num_exec=num_exec
+    )
+
+    pattern_file = "round-*-weights.npz"
+    files = [file for file in os.listdir(checkpoint_path) if fnmatch.fnmatch(file, pattern_file)]
+    
+    if files:
+        # Find the file with the highest round number
+        latest_file = max(files, key=lambda file: int(re.search(r"round-(\d+)-weights\.npz", file).group(1)))
+
+        weights = np.load(f"{checkpoint_path}/{latest_file}")
+        parameters = fl.common.ndarrays_to_parameters([weights[key] for key in weights.files])
+
+        return parameters
+    return None
 
 def server_fn(context: Context):
     """Configure and return a Flwr ServerAppComponents with CustomServer for semi-asynchrony."""
-
     num_rounds = projectconf["tempConfig"]["step_rounds"]
     offset = projectconf["tempConfig"]["last_round"]
-    strategy = select_strategy()
 
+    strategy = select_strategy()
     strategy.set_round_offset(offset)
+
+    init_parameters = load_parameters()   
+    if init_parameters is not None:
+        strategy.initial_parameters = init_parameters
+
     config = ServerConfig(num_rounds=num_rounds)
 
     return ServerAppComponents(

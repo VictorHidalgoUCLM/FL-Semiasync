@@ -22,7 +22,6 @@ from .FedAvg import FedAvgCustom
 class QFedAvgCustom(FedAvgCustom):
     def __init__(
         self,
-        parameters_fit: dict = {"evaluate_on_fit": True},
         q_param: float = 0.2,
         qffl_learning_rate: float = 0.1,
         *args: Any,
@@ -42,7 +41,6 @@ class QFedAvgCustom(FedAvgCustom):
         super().__init__(*args, **kwargs)
         self.learning_rate = qffl_learning_rate
         self.q_param = q_param
-        self.parameters = parameters_fit
         self.pre_weights: Optional[NDArrays] = None
 
     def __repr__(self) -> str:

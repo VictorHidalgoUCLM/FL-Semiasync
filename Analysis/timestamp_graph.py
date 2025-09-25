@@ -128,7 +128,8 @@ def main():
     square_size = 0.40  # Define the size of the square, e.g., 10 units
     start_time_round = 0
 
-    sum = {}
+    sum_fit = {}
+    sum_ev = {}
 
     for round, group_round in df.groupby('round'):
         supernodes_fit = {}
@@ -166,11 +167,18 @@ def main():
 
         start_time_round = end_ev
 
-        for client, times in supernodes_fit.items():
-            sum.setdefault(client, 0)
+        for client in supernodes_fit:
+            sum_fit.setdefault(client, 0)
+            sum_ev.setdefault(client, 0)
 
-            for start_time, end_time, color, hatch in times:
-                sum[client] += end_time - start_time
+            fit_times = supernodes_fit[client]
+            ev_times = supernodes_ev[client]
+
+            for start_fit, end_fit, _, _ in fit_times:
+                sum_fit[client] += end_fit - start_fit
+
+            start_ev, end_ev = ev_times[0]
+            sum_ev[client] += end_ev - start_ev
 
         for i, (_, times) in enumerate(supernodes_fit.items()):
             y_pos = i
@@ -212,10 +220,11 @@ def main():
 
     with open(totaltime_path, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['Client', 'Total time'])
+        writer.writerow(['Client', 'Total fit', 'Total ev'])
 
-        for client, total_time in sum.items():
-            writer.writerow([client, total_time])
+        for client, total_fit in sum_fit.items():
+            total_ev = sum_ev.get(client, 0)
+            writer.writerow([client, total_fit, total_ev])
 
     # Configuración de los ejes
     ax.set_xlabel('Execution time', fontsize=16)
