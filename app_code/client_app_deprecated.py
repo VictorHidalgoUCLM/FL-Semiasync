@@ -45,6 +45,18 @@ class FlowerClient(NumPyClient):
         """Train the model on the client's local dataset."""
         set_weights(self.net, parameters)
 
+        """if config.get("server_round") == 1:
+            offset = 100
+            pace = 10
+            timeout = 200
+            init_sliced_windows(self.trainloader, config)
+
+            producer_thread = threading.Thread(target=producer, args=(self.newloader, offset, pace, config.get("batch_size", 32)), daemon=True)
+            consumer_thread = threading.Thread(target=consumer, args=(config, timeout,), daemon=True)
+
+            producer_thread.start()
+            consumer_thread.start()"""
+
         loss, y_true, y_pred = train(  # Train the model
             self.net, self.device, config, self.trainloader,
         )
@@ -97,17 +109,11 @@ class FlowerClient(NumPyClient):
 
 def client_fn(context: Context):
     """Load data and return a Flower client."""
+    net = Net()  # Create model instance
     partition_id = context.node_config["partition-id"]  # Get partition id from context
     num_partitions = context.node_config["num-partitions"]  # Get total number of partitions from context
     partition_type = context.node_config["partition-type"]
-    dataset_name = context.node_config["dataset-name"]
-
-    if dataset_name == "uoft-cs/cifar10":
-        net = Net()
-    elif dataset_name == "ylecun/mnist":
-        net = Net(10, 1, 32, 1)
-
-    trainloader, newloader, valloader = load_data(partition_id, num_partitions, partition_type, dataset_name)
+    trainloader, newloader, valloader = load_data(partition_id, num_partitions, partition_type)
     # Return Client instance
     return FlowerClient(net, trainloader, newloader, valloader, partition_id).to_client()
 

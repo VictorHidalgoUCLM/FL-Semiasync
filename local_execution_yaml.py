@@ -11,6 +11,22 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-s",
+    "--slowclients", 
+    type=int, 
+    help="Quantity of slow clients",
+    required=True
+)
+
+parser.add_argument(
+    "-H",
+    "--heterogeneity", 
+    type=str, 
+    help="Heterogeneity of clients",
+    required=True
+)
+
+parser.add_argument(
     "-t",
     "--threads", 
     type=int, 
@@ -26,11 +42,22 @@ parser.add_argument(
     required=True
 )
 
+parser.add_argument(
+    "-n",
+    "--name_dataset", 
+    type=str, 
+    help="Data types: uoft-cs/cifar10 | ylecun/mnist",
+    default="uoft-cs/cifar10"
+)
+
 args = parser.parse_args()
 
 n = args.clients
 cpus = args.threads
 data_type = args.data_type
+heterogeneity = args.heterogeneity
+slowclients = args.slowclients
+dataset_name = args.name_dataset
 
 superlink = {
     'image': 'flwr/superlink:1.18.0',
@@ -38,7 +65,7 @@ superlink = {
     'ports': ['9091:9091', '9092:9092', '9093:9093'],
     'networks': ['master_default'],
     'command': ['--insecure', '--isolation', 'process'],
-    'cpuset': f'{n},{n+1}',
+    'cpuset': f'{n}',
     'mem_limit': '2g'
 }
 
@@ -55,7 +82,7 @@ serverapp = {
         '../local-execution/results:/app/results/local-execution:rw',
         '../projectconf.toml:/app/projectconf.toml:rw'
     ],
-    'cpuset': f'{n+2},{n+3},{n+4}',
+    'cpuset': f'{n+1}',
     'mem_limit': '2g' # 2 GB RAM memory limit
 }
 
@@ -64,7 +91,9 @@ services = {
     'serverapp': serverapp
 }
 
-for i in range (1, n+1):
+half = slowclients // 2
+
+for i in range(1, n+1):
     supernode_name = f'supernode-{i}'
     client_name = f'client-{i}'
 
@@ -75,7 +104,7 @@ for i in range (1, n+1):
         'networks': ['master_default'],
         'command': [
             '--insecure', '--superlink', 'superlink:9092',
-            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}"',
+            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}" dataset-name="{dataset_name}"',
             '--clientappio-api-address', f'0.0.0.0:{9093 + i}', '--isolation', 'process'
         ],
         'depends_on': ['superlink'],
@@ -87,8 +116,19 @@ for i in range (1, n+1):
     cpuset_list = [str(10 + j + (i - 1) * cpus) for j in range(cpus)]
     cpuset_string = ','.join(cpuset_list)
 
-    cpus_limit = cpus if i != 3 else 0.3
-    #cpus_limit = cpus
+    if heterogeneity == "heterogeneous":
+        #if i <= half:
+            #cpus_limit = 0.33
+        #el
+        if i <= slowclients:
+            cpus_limit = 0.33
+        else:
+            cpus_limit = cpus
+
+    elif heterogeneity == "homogeneous":
+        cpus_limit = cpus
+
+    print(cpus_limit)   
 
     client_config = {
         'build': {

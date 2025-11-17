@@ -1,89 +1,113 @@
-import subprocess
 import argparse
-import threading
-import toml
-import signal
-import time
-
-import os
 import fnmatch
+import os
 import re
+import signal
+import subprocess
+import sys
+import threading
+import time
+import yaml
+
 import requests
+import toml
+from itertools import product
 
 projectconf = 'projectconf.toml'
 handler_flag = False
 INTERVAL = 10
 
+PERFILES_DIR = "profiles"
+CICLOS = None
+
 # Configuration to delete data series on the server
 url = 'http://localhost:9090/api/v1/admin/tsdb/delete_series'
 params = {'match[]': '{job="cadvisor"}'}
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Main program for executing FL on Flwr on different configurations.")
 parser.add_argument(
-    "-f",
-    "--federation", 
+    "-f", "--federation", 
     type=str, 
     nargs='+',
     choices=["local-execution", "remote-execution"], 
-    help="Tipo de ejecución: local-execution | remote-execution",
-    default=["local-execution"],
-    required=False
+    help="Execution modes: 'local-execution' or 'remote-execution'.",
+    default=["local-execution"]
 )
 
 parser.add_argument(
-    '-d',
-    '--debug',
-    action='store_true',
-    help="Ejecución rápida de Flwr, hacemos forward de parámetros sin entrenar",
-    required=False
-)
-
-parser.add_argument(
-    '-s',
-    '--sync_clients',
+    '-m', '--sync-clients',
     type=int,
     nargs='+',
-    help="Lista del número de clientes con los que se sincronizan internamente las rondas de entrenamiento",
-    default=[3],
-    required=False
+    help="Number of clients required for synchronization in each training round.",
+    default=[8]
 )
 
-parser.add_argument(
-    '-w',
-    '--window_size',
+"""parser.add_argument(
+    '-w', '--window-size',
     type=int,
     nargs='+',
-    help="Lista del número de clientes con los que se sincronizan internamente las rondas de entrenamiento",
-    default=[1024],
-    required=False
-)
+    help="Sliding window size used for client synchronization.",
+    default=[1024]
+)"""
 
 parser.add_argument(
-    '-t',
-    '--data_list',
+    '-t', '--data-list',
     type=str,
     nargs='+',
-    help="Lista de tipos de datos a ejecutar",
-    required=False,
+    help="List of dataset types to run (e.g. iid, non-iid).",
     default=['iid']
 )
 
 parser.add_argument(
-    '-n',
-    '--number_execution',
+    '-n', '--num-executions',
     type=int,
-    help="Cantidad de ejecuciones a realizar",
-    required=False,
+    help="Number of repeated executions of the experiment.",
     default=1
 )
 
 parser.add_argument(
-    '-r',
-    '--rounds',
+    '-r', '--rounds',
     type=int,
-    help="Cantidad de ejecuciones a realizar",
-    required=False,
-    default=100
+    help="Number of training rounds to run.",
+    default=15
+)
+
+parser.add_argument(
+    '-H', '--heterogeneity',
+    type=str,
+    nargs='+',
+    help="Client heterogeneity type(s) (e.g. homogeneous, heterogeneous).",
+    default=["homogeneous"]
+)
+
+parser.add_argument(
+    '-S', '--slowclients',
+    type=int,
+    nargs='+',
+    help="List of client IDs or counts to be considered slow.",
+    default=[0]
+)
+
+parser.add_argument(
+    '-a', '--asynchrony',
+    type=int,
+    nargs='+',
+    help="List of semiasynchrony tipes (1 = semiasync, 2 = modded semiasync).",
+    default=[1]
+)
+
+parser.add_argument(
+    '-d', '--dataset',
+    type=str,
+    default="uoft-cs/cifar10"
+)
+
+parser.add_argument(
+    '-s', '--strategies',
+    type=str,
+    nargs='+',
+    help="List of Federated strategies.",
+    default=["FedAvg"]
 )
 
 def signal_handler(sig, frame, event):
@@ -98,12 +122,22 @@ def signal_handler(sig, frame, event):
 
 
 def check_docker_logs(event, federation, strategy, execution_name, num_exec):
+    """
+    Monitors the logs of the Docker container 'serverapp' for a specific pattern
+    that indicates the end of a training process.
+
+    The function builds a log pattern in the form:
+        "Training {federation} {strategy} {execution_name} {num_exec} ended"
+    and periodically checks the last lines of the container logs until either:
+        1. The pattern is found (meaning the training has finished), or
+        2. The external event 'event' is set.
+    """
     pattern_found_event = threading.Event()
-    PATTERN = f"Training {federation} {strategy} {execution_name} {num_exec} ended"
+    PATTERN = f"Training {federation} {strategy} {execution_name} {num_exec} ended" # Pattern to be search
 
     while not pattern_found_event.is_set() and not event.is_set():
         try:
-            # Ejecuta el comando `docker logs` y obtiene la última línea
+            # Executes `docker logs` command and gets last 4 lines
             result = subprocess.run(
                 ["docker", "logs", "--tail", "4", "serverapp"],
                 stdout=subprocess.PIPE,
@@ -111,21 +145,28 @@ def check_docker_logs(event, federation, strategy, execution_name, num_exec):
                 text=True
             )
 
-            # Verifica si la última línea contiene el patrón deseado
+            # Checks for pattern
             if PATTERN in result.stdout.strip():
                 pattern_found_event.set()
 
         except subprocess.CalledProcessError as e:
-            print(f"Error al ejecutar el comando: {e}")
+            print(f"Error while executing...: {e}")
 
-        # Espera el intervalo especificado
+        # Waits the predefined interval between while loop
         time.sleep(INTERVAL)
 
 
 def local_run(command, show_output=False):
+    """
+    Executes a shell command locally, with optional output display.
+
+    The command is split into parts and executed using subprocess. By default,
+    the command output (stdout and stderr) is suppressed, but it can be shown
+    if `show_output=True` is provided.
+    """
     try:
         command_parts = command.split()
-        print(f"\nEjecutando comando {command}...\n")
+        print(f"\nExecuting {command}...\n")
 
         if show_output:
             subprocess.run(command_parts, check=True)
@@ -133,26 +174,52 @@ def local_run(command, show_output=False):
             subprocess.run(command_parts, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
 
     except subprocess.CalledProcessError as e:
-        print(f"Error al ejecutar el comando Docker: {e}")
+        print(f"Error when executing Docker command: {e}")
     
 
-def local_Popen(command, show_output=False):
+def local_Popen(command, show_output=False, output_file='salida.txt'):
+    """
+    Launches a local process using subprocess.Popen, with optional output display.
+
+    The command is split into parts and executed asynchronously. Unlike `subprocess.run`,
+    this function does not block execution and instead returns the Popen process object.
+    """
     try:
         command_parts = command.split()
-        print(f"\nEjecutando comando {command}...\n")
+        print(f"\nExecuting {command}...\n")
 
         if show_output:
-            process = subprocess.Popen(command_parts)
+            f = open(output_file, "w")
+
+            process = subprocess.Popen(command_parts, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+            import threading
+            def log_writer():
+                for line in process.stdout:
+                    print(line, end='')
+                    f.write(line)
+                    f.flush()
+            
+            threading.Thread(target=log_writer, daemon=True).start()
+
         else:
             process = subprocess.Popen(command_parts, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     except subprocess.CalledProcessError as e:
-        print(f"Error al ejecutar el comando Docker: {e}")
+        print(f"Error when executing Docker command: {e}")
 
     return process
 
 
 def remote_run(command, ip, user):
+    """
+    Executes a shell command on a remote machine over SSH.
+
+    The function builds an SSH command in the form:
+        ssh user@ip <command>
+    and runs it locally using subprocess. By default, both stdout and stderr 
+    are suppressed.
+    """
     try:
         ssh_command = ["ssh", f"{user}@{ip}", command]
         print(f"Ejecutando comando remoto: {ssh_command}")
@@ -163,6 +230,15 @@ def remote_run(command, ip, user):
 
 
 def stop_remote_code(id, user, ip):
+    """
+    Stops remote Docker containers and removes the associated network on a remote host.
+
+    Specifically, it stops the containers:
+        - supernode-{id}
+        - client-{id}
+    and removes the Docker network 'flwr-network' by executing SSH commands 
+    on the specified remote machine.
+    """
     stop_supernode = ["docker", "stop", f"supernode-{id}"]
     stop_clientapp = ["docker", "stop", f"client-{id}"]
     stop_network = ["docker", "network", "rm", "flwr-network"]
@@ -177,6 +253,15 @@ def stop_remote_code(id, user, ip):
 
 
 def update_clients():
+    """
+    Builds, tags, and pushes the Docker image for the client application.
+
+    Steps performed:
+    1. Builds the Docker image using the Dockerfile 'dockerfiles/clientapp.Dockerfile'
+       targeting the ARM64 platform and tags it as 'flwr_clientapp:latest'.
+    2. Tags the local image with the repository 'victorhidalgo/clientapp'.
+    3. Pushes the tagged image to the Docker registry.
+    """
     local_run("docker buildx build -f dockerfiles/clientapp.Dockerfile --platform linux/arm64/v8 -t flwr_clientapp:latest .", True)
     local_run("docker tag flwr_clientapp:latest victorhidalgo/clientapp")
     local_run("docker push victorhidalgo/clientapp")
@@ -220,6 +305,22 @@ def get_last_round(config, strategy_name, num_exec, federation, name, wait=False
 
 
 def init_containers(federation, devices, data_type):
+    """
+    Initializes and starts Docker containers for the federated learning setup.
+
+    Depending on the federation type, this function either launches local containers
+    or deploys them on remote machines.
+
+    Steps:
+    1. Uses `docker compose` to start the containers defined in the corresponding
+       docker-compose YAML file for the given federation.
+    2. If `federation` is "remote-execution":
+        - Updates client Docker images using `update_clients()`.
+        - Iterates over the provided `devices` dictionary and for each device:
+            a) Creates a Docker network 'flwr-network' remotely.
+            b) Runs a supernode container with configuration specific to the partition.
+            c) Pulls and runs a client container attached to the same network.
+    """
     local_run(f"docker compose -f dockerfiles/{federation}.yml up --build -d", True)
     time.sleep(2)
 
@@ -258,125 +359,230 @@ def init_containers(federation, devices, data_type):
             remote_run(client_command, ip, user)
   
 
+def actualizar_limites(contenedor, cpu):
+    cmd = [
+        "docker", "update",
+        f"--cpus={cpu}",
+        contenedor
+    ]
+    print(f"[{contenedor}] Aplicando: CPUs={cpu}")
+    subprocess.run(cmd, check=True)
+
+
+def ejecutar_perfil(contenedor, perfil, ciclos=None):
+    ciclo = 0
+    while ciclos is None or ciclo < ciclos:
+        ciclo += 1
+        for fase in perfil:
+            cpu = fase["cpus"]
+            duracion = fase["duracion"]
+
+            actualizar_limites(contenedor, cpu)
+            time.sleep(duracion)
+
+
+def lanzar_todos_perfiles(perfiles_dir=PERFILES_DIR, ciclos=CICLOS):
+    """Lanza en paralelo los ejecutores de todos los clientes como hilos en segundo plano"""
+    hilos = []
+    for archivo in os.listdir(perfiles_dir):
+        if not archivo.endswith(".yaml"):
+            continue
+
+        client_id = archivo.replace("client_", "").replace(".yaml", "")
+        contenedor = f"client-{client_id}"
+        ruta = os.path.join(perfiles_dir, archivo)
+
+        with open(ruta) as f:
+            perfil = yaml.safe_load(f)["perfil"]
+
+        t = threading.Thread(target=ejecutar_perfil, args=(contenedor, perfil, ciclos))
+        t.daemon = True  # hilo en segundo plano
+        t.start()
+        hilos.append(t)
+
+    return hilos  # devuelve los hilos por si quieres controlarlos desde tu main
+
+
+def iniciar_ejecutor_en_background():
+    hilos = lanzar_todos_perfiles()
+    return hilos
+
+
+def load_and_update_config(projectconf, server_type, dataset, federation, local_run, rounds):
+    # 1. Escribir config temporal
+    writeConfig_cmd = f'python configWriter.py 1 {rounds} {server_type} {dataset}'
+    local_run(writeConfig_cmd, False)
+
+    # 2. Cargar config
+    try:
+        config = toml.load(projectconf)
+    except FileNotFoundError:
+        print(f"Could not find {projectconf} file.")
+        return None
+
+    # 3. Actualizar campos necesarios
+    config['tempConfig']['federation'] = federation
+    devices = config.get("devices", {})
+    clients = config.get("names", {}).pop('clientapps', None)
+    rounds = config['config']['rounds']
+
+    # 4. Guardar archivo actualizado
+    with open(projectconf, 'w') as f:
+        toml.dump(config, f)
+
+    # 5. Devolver lo útil
+    return config, devices, clients, rounds
+
+
+def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number):
+    temp = config.setdefault('tempConfig', {})
+    temp['strategy'] = strategy
+    temp['execution_name'] = execution_name
+    temp['num_exec'] = act_exec
+
+    config["config"]["inplace"] = inplace
+
+    if sync_number > len(clients):
+        print("Defaulting to asynchrony because m was higher than amount of clients")
+        sync_number = len(clients)
+
+    config['synchrony'] = sync_number
+
+    with open(projectconf, 'w') as f:
+        toml.dump(config, f)
+
+
 def main():
     global handler_flag
 
-    args = parser.parse_args()
+    args = parser.parse_args()  # Get parser
 
-    debug_mode = args.debug
+    # Get all parse options
     federations = args.federation
     sync_list = args.sync_clients
     data_list = args.data_list
-    number_execution = args.number_execution
-    window_size = args.window_size
+    num_executions = args.num_executions
+    #window_size = args.window_size
     rounds = args.rounds
+    heterogeneities = args.heterogeneity
+    slowclients = args.slowclients
+    asynchronies = args.asynchrony
+    dataset = args.dataset
+    strategies = args.strategies
 
-    max_window = max(window_size)
+    #max_window = max(window_size)
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
 
-    strategies = ["FedAvg"]
+    # Iterate through data_list, federations, window_size, slowclients, heterogeneities
+    """for server_type, data_type, federation, size, slow_client, heterogeneity in product(
+        asynchronies, data_list, federations, window_size, slowclients, heterogeneities
+    ):"""
+    for server_type, data_type, federation, slow_client, heterogeneity in product(
+        asynchronies, data_list, federations, slowclients, heterogeneities
+    ):
+        #new_rounds = args.rounds * max_window / size
 
-    for data_type in data_list:
-        for federation in federations:
-            for size in window_size:
-                new_rounds = args.rounds * max_window / size
+        config, devices, clients, rounds = load_and_update_config(
+            projectconf, server_type, dataset, federation, local_run, rounds)
 
-                writeConfig_cmd = f'python configWriter.py {size} {int(new_rounds)}'
-                local_run(writeConfig_cmd, False)
+        if federation == 'local-execution':
+            cmd = (
+                f"python local_execution_yaml.py "
+                f"-c {len(clients)} "
+                f"-t 1 "
+                f"-d {data_type} "
+                f"-H {heterogeneity} "
+                f"-s {slow_client} "
+                f"-n {dataset}"
+            )
 
-                try:
-                    config = toml.load(projectconf)
-                except FileNotFoundError:
-                    print(f"El archivo {projectconf} no se encuentra. Asegúrate de que exista.")
-                    exit(1)
+            local_run(cmd, True)
+            
+        # Iterate through strategies, sync_list and num_executions (1 to num_executions + 1)
+        for strategy, sync_number, act_exec in product(
+            strategies, sync_list, range(1, num_executions + 1)):
 
-                config['tempConfig']['federation'] = federation
+            init_containers(federation, devices, data_type) 
 
-                devices = config.get("devices", {})
-                clients = config.get("clients", {})
-                rounds = config['config']['rounds']
+            # Send an HTTP POST request to delete data series on the server
+            #requests.post(url, params=params)
 
-                config['config']['debug'] = debug_mode
+            if strategy == "FedMOpt":
+                execution_name = f"data{data_type}_{heterogeneity}/slow{slow_client}"
+                inplace = False
+            else:
+                execution_name = f"sync{sync_number}_data{data_type}_{heterogeneity}/slow{slow_client}"
+                inplace = True
+            inplace = False
+
+            update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number)
+
+            last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
+            step_rounds = rounds - last_round
+
+            while step_rounds > 0:
+                config['tempConfig']['step_rounds'] = step_rounds
+                config['tempConfig']['last_round'] = last_round
 
                 with open(projectconf, 'w') as f:
                     toml.dump(config, f)
 
-                if federation == 'local-execution':
-                    local_run(f"python local_execution_yaml.py -c {len(clients)} -t 1 -d {data_type}", True)
+                local_run(f"flwr run . {federation}", False)
 
-                for strategy in strategies:
-                    for sync_number in sync_list:
-                        for act_exec in range(1, number_execution+1):   
-                            init_containers(federation, devices, data_type) 
+                # In case we need to generate false CPU usage
+                # hilos_ejecutor = iniciar_ejecutor_en_background()
 
-                            # Send an HTTP POST request to delete data series on the server
-                            requests.post(url, params=params)
+                docker_logs = local_Popen(
+                    f"docker logs -f serverapp",
+                    True,
+                    f"{federation}/results/{strategy}/{execution_name}/output_log_{slow_client}.txt"
+                )
 
-                            execution_name = f"sync{sync_number}_data{data_type}_window{size}"
+                log_thread = threading.Thread(
+                    target=check_docker_logs,
+                    args=(event,federation,strategy,execution_name,act_exec,), 
+                    daemon=True
+                )
 
-                            config['tempConfig']['strategy'] = strategy
-                            config['tempConfig']['execution_name'] = execution_name
-                            config['tempConfig']['num_exec'] = act_exec
+                log_thread.start()
 
-                            if sync_number > len(clients):
-                                print("Defaulting to asynchrony because m was higher than amount of clients")
-                                sync_number = len(clients)
+                log_thread.join()
 
-                            config['synchrony'] = sync_number
+                docker_logs.terminate()
+                docker_logs.wait()
 
-                            with open(projectconf, 'w') as f:
-                                toml.dump(config, f)
+                f.close()
+                
+                # Exit if abrupt termination (SIGINT)
+                if event.is_set():
+                    print("Ctrl-C detected, stopping everything...")
+                    event.clear()
 
-                            last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
-                            step_rounds = rounds - last_round
+                    f.close()
 
-                            while step_rounds > 0:
-                                config['tempConfig']['step_rounds'] = step_rounds
-                                config['tempConfig']['last_round'] = last_round
+                    local_run(f"docker compose -f dockerfiles/{federation}.yml down")
 
-                                with open(projectconf, 'w') as f:
-                                    toml.dump(config, f)
+                    if federation == "remote-execution":
+                        for i, (user, ip) in enumerate(devices.items(), start=1):
+                            stop_remote_code(i, user, ip)
 
-                                local_run(f"flwr run . {federation}", False)
-                                docker_logs = local_Popen(f"docker logs -f serverapp", True)
+                    
+                    if handler_flag:
+                        exit()
 
-                                log_thread = threading.Thread(target=check_docker_logs, args=(event,federation,strategy,execution_name,act_exec,), daemon=True)
-                                log_thread.start()
+                last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
+                print(f"Inner last round {last_round}")
+                step_rounds = rounds - last_round
 
-                                log_thread.join()
+            """graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec} -w {size}"
+            local_run(graphfl_cmd, True)"""
+            local_run(f"docker compose -f dockerfiles/{federation}.yml down")
 
-                                docker_logs.terminate()
-                                docker_logs.wait()
-
-                                # Exit if abrupt termination (SIGINT)
-                                if event.is_set():
-                                    print("Ctrl-C detected, stopping everything...")
-                                    event.clear()
-
-                                    local_run(f"docker compose -f dockerfiles/{federation}.yml down")
-
-                                    if federation == "remote-execution":
-                                        for i, (user, ip) in enumerate(devices.items(), start=1):
-                                            stop_remote_code(i, user, ip)
-
-                                    
-                                    if handler_flag:
-                                        exit()
-
-                                last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
-                                print(f"Inner last round {last_round}")
-                                step_rounds = rounds - last_round
-
-                            graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec} -w {size}"
-                            local_run(graphfl_cmd, True)
-
-                            local_run(f"docker compose -f dockerfiles/{federation}.yml down")
-
-                            if federation == "remote-execution":
-                                for i, (user, ip) in enumerate(devices.items(), start=1):
-                                    stop_remote_code(i, user, ip)
+            if federation == "remote-execution":
+                for i, (user, ip) in enumerate(devices.items(), start=1):
+                    stop_remote_code(i, user, ip)
 
     
 if __name__ == "__main__":

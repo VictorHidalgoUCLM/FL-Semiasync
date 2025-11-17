@@ -1,146 +1,153 @@
+import random
 from collections import OrderedDict
-from app_code.nets.mobilenet import MobileNetV1
 
 import torch
-from torch.utils.data import DataLoader, Subset
-from torchvision.transforms import Compose, Normalize, ToTensor
 from flwr_datasets import FederatedDataset
-from flwr_datasets.partitioner import IidPartitioner, DirichletPartitioner
+from flwr_datasets.partitioner import DirichletPartitioner, IidPartitioner
+from torch.utils.data import DataLoader, Subset, TensorDataset
+from torchvision.transforms import Compose, Normalize, ToTensor
+
+from app_code.nets.mobilenet import MobileNetV1, MobileNetV3Small_CIFAR10
 
 
 class Net(MobileNetV1):
-    """Custom MobileNetV1 class. Defaults to 10 classes."""
+    """Custom MobileNetV1 class. Defaults to CIFAR10."""
 
-    def __init__(self, num_classes=10):
-        super().__init__(num_classes)
+    def __init__(self, num_classes=10, in_channels=3, out_channels=32, stride=2):
+        super().__init__(num_classes, in_channels, out_channels, stride)
 
 
 fds = None  # Cache FederatedDataset
-
-
-def load_data(partition_id: int, num_partitions: int, partition_type: str):
-    """Load partition CIFAR10 data."""
+seed = 42
+            
+def load_data(partition_id: int, num_partitions: int, partition_type: str, dataset_name: str):
+    """Load partition dataset_name data."""
     # Only initialize `FederatedDataset` once
     global fds
 
     if fds is None:  # If dataset has not been loaded before
         # Load data with an iid partition
         if partition_type == "iid":
-            partitioner = IidPartitioner(num_partitions=num_partitions)
+            train_partitioner = IidPartitioner(num_partitions=num_partitions)
 
         # Load data with a non-iid partition
         elif partition_type == "noniid":
-            partitioner = DirichletPartitioner(
+            train_partitioner = DirichletPartitioner(
                 num_partitions=num_partitions,
                 partition_by="label",
-                alpha=0.5,  # Non-iidness
+                alpha=0.1,  # Non-iidness
                 self_balancing=True,
-                shuffle=False,
-                seed=42,
+                shuffle=False
             )  # Unbalances number of classes on each partition
 
+        test_partitioner = IidPartitioner(num_partitions=num_partitions)    # Test partitioner
+
         fds = FederatedDataset(
-            dataset="uoft-cs/cifar10",
-            partitioners={"train": partitioner},
+            dataset=dataset_name,
+            partitioners={"train": train_partitioner}
+            #partitioners={"train": train_partitioner,
+            #              "test": test_partitioner},
         )  # Update FederatedDataset
 
-    partition = fds.load_partition(partition_id)
-    # Divide data on each node: 80% train, 20% test
-    partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
-    pytorch_transforms = Compose(
-        [ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
-    )  # Normalization of data in partition
+    # Get specific partition for the client
+    partition_train = fds.load_partition(partition_id, "train")
+    #partition_test = fds.load_partition(partition_id, "test")
+
+    if dataset_name ==  "uoft-cs/cifar10":
+        pytorch_transforms = Compose([
+            ToTensor(),
+            Normalize((0.4914, 0.4822, 0.4465),
+                    (0.2470, 0.2535, 0.2616))]
+        )  # Normalization of CIFAR10 in partition
+        img_key = "img"
+
+    elif dataset_name == "ylecun/mnist":
+        pytorch_transforms = Compose([
+            ToTensor(),
+            Normalize((0.1307,), (0.3081,))
+        ])  # Normalization of MNIST in partition
+        img_key = "image"
 
     def apply_transforms(batch):
         """Apply transforms (normalization) to the partition from FederatedDataset."""
-        batch["img"] = [pytorch_transforms(img) for img in batch["img"]]
+        batch["image"] = [pytorch_transforms(img) for img in batch[img_key]]
         return batch
 
-    partition_train_test = partition_train_test.with_transform(apply_transforms)
-    trainloader = DataLoader(partition_train_test["train"], batch_size=32, shuffle=True)
-    testloader = DataLoader(partition_train_test["test"], batch_size=32)
-    return trainloader, testloader
+    # Apply transforms
+    partition_train = partition_train.with_transform(apply_transforms)
+    #partition_test = partition_test.with_transform(apply_transforms)
 
+    classes_list = list(range(len(partition_train.features['label'].names)))
+    
+    def filter_by_label(dataset, labels1, labels2, ratio1=1.0, ratio2=1.0, seed=42):
+        if not isinstance(labels1, list):
+            labels1 = [labels1]
+        if not isinstance(labels2, list):
+            labels2 = [labels2]
 
-def metrics_calculation(
-    y_true: torch.Tensor, y_pred: torch.Tensor, num_classes: int = 10
-) -> tuple:
-    """Calculates performance metrics for a multi-class classification problem."""
-    precision_values = []
-    recall_values = []
-    correct_preds = 0
-    total_preds = len(y_true)  # Total de muestras (tamaño de y_true)
+        random.seed(seed)  # Para reproducibilidad
 
-    # Calculates precision and recall for each class label
-    for class_label in range(num_classes):
-        true_positives = (
-            ((y_true == class_label) & (y_pred == class_label)).sum().float()
-        )  # Gets true positives (TP)
-        false_positives = (
-            ((y_true != class_label) & (y_pred == class_label)).sum().float()
-        )  # Gets false positives (FP)
-        false_negatives = (
-            ((y_true == class_label) & (y_pred != class_label)).sum().float()
-        )  # Gets false negatives (FN)
+        # Identificar etiquetas comunes
+        common_labels = set(labels1) & set(labels2)
+        only_labels1 = set(labels1) - common_labels
 
-        # Precisión and recall for current class label
-        precision = true_positives / (true_positives + false_positives + 1e-8)
-        recall = true_positives / (true_positives + false_negatives + 1e-8)
+        common_labels_idxs = []
+        only_labels1_idxs = []
 
-        precision_values.append(precision)
-        recall_values.append(recall)
+        # Clasificamos los índices
+        for i, data in enumerate(dataset):
+            label = data["label"]
+            if label in only_labels1:
+                only_labels1_idxs.append(i)
+            elif label in common_labels:
+                common_labels_idxs.append(i)
 
-        # True Positives (TP) of each class for accuracy calculation
-        correct_preds += true_positives
+        # Barajamos y dividimos los índices con etiquetas comunes
+        random.shuffle(only_labels1_idxs)
+        split1 = int(len(only_labels1_idxs) * ratio1)
+        subset1_idxs = only_labels1_idxs[:split1]
+        subset2_idxs = only_labels1_idxs[split1:]
 
-    # Mean for precision and recall
-    precision_avg = torch.mean(torch.tensor(precision_values))
-    recall_avg = torch.mean(torch.tensor(recall_values))
+        random.shuffle(common_labels_idxs)
+        split2 = int(len(common_labels_idxs) * ratio2)
+        subset1_idxs += common_labels_idxs[:split2]
+        subset2_idxs += common_labels_idxs[split2:]
 
-    # F1 score and accuracy
-    f1 = 2 * (precision_avg * recall_avg) / (precision_avg + recall_avg + 1e-8)
-    accuracy = correct_preds / total_preds
+        # Creamos tensores para subset1
+        imgs1 = torch.cat([dataset[i]["image"].unsqueeze(0) for i in subset1_idxs], dim=0)
+        labels1_tensor = torch.tensor([dataset[i]["label"] for i in subset1_idxs])
 
-    return precision_avg, recall_avg, f1, accuracy
+        # Creamos el nuevo dataset reducido
+        reduced_dataset = TensorDataset(imgs1, labels1_tensor)
 
+        return reduced_dataset, Subset(dataset, subset2_idxs)
 
-def slice_data(dataloader: DataLoader, config: dict) -> DataLoader:
-    """Slice the data from the dataloader based on the configuration."""
-    # Get config values
-    subset_size = config.get("subset_size", 1024)
-    inner_round = config.get("inner_round", 1)
+    def get_partition_classes(classes_list, partition_id, num_partitions):
+        """Get classes for a specific partition."""
+        classes_per_partition = len(classes_list) // num_partitions
+        start_idx = partition_id * classes_per_partition
+        end_idx = start_idx + classes_per_partition
+        return classes_list[start_idx:end_idx]
 
-    # Implementation of the sliding window for data selection:
-    # Calculate start and end indices for slicing
-    start = (inner_round - 1) * subset_size
-    end = inner_round * subset_size
+    classes_subset = get_partition_classes(classes_list, partition_id, num_partitions)
+    original_subset, new_subset = filter_by_label(partition_train, classes_list, classes_subset)
+    trainloader = original_subset
 
-    # Ensure indices wrap around the dataset size
-    start = start % len(dataloader.dataset)
-    end = end % len(dataloader.dataset)
-
-    # Handle slicing logic for wrapping around the dataset
-    if start < end:
-        train_indices = list(range(start, end))
+    if len(new_subset) <= 0:
+        newloader = DataLoader(TensorDataset(torch.Tensor([])), batch_size=32, shuffle=False)
     else:
-        train_indices = list(range(start, len(dataloader.dataset))) + list(
-            range(0, end)
-        )
+        newloader = DataLoader(new_subset, batch_size=32, shuffle=True)
+    #testloader = DataLoader(partition_test, batch_size=32)
+    testloader = DataLoader(TensorDataset(torch.Tensor([])), batch_size=32, shuffle=False)
 
-    # Create a subset of the dataset and a new DataLoader
-    train_subset = Subset(dataloader.dataset, train_indices)
-    sliced_dataloader = DataLoader(
-        train_subset, batch_size=dataloader.batch_size, shuffle=True
-    )
-
-    return sliced_dataloader
+    return trainloader, newloader, testloader
 
 
 def train(
     net: torch.nn.Module,
-    trainloader: torch.utils.data.DataLoader,
     device: torch.device,
     config: dict,
+    trainloader: DataLoader,
 ) -> tuple:
     """Train the model on the training set."""
     # Get configuration values for training
@@ -149,13 +156,11 @@ def train(
         "proximal_mu", 0.0
     )  # Proximal term coefficient for FedProx. Default is 0.0.
 
-    sliced_trainloader = slice_data(trainloader, config)
-
     net.to(device)
     criterion = torch.nn.CrossEntropyLoss().to(device)  # Loss function
     optimizer = torch.optim.SGD(
         net.parameters(), lr=0.01
-    )  # Optimizer with learning rate 0.1
+    )  # Optimizer with learning rate 0.01
 
     net.train()
     running_loss = 0.0
@@ -164,12 +169,14 @@ def train(
 
     # Store a copy of the global model parameters for FedProx
     global_params = [param.clone().detach() for param in net.parameters()]
+    dataloader = DataLoader(
+        trainloader, batch_size=32, shuffle=False
+    )
 
     # Training loop for the specified number of epochs
     for _ in range(epochs):
-        for batch in sliced_trainloader:
-            images = batch["img"]  # Extract images from the batch
-            labels = batch["label"]  # Extract labels from the batch
+        for batch in dataloader:         
+            images, label = batch
             optimizer.zero_grad()  # Reset gradients
             outputs = net(images.to(device))  # Forward pass
 
@@ -181,7 +188,7 @@ def train(
 
             # Compute the total loss (cross-entropy + proximal term)
             loss = (
-                criterion(outputs, labels.to(device))
+                criterion(outputs, label.to(device))
                 + (proximal_mu / 2) * proximal_term
             )
 
@@ -189,10 +196,10 @@ def train(
             optimizer.step()  # Update model parameters
             running_loss += loss.item()  # Accumulate loss
             _, preds = torch.max(outputs, 1)  # Get predicted labels
-            all_labels.append(labels.cpu())  # Store true labels
+            all_labels.append(label.cpu())  # Store true labels
             all_preds.append(preds.cpu())  # Store predicted labels
 
-    avg_trainloss = running_loss / len(sliced_trainloader)
+    avg_trainloss = running_loss / len(trainloader)
     all_labels = torch.cat(all_labels)
     all_preds = torch.cat(all_preds)
     return avg_trainloss, all_labels, all_preds
@@ -232,11 +239,9 @@ def test(
 
     return loss, accuracy, all_labels, all_preds
 
-
 def get_weights(net):
     """Returns weights of the local net."""
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
-
 
 def set_weights(net, parameters):
     """Sets weights with given parameters to the local net."""
@@ -244,3 +249,4 @@ def set_weights(net, parameters):
     state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
 
     net.load_state_dict(state_dict, strict=True)
+    
