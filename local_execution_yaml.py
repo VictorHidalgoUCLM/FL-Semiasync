@@ -42,6 +42,14 @@ parser.add_argument(
     required=True
 )
 
+parser.add_argument(
+    "-n",
+    "--name_dataset", 
+    type=str, 
+    help="Data types: uoft-cs/cifar10 | ylecun/mnist",
+    default="uoft-cs/cifar10"
+)
+
 args = parser.parse_args()
 
 n = args.clients
@@ -49,6 +57,7 @@ cpus = args.threads
 data_type = args.data_type
 heterogeneity = args.heterogeneity
 slowclients = args.slowclients
+dataset_name = args.name_dataset
 
 superlink = {
     'image': 'flwr/superlink:1.18.0',
@@ -95,7 +104,7 @@ for i in range(1, n+1):
         'networks': ['master_default'],
         'command': [
             '--insecure', '--superlink', 'superlink:9092',
-            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}"',
+            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}" dataset-name="{dataset_name}"',
             '--clientappio-api-address', f'0.0.0.0:{9093 + i}', '--isolation', 'process'
         ],
         'depends_on': ['superlink'],
@@ -108,9 +117,10 @@ for i in range(1, n+1):
     cpuset_string = ','.join(cpuset_list)
 
     if heterogeneity == "heterogeneous":
-        if i <= half:
-            cpus_limit = 0.33
-        elif i <= slowclients:
+        #if i <= half:
+            #cpus_limit = 0.33
+        #el
+        if i <= slowclients:
             cpus_limit = 0.33
         else:
             cpus_limit = cpus

@@ -190,6 +190,7 @@ class CustomServer(Server):
             res_fit = self.fit_round(
                 server_round=current_round,
                 timeout=timeout,
+                w_global=self.parameters,
             )
             
             if res_fit is not None:
@@ -267,6 +268,7 @@ class CustomServer(Server):
         self,
         server_round: int,
         timeout: Optional[float],
+        w_global: Optional[Parameters],
     ) -> Optional[
         tuple[Optional[Parameters], dict[str, Scalar], FitResultsAndFailures]
     ]:
@@ -310,7 +312,14 @@ class CustomServer(Server):
         aggregated_result: tuple[
             Optional[Parameters],
             dict[str, Scalar],
-        ] = self.strategy.aggregate_fit(server_round, results, failures, counters, times)
+        ] = self.strategy.aggregate_fit(
+                server_round=server_round,
+                results=results,
+                failures=failures,
+                counters=counters,
+                w_global=w_global,
+                times=times
+            )
 
         parameters_aggregated, metrics_aggregated = aggregated_result
         return parameters_aggregated, metrics_aggregated, (results, failures)
@@ -323,10 +332,68 @@ class CustomServer(Server):
         group_id: int,
     ) -> FitResultsAndFailures:
         """Refine parameters concurrently on all selected clients."""
-        parameters_aggregated = None  # Parameters calculated between subrounds
-
         m = self.strategy.m     # Get semiasynchrony level from strategy
+        completed = 0
+        finished_fs = []
 
+        if group_id == 1:
+            for client, ins in client_instructions:
+                client_id = self.client_mapping[client.cid]
+
+                client_data = self.client_dictionary.setdefault(
+                    client_id, {"future": None, "counter": 0, "inner_round": 1, "times": []}
+                )
+
+                client_data["future"] = None
+                client_data["counter"] = 0
+                client_data["times"] = []
+
+        for client, ins in client_instructions:
+            client_id = self.client_mapping[client.cid]
+            client_data = self.client_dictionary[client_id]
+
+            if client_data["future"] is None:
+                future = self.executor.submit(
+                            fit_client, client, ins, timeout, group_id
+                        )
+                client_data["future"] = future
+
+        valid_futures = _get_valid_futures(self.client_dictionary)
+
+        for future in as_completed(valid_futures.values()):
+            client_id = next(id for id, f in valid_futures.items() if f == future)
+            client_data = self.client_dictionary[client_id]
+
+            with self.lock:
+                completed += 1
+                _update_client_data(client_data=client_data, init_time=self.init_time)
+
+                finished_fs.append(
+                    (future, self.client_dictionary[client_id]["counter"], client_id, True)
+                )
+
+            if completed == m:
+                break
+
+        
+        # Gather results
+        results: list[tuple[ClientProxy, FitRes, str]] = []
+        failures: list[Union[tuple[ClientProxy, FitRes], BaseException]] = []
+        counters: list[int] = []
+        for future, counter, client_id, inner_round in finished_fs:
+            _handle_finished_future_after_fit(
+                future=future,
+                results=results,
+                failures=failures,
+                counters=counters,
+                counter=counter,
+                client_id=client_id,
+                inner_round=inner_round
+            )
+        
+        results = [(client, fitres) for client, fitres, _, _ in results]
+
+        """# Initialize client_data structure
         for client, ins in client_instructions:
             client_id = self.client_mapping[client.cid]
 
@@ -480,9 +547,11 @@ class CustomServer(Server):
 
                 self.strategy.prev_loss[key] = loss_value
 
-        results = [(client, fitres) for client, fitres, _, _ in results]
+        results = [(client, fitres) for client, fitres, _, _ in results]"""
 
-        """exceptions = 0
+        """
+        # Early stopping logic
+        exceptions = 0
         for failure in failures:
             if isinstance(failure, ValueError):
                 exceptions += 1

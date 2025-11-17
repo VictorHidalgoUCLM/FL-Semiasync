@@ -6,19 +6,27 @@ file_path = 'projectconf.toml'
 
 default_sliding_window = 1024
 default_new_rounds = 100
+default_new_server = 1
+default_new_dataset = "uoft-cs/cifar10"
 
 if len(sys.argv) > 1:
     try:
         new_value = int(sys.argv[1])
         new_rounds = int(sys.argv[2])
+        new_server = int(sys.argv[3])
+        new_dataset = str(sys.argv[4])
     except ValueError:
         print("Error, no es un número entero. Usando default (new_value)...")
         new_value = default_sliding_window
         new_rounds = default_new_rounds
+        new_server = default_new_server
+        new_dataset = default_new_dataset
     
 else:
     new_value = default_sliding_window
     new_rounds = default_new_rounds
+    new_server = default_new_server
+    new_dataset = default_new_dataset
 
 # Each dictionary is one kind of configuration for the project
 paths = {
@@ -32,11 +40,11 @@ paths = {
 
 config = {
     'fraction_fit': 1,
-    'fraction_evaluate': 1,
+    'fraction_evaluate': 0,
     'min_fit_clients': 8,
     'min_evaluate_clients': 8,
     'min_available_clients': 8,
-    'evaluate_fn': "None",
+    'evaluate_fn': "evaluate_server",
     'on_fit_config_fn': "None",
     'on_evaluate_config_fn': "None",
     'accept_failures': True,
@@ -44,6 +52,9 @@ config = {
     'fit_metrics_aggregation_fn': "fit_weighted_average",
     'evaluate_metrics_aggregation_fn': "evaluate_weighted_average",
     'rounds': new_rounds,
+    'dataset_name': new_dataset,
+    'server_type': new_server,
+    'inplace': True,
 }
 
 devices = {

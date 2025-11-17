@@ -45,7 +45,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=0 num-partitions=8 partition-type="noniid"
+    - partition-id=0 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9094
     - --isolation
@@ -86,7 +86,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=1 num-partitions=8 partition-type="noniid"
+    - partition-id=1 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9095
     - --isolation
@@ -127,7 +127,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=2 num-partitions=8 partition-type="noniid"
+    - partition-id=2 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9096
     - --isolation
@@ -168,7 +168,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=3 num-partitions=8 partition-type="noniid"
+    - partition-id=3 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9097
     - --isolation
@@ -209,7 +209,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=4 num-partitions=8 partition-type="noniid"
+    - partition-id=4 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9098
     - --isolation
@@ -250,7 +250,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=5 num-partitions=8 partition-type="noniid"
+    - partition-id=5 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9099
     - --isolation
@@ -291,7 +291,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=6 num-partitions=8 partition-type="noniid"
+    - partition-id=6 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9100
     - --isolation
@@ -332,7 +332,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=7 num-partitions=8 partition-type="noniid"
+    - partition-id=7 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9101
     - --isolation

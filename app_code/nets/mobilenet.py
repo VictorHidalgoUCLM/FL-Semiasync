@@ -1,6 +1,4 @@
 import torch
-# all nn libraries nn.layer, convs and loss functions
-
 import torch.nn as nn
 
 # set device
@@ -88,16 +86,16 @@ class DepthWiseSeparable(nn.Module):
         x = self.relu(x)
         
         return x
+  
 
-class MobileNetV1(nn.Module):
-    
-    def __init__(self, num_classes=10):
+class MobileNetV1(nn.Module): 
+    def __init__(self, num_classes=10, in_channels=3, out_channels=32, stride=2):
         
         super(MobileNetV1, self).__init__()
 
         # Initial convolution layer
         self.features = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, stride=2, padding=1, bias=False),
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False),
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(32),
         )

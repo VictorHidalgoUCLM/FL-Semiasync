@@ -16,10 +16,10 @@ def darken_color(color, factor=0.7):
     return tuple(color * factor)
 
 projectconf = '../projectconf.toml'
-data_types = ['noniid']
+data_types = ['iid']
 strategies = ['FedAvg']
 federations = ['local-execution']
-slows = [2]
+slows = [3]
 
 num_execs = 1
 
@@ -43,16 +43,19 @@ for federation in federations:
     time_objective = []
     for strategy in strategies:
         for data_type in data_types:
-            for heterogeneity in ['homogeneous']:
+            for heterogeneity in ['heterogeneous']:
+                j = 0
                 for slow in slows:
                     merged_df = None
 
                     for sync_client in range(1, 9):
-                        log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_{heterogeneity}", num_exec=1)
-                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_{heterogeneity}", num_exec=1)
+                        log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_{heterogeneity}", num_exec=j)
+                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"sync{sync_client}_data{data_type}_{heterogeneity}", num_exec=j)
 
                         log_path = f"../{log_path}"
                         time_path = f"../{time_path}"
+
+                        #print(log_path)
 
                         temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
                         temp_time_df = pd.read_csv(time_path)[["server_ev"]]
@@ -65,6 +68,7 @@ for federation in federations:
                         else:
                             merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
 
+                    j += 1
                     exec_metrics = []
                     exec_times = []
 
@@ -82,7 +86,6 @@ for federation in federations:
                         exec_times.append(time)
                     
                     print(exec_metrics)
-
                     t_max = min(time[-1] for time in exec_times)
                     t_grid = np.linspace(0, t_max, 50)
 

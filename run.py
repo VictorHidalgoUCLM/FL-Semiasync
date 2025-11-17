@@ -35,20 +35,20 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '-s', '--sync-clients',
+    '-m', '--sync-clients',
     type=int,
     nargs='+',
     help="Number of clients required for synchronization in each training round.",
-    default=[3]
+    default=[8]
 )
 
-parser.add_argument(
+"""parser.add_argument(
     '-w', '--window-size',
     type=int,
     nargs='+',
     help="Sliding window size used for client synchronization.",
     default=[1024]
-)
+)"""
 
 parser.add_argument(
     '-t', '--data-list',
@@ -69,7 +69,7 @@ parser.add_argument(
     '-r', '--rounds',
     type=int,
     help="Number of training rounds to run.",
-    default=100
+    default=15
 )
 
 parser.add_argument(
@@ -77,7 +77,7 @@ parser.add_argument(
     type=str,
     nargs='+',
     help="Client heterogeneity type(s) (e.g. homogeneous, heterogeneous).",
-    default=["heterogeneous"]
+    default=["homogeneous"]
 )
 
 parser.add_argument(
@@ -85,7 +85,29 @@ parser.add_argument(
     type=int,
     nargs='+',
     help="List of client IDs or counts to be considered slow.",
-    default=[2]
+    default=[0]
+)
+
+parser.add_argument(
+    '-a', '--asynchrony',
+    type=int,
+    nargs='+',
+    help="List of semiasynchrony tipes (1 = semiasync, 2 = modded semiasync).",
+    default=[1]
+)
+
+parser.add_argument(
+    '-d', '--dataset',
+    type=str,
+    default="uoft-cs/cifar10"
+)
+
+parser.add_argument(
+    '-s', '--strategies',
+    type=str,
+    nargs='+',
+    help="List of Federated strategies.",
+    default=["FedAvg"]
 )
 
 def signal_handler(sig, frame, event):
@@ -144,7 +166,7 @@ def local_run(command, show_output=False):
     """
     try:
         command_parts = command.split()
-        print(f"\nExecutinng {command}...\n")
+        print(f"\nExecuting {command}...\n")
 
         if show_output:
             subprocess.run(command_parts, check=True)
@@ -386,6 +408,50 @@ def iniciar_ejecutor_en_background():
     return hilos
 
 
+def load_and_update_config(projectconf, server_type, dataset, federation, local_run, rounds):
+    # 1. Escribir config temporal
+    writeConfig_cmd = f'python configWriter.py 1 {rounds} {server_type} {dataset}'
+    local_run(writeConfig_cmd, False)
+
+    # 2. Cargar config
+    try:
+        config = toml.load(projectconf)
+    except FileNotFoundError:
+        print(f"Could not find {projectconf} file.")
+        return None
+
+    # 3. Actualizar campos necesarios
+    config['tempConfig']['federation'] = federation
+    devices = config.get("devices", {})
+    clients = config.get("names", {}).pop('clientapps', None)
+    rounds = config['config']['rounds']
+
+    # 4. Guardar archivo actualizado
+    with open(projectconf, 'w') as f:
+        toml.dump(config, f)
+
+    # 5. Devolver lo útil
+    return config, devices, clients, rounds
+
+
+def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number):
+    temp = config.setdefault('tempConfig', {})
+    temp['strategy'] = strategy
+    temp['execution_name'] = execution_name
+    temp['num_exec'] = act_exec
+
+    config["config"]["inplace"] = inplace
+
+    if sync_number > len(clients):
+        print("Defaulting to asynchrony because m was higher than amount of clients")
+        sync_number = len(clients)
+
+    config['synchrony'] = sync_number
+
+    with open(projectconf, 'w') as f:
+        toml.dump(config, f)
+
+
 def main():
     global handler_flag
 
@@ -396,66 +462,62 @@ def main():
     sync_list = args.sync_clients
     data_list = args.data_list
     num_executions = args.num_executions
-    window_size = args.window_size
+    #window_size = args.window_size
     rounds = args.rounds
     heterogeneities = args.heterogeneity
     slowclients = args.slowclients
+    asynchronies = args.asynchrony
+    dataset = args.dataset
+    strategies = args.strategies
 
-    max_window = max(window_size)
+    #max_window = max(window_size)
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
 
-    strategies = ["FedMOpt"]
-
     # Iterate through data_list, federations, window_size, slowclients, heterogeneities
-    for data_type, federation, size, slow_client, heterogeneity in product(
-        data_list, federations, window_size, slowclients, heterogeneities
+    """for server_type, data_type, federation, size, slow_client, heterogeneity in product(
+        asynchronies, data_list, federations, window_size, slowclients, heterogeneities
+    ):"""
+    for server_type, data_type, federation, slow_client, heterogeneity in product(
+        asynchronies, data_list, federations, slowclients, heterogeneities
     ):
-        new_rounds = args.rounds * max_window / size
+        #new_rounds = args.rounds * max_window / size
 
-        writeConfig_cmd = f'python configWriter.py {size} {int(new_rounds)}'
-        local_run(writeConfig_cmd, False)
-
-        try:
-            config = toml.load(projectconf)
-        except FileNotFoundError:
-            print(f"Could not find {projectconf} file.")
-            exit(1)
-
-        config['tempConfig']['federation'] = federation
-
-        devices = config.get("devices", {})
-        clients = config.get("names", {}).pop('clientapps', None)
-        rounds = config['config']['rounds']
-
-        with open(projectconf, 'w') as f:
-            toml.dump(config, f)
+        config, devices, clients, rounds = load_and_update_config(
+            projectconf, server_type, dataset, federation, local_run, rounds)
 
         if federation == 'local-execution':
-            local_run(f"python local_execution_yaml.py -c {len(clients)} -t 1 -d {data_type} -H {heterogeneity} -s {slow_client}", True)
+            cmd = (
+                f"python local_execution_yaml.py "
+                f"-c {len(clients)} "
+                f"-t 1 "
+                f"-d {data_type} "
+                f"-H {heterogeneity} "
+                f"-s {slow_client} "
+                f"-n {dataset}"
+            )
 
+            local_run(cmd, True)
+            
         # Iterate through strategies, sync_list and num_executions (1 to num_executions + 1)
-        for strategy, sync_number, act_exec in product(strategies, sync_list, range(1, num_executions + 1)):
+        for strategy, sync_number, act_exec in product(
+            strategies, sync_list, range(1, num_executions + 1)):
+
             init_containers(federation, devices, data_type) 
 
             # Send an HTTP POST request to delete data series on the server
-            requests.post(url, params=params)
+            #requests.post(url, params=params)
 
-            execution_name = f"slow{slow_client}_data{data_type}_{heterogeneity}"
+            if strategy == "FedMOpt":
+                execution_name = f"data{data_type}_{heterogeneity}/slow{slow_client}"
+                inplace = False
+            else:
+                execution_name = f"sync{sync_number}_data{data_type}_{heterogeneity}/slow{slow_client}"
+                inplace = True
+            inplace = False
 
-            config['tempConfig']['strategy'] = strategy
-            config['tempConfig']['execution_name'] = execution_name
-            config['tempConfig']['num_exec'] = act_exec
-
-            if sync_number > len(clients):
-                print("Defaulting to asynchrony because m was higher than amount of clients")
-                sync_number = len(clients)
-
-            config['synchrony'] = sync_number
-
-            with open(projectconf, 'w') as f:
-                toml.dump(config, f)
+            update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number)
 
             last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
             step_rounds = rounds - last_round
@@ -468,11 +530,22 @@ def main():
                     toml.dump(config, f)
 
                 local_run(f"flwr run . {federation}", False)
-                hilos_ejecutor = iniciar_ejecutor_en_background()
 
-                docker_logs = local_Popen(f"docker logs -f serverapp", True, f"{federation}/results/{strategy}/{execution_name}/output_log_{act_exec}.txt")
+                # In case we need to generate false CPU usage
+                # hilos_ejecutor = iniciar_ejecutor_en_background()
 
-                log_thread = threading.Thread(target=check_docker_logs, args=(event,federation,strategy,execution_name,act_exec,), daemon=True)
+                docker_logs = local_Popen(
+                    f"docker logs -f serverapp",
+                    True,
+                    f"{federation}/results/{strategy}/{execution_name}/output_log_{slow_client}.txt"
+                )
+
+                log_thread = threading.Thread(
+                    target=check_docker_logs,
+                    args=(event,federation,strategy,execution_name,act_exec,), 
+                    daemon=True
+                )
+
                 log_thread.start()
 
                 log_thread.join()
