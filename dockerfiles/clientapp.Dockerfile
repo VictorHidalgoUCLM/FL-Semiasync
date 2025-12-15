@@ -1,5 +1,5 @@
 # Dockerfile para imagen personalizada de flwr_clientapp
-FROM flwr/clientapp:1.16.0
+FROM docker.io/flwr/clientapp:1.16.0
 
 WORKDIR /app
 COPY pyproject.toml .

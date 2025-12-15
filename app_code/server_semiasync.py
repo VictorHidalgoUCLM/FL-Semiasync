@@ -57,14 +57,9 @@ class CustomServerSemiasync(Server):
         self.init_time = 0  # Saves init time of class to use as reference
 
         self.client_dictionary = {}
-        self.projectconf = toml.load(os.environ.get("CONFIG_PATH"))
 
         self.init_loss = 0
         self.latest_round = 1
-        self.parameters_history = {}
-        self.angles_history = {}
-
-        self.prev_grad = None
 
     def evaluate_round(
         self,
@@ -260,10 +255,7 @@ class CustomServerSemiasync(Server):
 
             if self.strategy.strategy_name == "FedMOpt":
                 history.add_fedMOpt(server_round=current_round,
-                                    optimized_M=self.strategy.m,
-                                    utility_list=self.strategy.utilities,
-                                    time_list=self.strategy.times
-                                )
+                                    optimized_M=self.strategy.m)
 
         # Bookkeeping
         end_time = timeit.default_timer()
@@ -298,8 +290,6 @@ class CustomServerSemiasync(Server):
 
         if server_round == 1:
             self.init_time = self.strategy.init_time
-            
-        self.parameters_history[server_round] = self.parameters
 
         # Collect `fit` results from all clients participating in this round
         results, failures, times, counters = self.fit_clients(
@@ -329,20 +319,10 @@ class CustomServerSemiasync(Server):
                 counters=counters,
                 w_global=w_global,
                 times=times,
-                parameters_history=self.parameters_history,
-                angles_history=self.angles_history,
-                prev_grad=self.prev_grad
             )
 
         results = [(client, fitres) for client, fitres, _, _ in results]
-        parameters_aggregated, metrics_aggregated, angles_history, g_final = aggregated_result
-        
-        self.angles_history = angles_history
-        self.prev_grad = g_final
-
-        keys_to_delete = [k for k in self.parameters_history if k < self.latest_round]
-        for k in keys_to_delete:
-            del self.parameters_history[k]
+        parameters_aggregated, metrics_aggregated = aggregated_result
 
         return parameters_aggregated, metrics_aggregated, (results, failures)
 
@@ -374,15 +354,6 @@ class CustomServerSemiasync(Server):
                 future = self.executor.submit(fit_client, client, ins, timeout, group_id)
                 client_data["future"] = future
                 client_data["init_round"] = group_id
-
-        group_ids = [
-            data["init_round"]
-            for data in self.client_dictionary.values()
-            if data.get("init_round") is not None
-        ]
-
-        # Calcular el mínimo
-        self.latest_round = min(group_ids) if group_ids else None
 
         valid_futures = _get_valid_futures(self.client_dictionary)
 
@@ -438,8 +409,6 @@ class CustomServerSemiasync(Server):
                     self.strategy.data_history[key] = [mejora_relativa]
 
             self.strategy.prev_loss[key] = loss_value
-
-        #results = [(client, fitres) for client, fitres, _ in results]
 
         return (
             results,

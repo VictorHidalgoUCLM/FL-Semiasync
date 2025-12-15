@@ -4,6 +4,8 @@ import fnmatch
 import re
 import numpy as np
 import csv
+import random
+import contextlib
 
 import flwr as fl
 import toml
@@ -167,6 +169,10 @@ def evaluate_weighted_average(
 
 def server_side_parameters():
     """Initialize model parameters on server side."""
+    torch.manual_seed(42)
+    np.random.seed(42)
+    random.seed(42)
+    
     dataset_name = projectconf["config"]["dataset_name"]
     if dataset_name == "uoft-cs/cifar10":
         ndarrays = get_weights(Net())

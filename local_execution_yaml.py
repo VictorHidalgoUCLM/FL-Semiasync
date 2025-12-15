@@ -19,10 +19,10 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-H",
-    "--heterogeneity", 
-    type=str, 
-    help="Heterogeneity of clients",
+    "-m",
+    "--medclients", 
+    type=int, 
+    help="Quantity of med clients",
     required=True
 )
 
@@ -50,14 +50,22 @@ parser.add_argument(
     default="uoft-cs/cifar10"
 )
 
+parser.add_argument(
+    "-i",
+    "--alpha", 
+    type=float, 
+    help="Data heterogeneity when alpha is used (noniid)"
+)
+
 args = parser.parse_args()
 
 n = args.clients
 cpus = args.threads
 data_type = args.data_type
-heterogeneity = args.heterogeneity
 slowclients = args.slowclients
+medclients = args.medclients
 dataset_name = args.name_dataset
+alpha = args.alpha
 
 superlink = {
     'image': 'flwr/superlink:1.18.0',
@@ -91,8 +99,6 @@ services = {
     'serverapp': serverapp
 }
 
-half = slowclients // 2
-
 for i in range(1, n+1):
     supernode_name = f'supernode-{i}'
     client_name = f'client-{i}'
@@ -104,7 +110,7 @@ for i in range(1, n+1):
         'networks': ['master_default'],
         'command': [
             '--insecure', '--superlink', 'superlink:9092',
-            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}" dataset-name="{dataset_name}"',
+            '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}" partition-alpha="{alpha}" dataset-name="{dataset_name}"',
             '--clientappio-api-address', f'0.0.0.0:{9093 + i}', '--isolation', 'process'
         ],
         'depends_on': ['superlink'],
@@ -116,16 +122,11 @@ for i in range(1, n+1):
     cpuset_list = [str(10 + j + (i - 1) * cpus) for j in range(cpus)]
     cpuset_string = ','.join(cpuset_list)
 
-    if heterogeneity == "heterogeneous":
-        #if i <= half:
-            #cpus_limit = 0.33
-        #el
-        if i <= slowclients:
-            cpus_limit = 0.33
-        else:
-            cpus_limit = cpus
-
-    elif heterogeneity == "homogeneous":
+    if i <= slowclients:
+        cpus_limit = 0.2
+    elif i <= slowclients + medclients:
+        cpus_limit = 0.33
+    else:
         cpus_limit = cpus
 
     print(cpus_limit)   

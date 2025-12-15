@@ -45,7 +45,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=0 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=0 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9094
     - --isolation
@@ -73,7 +73,7 @@ services:
     - DEVICE=supernode-1
     mem_limit: 2g
     cpuset: '10'
-    cpus: 1
+    cpus: 0.2
   supernode-2:
     image: flwr/supernode:1.18.0
     container_name: supernode-2
@@ -86,7 +86,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=1 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=1 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9095
     - --isolation
@@ -114,7 +114,7 @@ services:
     - DEVICE=supernode-2
     mem_limit: 2g
     cpuset: '11'
-    cpus: 1
+    cpus: 0.33
   supernode-3:
     image: flwr/supernode:1.18.0
     container_name: supernode-3
@@ -127,7 +127,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=2 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=2 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9096
     - --isolation
@@ -155,7 +155,7 @@ services:
     - DEVICE=supernode-3
     mem_limit: 2g
     cpuset: '12'
-    cpus: 1
+    cpus: 0.33
   supernode-4:
     image: flwr/supernode:1.18.0
     container_name: supernode-4
@@ -168,7 +168,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=3 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=3 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9097
     - --isolation
@@ -209,7 +209,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=4 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=4 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9098
     - --isolation
@@ -250,7 +250,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=5 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=5 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9099
     - --isolation
@@ -291,7 +291,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=6 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=6 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9100
     - --isolation
@@ -332,7 +332,7 @@ services:
     - --superlink
     - superlink:9092
     - --node-config
-    - partition-id=7 num-partitions=8 partition-type="iid" dataset-name="uoft-cs/cifar10"
+    - partition-id=7 num-partitions=8 partition-type="iid" partition-alpha="0.5" dataset-name="uoft-cs/cifar10"
     - --clientappio-api-address
     - 0.0.0.0:9101
     - --isolation

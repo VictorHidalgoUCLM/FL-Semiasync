@@ -4,10 +4,9 @@ import os
 import re
 import signal
 import subprocess
-import sys
 import threading
 import time
-import yaml
+import random
 
 import requests
 import toml
@@ -42,14 +41,6 @@ parser.add_argument(
     default=[8]
 )
 
-"""parser.add_argument(
-    '-w', '--window-size',
-    type=int,
-    nargs='+',
-    help="Sliding window size used for client synchronization.",
-    default=[1024]
-)"""
-
 parser.add_argument(
     '-t', '--data-list',
     type=str,
@@ -69,15 +60,7 @@ parser.add_argument(
     '-r', '--rounds',
     type=int,
     help="Number of training rounds to run.",
-    default=15
-)
-
-parser.add_argument(
-    '-H', '--heterogeneity',
-    type=str,
-    nargs='+',
-    help="Client heterogeneity type(s) (e.g. homogeneous, heterogeneous).",
-    default=["homogeneous"]
+    default=10
 )
 
 parser.add_argument(
@@ -85,6 +68,14 @@ parser.add_argument(
     type=int,
     nargs='+',
     help="List of client IDs or counts to be considered slow.",
+    default=[0]
+)
+
+parser.add_argument(
+    '-M', '--medclients',
+    type=int,
+    nargs='+',
+    help="List of client IDs or counts to be considered medium.",
     default=[0]
 )
 
@@ -108,6 +99,29 @@ parser.add_argument(
     nargs='+',
     help="List of Federated strategies.",
     default=["FedAvg"]
+)
+
+parser.add_argument(
+    '-b', '--betas',
+    type=float,
+    nargs='+',
+    help="List of Federated betas.",
+    default=[0.75]
+)
+
+parser.add_argument(
+    '-k',
+    type=int,
+    nargs='*',
+    help="List of Federated ks."
+)
+
+parser.add_argument(
+    '-i',
+    type=float,
+    nargs='+',
+    help="List of alphas considered for non-iid data distribution.",
+    default=[0.5]
 )
 
 def signal_handler(sig, frame, event):
@@ -357,54 +371,110 @@ def init_containers(federation, devices, data_type):
             remote_run(create_network, ip, user)
             remote_run(supernode_command, ip, user)
             remote_run(client_command, ip, user)
-  
-
-def actualizar_limites(contenedor, cpu):
-    cmd = [
-        "docker", "update",
-        f"--cpus={cpu}",
-        contenedor
-    ]
-    print(f"[{contenedor}] Aplicando: CPUs={cpu}")
-    subprocess.run(cmd, check=True)
 
 
-def ejecutar_perfil(contenedor, perfil, ciclos=None):
-    ciclo = 0
-    while ciclos is None or ciclo < ciclos:
-        ciclo += 1
-        for fase in perfil:
-            cpu = fase["cpus"]
-            duracion = fase["duracion"]
+def generar_perfil_cpus(duracion_total, num_cambios, valores_cpu, min_primer_intervalo=400):
+    """
+    Genera un perfil aleatorio de cambios de CPU donde el primer cambio siempre es 1.0.
+    """
+    if num_cambios < 1:
+        raise ValueError("num_cambios debe ser >= 1")
 
-            actualizar_limites(contenedor, cpu)
-            time.sleep(duracion)
+    tiempo_restante = duracion_total - min_primer_intervalo
+    if tiempo_restante <= 0:
+        raise ValueError("duración_total demasiado pequeña para el mínimo primer intervalo")
+
+    cambios_restantes = num_cambios - 1
+
+    # Generar intervalos aleatorios para los cambios restantes
+    if cambios_restantes > 0:
+        cortes = sorted([random.uniform(0, tiempo_restante) for _ in range(cambios_restantes - 1)])
+        intervalos = [cortes[0]] + \
+                     [cortes[i] - cortes[i - 1] for i in range(1, len(cortes))] + \
+                     [tiempo_restante - cortes[-1]]
+    else:
+        intervalos = []
+
+    # Añadimos el primer intervalo
+    intervalos = [min_primer_intervalo] + intervalos
+
+    perfil = []
+    tiempo_acumulado = 0
+
+    # Primer cambio siempre CPU = 1.0
+    perfil.append({
+        "start": tiempo_acumulado,
+        "duration": intervalos[0],
+        "cpu": 1.0
+    })
+    tiempo_acumulado += intervalos[0]
+
+    # Los demás cambios aleatorios
+    for intervalo in intervalos[1:]:
+        cpu = random.choice(valores_cpu)
+        perfil.append({
+            "start": tiempo_acumulado,
+            "duration": intervalo,
+            "cpu": cpu
+        })
+        tiempo_acumulado += intervalo
+
+    return perfil
 
 
-def lanzar_todos_perfiles(perfiles_dir=PERFILES_DIR, ciclos=CICLOS):
-    """Lanza en paralelo los ejecutores de todos los clientes como hilos en segundo plano"""
+
+# ---------------------------------------------
+# EJECUTOR DEL PERFIL
+# ---------------------------------------------
+def ejecutar_perfil(container_name, perfil, ciclos=1):
+    """
+    Ejecuta docker update según el perfil, repitiéndolo 'ciclos' veces.
+    """
+    for ciclo in range(ciclos):
+        print(f"[{container_name}] Ciclo {ciclo+1}/{ciclos}")
+
+        for i, event in enumerate(perfil):
+            cpu = event["cpu"]
+            dur = event["duration"]
+
+            print(f"[{container_name}] Cambio {i+1}/{len(perfil)} -> CPU={cpu} durante {dur:.2f}s")
+
+            os.system(f"docker update --cpus={cpu} {container_name}")
+
+            time.sleep(dur)
+
+    print(f"[{container_name}] Perfil completado.")
+
+
+# ---------------------------------------------
+# LANZADOR DE HILOS (TU FUNCIÓN ADAPTADA)
+# ---------------------------------------------
+def lanzar_todos_perfiles_generados(clientes, duracion, cambios, valores_cpu, ciclos=1, seed=42):
+    """
+    Genera y lanza perfiles aleatorios para cada cliente en hilos
+    """
+    random.seed(seed)
     hilos = []
-    for archivo in os.listdir(perfiles_dir):
-        if not archivo.endswith(".yaml"):
-            continue
 
-        client_id = archivo.replace("client_", "").replace(".yaml", "")
+    for client_id in clientes:
         contenedor = f"client-{client_id}"
-        ruta = os.path.join(perfiles_dir, archivo)
 
-        with open(ruta) as f:
-            perfil = yaml.safe_load(f)["perfil"]
+        # Generar perfil aleatorio
+        perfil = generar_perfil_cpus(
+            duracion_total=duracion,
+            num_cambios=cambios,
+            valores_cpu=valores_cpu,
+            min_primer_intervalo=300
+        )
 
+        # Lanzar hilo
         t = threading.Thread(target=ejecutar_perfil, args=(contenedor, perfil, ciclos))
-        t.daemon = True  # hilo en segundo plano
+        t.daemon = True
         t.start()
         hilos.append(t)
 
-    return hilos  # devuelve los hilos por si quieres controlarlos desde tu main
+        print(f"[INFO] Lanzado perfil de {contenedor}")
 
-
-def iniciar_ejecutor_en_background():
-    hilos = lanzar_todos_perfiles()
     return hilos
 
 
@@ -434,11 +504,13 @@ def load_and_update_config(projectconf, server_type, dataset, federation, local_
     return config, devices, clients, rounds
 
 
-def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number):
+def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta=0.75, k=8, alpha=None):
     temp = config.setdefault('tempConfig', {})
     temp['strategy'] = strategy
     temp['execution_name'] = execution_name
     temp['num_exec'] = act_exec
+    temp['beta'] = beta
+    temp['k'] = k
 
     config["config"]["inplace"] = inplace
 
@@ -462,127 +534,136 @@ def main():
     sync_list = args.sync_clients
     data_list = args.data_list
     num_executions = args.num_executions
-    #window_size = args.window_size
     rounds = args.rounds
-    heterogeneities = args.heterogeneity
     slowclients = args.slowclients
+    medclients = args.medclients
     asynchronies = args.asynchrony
     dataset = args.dataset
     strategies = args.strategies
-
-    #max_window = max(window_size)
+    betas = args.betas
+    ks = args.k
+    alphas = args.i
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
 
     # Iterate through data_list, federations, window_size, slowclients, heterogeneities
-    """for server_type, data_type, federation, size, slow_client, heterogeneity in product(
-        asynchronies, data_list, federations, window_size, slowclients, heterogeneities
+    """for server_type, data_type, federation, alpha, slow_client in product(
+        asynchronies, data_list, federations, alphas, slowclients
     ):"""
-    for server_type, data_type, federation, slow_client, heterogeneity in product(
-        asynchronies, data_list, federations, slowclients, heterogeneities
+    for server_type, data_type, federation, alpha in product(
+        asynchronies, data_list, federations, alphas
     ):
-        #new_rounds = args.rounds * max_window / size
+        for slow_client, med_client in zip(slowclients, medclients):
+            config, devices, clients, rounds = load_and_update_config(
+                projectconf, server_type, dataset, federation, local_run, rounds)
 
-        config, devices, clients, rounds = load_and_update_config(
-            projectconf, server_type, dataset, federation, local_run, rounds)
-
-        if federation == 'local-execution':
-            cmd = (
-                f"python local_execution_yaml.py "
-                f"-c {len(clients)} "
-                f"-t 1 "
-                f"-d {data_type} "
-                f"-H {heterogeneity} "
-                f"-s {slow_client} "
-                f"-n {dataset}"
-            )
-
-            local_run(cmd, True)
-            
-        # Iterate through strategies, sync_list and num_executions (1 to num_executions + 1)
-        for strategy, sync_number, act_exec in product(
-            strategies, sync_list, range(1, num_executions + 1)):
-
-            init_containers(federation, devices, data_type) 
-
-            # Send an HTTP POST request to delete data series on the server
-            #requests.post(url, params=params)
-
-            if strategy == "FedMOpt":
-                execution_name = f"data{data_type}_{heterogeneity}/slow{slow_client}"
-                inplace = False
-            else:
-                execution_name = f"sync{sync_number}_data{data_type}_{heterogeneity}/slow{slow_client}"
-                inplace = True
-            inplace = False
-
-            update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number)
-
-            last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
-            step_rounds = rounds - last_round
-
-            while step_rounds > 0:
-                config['tempConfig']['step_rounds'] = step_rounds
-                config['tempConfig']['last_round'] = last_round
-
-                with open(projectconf, 'w') as f:
-                    toml.dump(config, f)
-
-                local_run(f"flwr run . {federation}", False)
-
-                # In case we need to generate false CPU usage
-                # hilos_ejecutor = iniciar_ejecutor_en_background()
-
-                docker_logs = local_Popen(
-                    f"docker logs -f serverapp",
-                    True,
-                    f"{federation}/results/{strategy}/{execution_name}/output_log_{slow_client}.txt"
+            if federation == 'local-execution':
+                cmd = (
+                    f"python local_execution_yaml.py "
+                    f"-c {len(clients)} "
+                    f"-t 1 "
+                    f"-d {data_type} "
+                    f"-s {slow_client} "
+                    f"-m {med_client} "
+                    f"-n {dataset} "
+                    f"-i {alpha} "
                 )
 
-                log_thread = threading.Thread(
-                    target=check_docker_logs,
-                    args=(event,federation,strategy,execution_name,act_exec,), 
-                    daemon=True
-                )
-
-                log_thread.start()
-
-                log_thread.join()
-
-                docker_logs.terminate()
-                docker_logs.wait()
-
-                f.close()
+                local_run(cmd, True)
                 
-                # Exit if abrupt termination (SIGINT)
-                if event.is_set():
-                    print("Ctrl-C detected, stopping everything...")
-                    event.clear()
+            if ks is None:
+                ks = [len(clients)-1]
 
-                    f.close()
+            if data_type == "noniid":
+                data_type = f"{data_type}{alpha}"
 
-                    local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+            # Iterate through strategies, sync_list and num_executions (1 to num_executions + 1)
+            for strategy, sync_number, beta, k, act_exec in product(
+                strategies, sync_list, betas, ks, range(1, num_executions + 1)):
 
-                    if federation == "remote-execution":
-                        for i, (user, ip) in enumerate(devices.items(), start=1):
-                            stop_remote_code(i, user, ip)
+                init_containers(federation, devices, data_type) 
 
-                    
-                    if handler_flag:
-                        exit()
+                # Send an HTTP POST request to delete data series on the server
+                #requests.post(url, params=params)
 
-                last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
-                print(f"Inner last round {last_round}")
+                if strategy == "FedMOpt":
+                    execution_name = f"{data_type}/slow{slow_client}_med{med_client}/beta{beta}/k{k}"
+                    inplace = False
+                    update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta, k)
+                else:
+                    execution_name = f"{data_type}/sync{sync_number}/slow{slow_client}_med{med_client}"
+                    inplace = True
+                    update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number)            
+
+                last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
                 step_rounds = rounds - last_round
 
-            """graphfl_cmd = f"python Analysis/timestamp_graph.py -f {federation} --strategy {strategy} -s {sync_number} -t {data_type} -n {act_exec} -w {size}"
-            local_run(graphfl_cmd, True)"""
-            local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+                while step_rounds > 0:
+                    config['tempConfig']['step_rounds'] = step_rounds
+                    config['tempConfig']['last_round'] = last_round
 
-            if federation == "remote-execution":
-                for i, (user, ip) in enumerate(devices.items(), start=1):
-                    stop_remote_code(i, user, ip)
+                    with open(projectconf, 'w') as f:
+                        toml.dump(config, f)
+
+                    local_run(f"flwr run . {federation}", False)
+
+                    # In case we need to generate false CPU usage
+                    """lanzar_todos_perfiles_generados(
+                        clientes=[i+1 for i in range(len(clients))],
+                        duracion=step_rounds * 120,  # Assuming each round takes approx 60 seconds
+                        cambios=3,
+                        valores_cpu=[0.2, 0.33, 1.0],
+                        ciclos=1    
+                    )"""
+
+                    docker_logs = local_Popen(
+                        f"docker logs -f serverapp",
+                        True,
+                        f"{federation}/results/{strategy}/{execution_name}/output_log_{act_exec}.txt"
+                    )
+
+                    log_thread = threading.Thread(
+                        target=check_docker_logs,
+                        args=(event,federation,strategy,execution_name,act_exec,), 
+                        daemon=True
+                    )
+
+                    log_thread.start()
+
+                    log_thread.join()
+
+                    docker_logs.terminate()
+                    docker_logs.wait()
+
+                    f.close()
+                    
+                    # Exit if abrupt termination (SIGINT)
+                    if event.is_set():
+                        print("Ctrl-C detected, stopping everything...")
+                        event.clear()
+
+                        f.close()
+
+                        local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+
+                        if federation == "remote-execution":
+                            for i, (user, ip) in enumerate(devices.items(), start=1):
+                                stop_remote_code(i, user, ip)
+
+                        
+                        if handler_flag:
+                            exit()
+
+                    last_round = get_last_round(config, strategy, act_exec, federation, execution_name, True)
+                    print(f"Inner last round {last_round}")
+                    step_rounds = rounds - last_round
+
+                local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+
+                if federation == "remote-execution":
+                    for i, (user, ip) in enumerate(devices.items(), start=1):
+                        stop_remote_code(i, user, ip)
 
     
 if __name__ == "__main__":

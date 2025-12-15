@@ -101,13 +101,14 @@ def client_fn(context: Context):
     num_partitions = context.node_config["num-partitions"]  # Get total number of partitions from context
     partition_type = context.node_config["partition-type"]
     dataset_name = context.node_config["dataset-name"]
+    alpha_value = context.node_config["partition-alpha"]
 
     if dataset_name == "uoft-cs/cifar10":
         net = Net()
     elif dataset_name == "ylecun/mnist":
         net = Net(10, 1, 32, 1)
 
-    trainloader, newloader, valloader = load_data(partition_id, num_partitions, partition_type, dataset_name)
+    trainloader, newloader, valloader = load_data(partition_id, num_partitions, partition_type, dataset_name, alpha_value)
     # Return Client instance
     return FlowerClient(net, trainloader, newloader, valloader, partition_id).to_client()
 

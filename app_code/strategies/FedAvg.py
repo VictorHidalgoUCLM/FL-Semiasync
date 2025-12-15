@@ -299,14 +299,10 @@ class FedAvgCustom(FedAvg):
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
         counters: Dict,
         w_global: Optional[Parameters],
-        prev_updates: Optional[Dict] = None,
         times: Dict[str, List[float]] = {},
-        parameters_history: Dict = None,
-        angles_history: Dict = None,
-        prev_grad: np.ndarray = None,
-        alpha: float=0.3,
-        beta: float=0.25,
-        k: int=5,
+        prev_updates: Dict[str, int] = {},
+        beta: float = 0.75,
+        k: int = 3,
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results from clients and save aggregated parameters periodically.
 
@@ -327,212 +323,56 @@ class FedAvgCustom(FedAvg):
         if not self.accept_failures and failures:
             return None, {}
 
-        g_global = parameters_to_ndarrays(w_global)
-
         if self.inplace:
             # Does in-place weighted average of results
             #aggregated_ndarrays = aggregate_inplace(results)
             results_trimmed = [(r[0], r[1]) for r in results]
             aggregated_ndarrays = aggregate_inplace(results_trimmed)
-            aggregated_parameters = ndarrays_to_parameters(aggregated_ndarrays)
 
         else:
-            if prev_grad is not None:
-                prev_grad_flat = _flatten_parameters(prev_grad)
-            else:
-                prev_grad_flat = None
+            # Convert results
+            weights_results = [
+                (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+                for _, fit_res, _, _ in results
+            ]
 
-            print(f"Params_hist keys: {list(parameters_history.keys())}")
-            results_stale = []
-            results_non_stale = []
-
-            for client_proxy, fit_res, client_str, init_round in results:
-                if self.prev_counters.get(client_str, 0) + 1 > 2:
-                    results_stale.append((client_proxy, fit_res, client_str, init_round))
+            bias_dict = {}
+            for cid, counter_val in counters.items():
+                if counter_val == 0:
+                    total_bias = sum(
+                        server_round - prev_updates[cid2]
+                        for cid2, cval2 in counters.items()
+                        if cval2 != 0 and cid != cid2
+                    )
                 else:
-                    results_non_stale.append((client_proxy, fit_res, client_str))
+                    total_bias = 0
+                bias_dict[cid] = total_bias
 
-            if results_non_stale:
-                print(f"Non-stale: {len(results_non_stale)}, stale: {len(results_stale)}")              
-                total_non_stale_examples = sum(fit_res.num_examples for _, fit_res, _ in results_non_stale)
+            mu_dict = {}
+            for _, fit_res, cid, init_round in results:
+                counter_val = server_round - init_round
+                bias_val = bias_dict.get(cid, 0)
+                mu_i = np.exp(-beta * (counter_val + np.log1p(bias_val / k)))
+                mu_dict[cid] = mu_i
 
-                g_non_stale = (
-                    sum(fit_res.num_examples * (_flatten_parameters(parameters_to_ndarrays(fit_res.parameters)) - _flatten_parameters(g_global))
-                        for _, fit_res, _ in results_non_stale)
-                    / total_non_stale_examples
-                )
+            # Calcula la suma ponderada
+            total_weight = sum(
+                n * mu_dict.get(cid, 1.0)
+                for (_, n), (_, _, cid, _) in zip(weights_results, results)
+            )
 
-                proj_stale_sum = 0
-                num_examples_stale = 0
-                
-                angles = []  # para registrar los ángulos
-
-                for _, fit_res, client_id in results_non_stale:
-                    g_client = _flatten_parameters(parameters_to_ndarrays(fit_res.parameters)) - _flatten_parameters(parameters_to_ndarrays(w_global))
-                    
-                    if prev_grad_flat is not None:
-                        dot = np.dot(g_client, prev_grad_flat)
-                        norm_k = np.linalg.norm(g_client)
-                        norm_prev = np.linalg.norm(prev_grad_flat)
-                        
-                        if norm_k > 0 and norm_prev > 0:
-                            cos_theta = np.clip(dot / (norm_k * norm_prev), -1.0, 1.0)
-                            angle_deg = np.degrees(np.arccos(cos_theta))
-                        else:
-                            angle_deg = None  # undefined if zero norm
-                        print(f"Angle between prev_grad and client {client_id}: {angle_deg}")
-
-
-                for _, fit_res, client_id, init_round in results_stale:
-                    print(f"Init_round of {client_id} = {init_round}.")
-                    g_init = _flatten_parameters(parameters_to_ndarrays(parameters_history[init_round]))
-                    g_fit_res = _flatten_parameters(parameters_to_ndarrays(fit_res.parameters))
-                
-                    # Gradiente local del cliente stale
-                    g_k = _flatten_parameters(parameters_to_ndarrays(fit_res.parameters)) - _flatten_parameters(parameters_to_ndarrays(parameters_history[init_round]))
-
-                    if prev_grad_flat is not None:
-                        dot = np.dot(g_k, prev_grad_flat)
-                        norm_k = np.linalg.norm(g_k)
-                        norm_prev = np.linalg.norm(prev_grad_flat)
-                        
-                        if norm_k > 0 and norm_prev > 0:
-                            cos_theta = np.clip(dot / (norm_k * norm_prev), -1.0, 1.0)
-                            angle_deg = np.degrees(np.arccos(cos_theta))
-                        else:
-                            angle_deg = None  # undefined if zero norm
-                        print(f"Angle between prev_grad and client {client_id}: {angle_deg}")
-
-                    """print("g_init values: ", g_init[:2])
-                    print("g_fit_res: ", g_fit_res[:2])
-                    print("g_k: ", g_k[:2])"""
-
-                    # --- calcular ángulo entre g_k y g_non_stale ---
-                    dot_angle = np.dot(g_k, g_non_stale)
-                    norm_k = np.linalg.norm(g_k)
-                    norm_global = np.linalg.norm(g_non_stale)
-
-                    """print("\n--- Cliente stale ---")
-                    print("g_k[:2] =", g_k[:2])
-                    print("g_non_stale[:2] =", g_non_stale[:2])"""
-
-                    if norm_k > 0 and norm_global > 0:
-                        cos_theta = np.clip(dot_angle / (norm_k * norm_global), -1.0, 1.0)
-                        angle_deg = np.degrees(np.arccos(cos_theta))
-                        angles.append(angle_deg)
-
-                        if client_id not in angles_history:
-                            angles_history[client_id] = []
-                        angles_history[client_id].append(angle_deg)
-
-                        # Penalizar aquellos ángulos mayores de 120
-                        if angle_deg >= 120.0:
-                            penalty = 0.0
-                        else:
-                            penalty = 1.0 - (angle_deg / 120.0)
-
-                        """print(f"dot_angle = {dot_angle}")
-                        print(f"angle_deg = {angle_deg:.4f}°")
-                        print(f"penalty = {penalty:.4f}")"""
-                    else:
-                        penalty = 1.0
-                        """print("Norma cero → penalty = 1.0")"""
-
-                    age = server_round - init_round
-                    age_factor = max(0, 1 - age / k)
-                    penalty_final = penalty * age_factor
-
-                    # Proyección de g_k sobre g_non_stale
-                    norm_sq = np.dot(g_non_stale, g_non_stale)
-
-                    g_proj_raw = (dot_angle / norm_sq) * g_non_stale
-                    g_proj = (dot_angle / norm_sq) * g_non_stale * penalty_final
-
-                    """print("norm_sq =", norm_sq)
-                    print("g_proj_raw[:2] =", g_proj_raw[:2])
-                    print("g_proj_penalized[:2] =", g_proj[:2])
-                    print("penalty_final: ", penalty_final)"""
-
-                    # Acumulamos ponderando por el número de ejemplos
-                    proj_stale_sum += fit_res.num_examples * g_proj
-                    num_examples_stale += fit_res.num_examples
-
-                # Gradiente promedio de proyecciones stale
-                if num_examples_stale > 0:
-                    g_stale_proj = proj_stale_sum / num_examples_stale
+            # Agregación con penalización y normalización
+            aggregated_ndarrays = None
+            for (ndarrays, n), (_, _, cid, _) in zip(weights_results, results):
+                mu = mu_dict.get(cid, 1.0)
+                weight = (n * mu) / total_weight
+                if aggregated_ndarrays is None:
+                    aggregated_ndarrays = [w * weight for w in ndarrays]
                 else:
-                    g_stale_proj = np.zeros_like(g_non_stale)  # nada que añadir
+                    for i in range(len(ndarrays)):
+                        aggregated_ndarrays[i] += ndarrays[i] * weight
 
-                total_examples = total_non_stale_examples + num_examples_stale
-
-                g_global_final = (
-                    total_non_stale_examples * g_non_stale + num_examples_stale * g_stale_proj
-                ) / total_examples
-                
-                #g_global_final = g_non_stale + g_stale_proj
-
-                """print("g_global_final: ", g_global_final[:2])
-                print("g_stale_proj: ", g_stale_proj[:2])"""
-
-                g_global_structured = _unflatten_parameters(g_global_final, g_global)
-                aggregated_ndarrays = [w + g for w, g in zip(g_global, g_global_structured)]
-                aggregated_parameters = ndarrays_to_parameters(aggregated_ndarrays)
-
-                w_old = parameters_to_ndarrays(w_global)
-                w_new = parameters_to_ndarrays(aggregated_parameters)
-
-                g_final = [new - old for new, old in zip(w_new, w_old)]
-
-                """if angles:
-                    print(f"Ángulos stale/global — media: {np.mean(angles):.2f}°, min: {np.min(angles):.2f}°, max: {np.max(angles):.2f}°")"""
-
-                """total_bias = {
-                    key1: sum(
-                        abs(prev_updates[key1] - prev_updates[key2])
-                        for key2, value2 in counters.items()
-                        if value2 != 0 and key1 != key2
-                    ) if value1 == 0 else 0
-                    for key1, value1 in counters.items()
-                }"""
-
-                #print(f"Total bias aggregate_fit: {total_bias}")
-
-                #mu_dict = {cid: np.exp(-beta * (counter + np.log1p(total_bias[cid] / k))) for cid, counter in counters.items()}
-                #mu_dict = {cid: np.exp(-beta * counter) for cid, counter in counters.items()}
-                # Convert results
-                """weights_results = [
-                    (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples * mu_dict[cid_str])
-                    for _, fit_res, cid_str in results
-                ]
-
-                aggregated_ndarrays = aggregate(weights_results)"""
-
-                """weights_results = []
-                for _, fit_res, cid_str in results:
-                    local_params = parameters_to_ndarrays(fit_res.parameters)
-                    delta_i = [lp - gp for lp, gp in zip(local_params, global_params)]
-                    weight = fit_res.num_examples * mu_dict[cid_str]
-                    weights_results.append((delta_i, weight))
-
-                avg_delta = aggregate(weights_results)
-
-                aggregated_ndarrays = [
-                    gp + avg_d for gp, avg_d in zip(global_params, avg_delta)
-                ]
-
-                aggregated_parameters = ndarrays_to_parameters(aggregated_ndarrays)
-            # Incorporar w_global si se proporciona
-            if w_global is not None and alpha < 1.0:
-                global_ndarrays = parameters_to_ndarrays(w_global)
-                # Mezcla ponderada: alpha*new + (1-alpha)*global
-                aggregated_ndarrays = [
-                    alpha * new + (1 - alpha) * old
-                    for new, old in zip(aggregated_ndarrays, global_ndarrays)
-                ]"""
-        
-            else:
-                aggregated_parameters = w_global
-
+        aggregated_parameters = ndarrays_to_parameters(aggregated_ndarrays)
         self.prev_counters = counters
 
         # Aggregate custom metrics if aggregation fn was provided
@@ -585,7 +425,7 @@ class FedAvgCustom(FedAvg):
 
         if aggregated_parameters is not None:
             # Convert `Parameters` to `List[np.ndarray]`
-            aggregated_ndarrays: List[np.ndarray] = parameters_to_ndarrays(
+            aggregated_delta: List[np.ndarray] = parameters_to_ndarrays(
                 aggregated_parameters
             )
 
@@ -614,7 +454,7 @@ class FedAvgCustom(FedAvg):
 
                 # Save the aggregated arrays to the file
                 self.filename = f"{directory_name}/round-{server_round + self.round_offset}-weights.npz"
-                np.savez(self.filename, *aggregated_ndarrays)
+                np.savez(self.filename, *aggregated_delta)
 
             # Write server-specific metrics to self.data
             for metric in self.metrics:
@@ -626,7 +466,7 @@ class FedAvgCustom(FedAvg):
         # Guardar métricas de fit en logs CSV
         self._write_logs(localdirectory_name)
 
-        return aggregated_parameters, aggregated_metrics, angles_history, g_final
+        return aggregated_parameters, aggregated_metrics
 
     def aggregate_evaluate(
         self,

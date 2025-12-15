@@ -20,7 +20,7 @@ class Net(MobileNetV1):
 fds = None  # Cache FederatedDataset
 seed = 42
             
-def load_data(partition_id: int, num_partitions: int, partition_type: str, dataset_name: str):
+def load_data(partition_id: int, num_partitions: int, partition_type: str, dataset_name: str, alpha: float):
     """Load partition dataset_name data."""
     # Only initialize `FederatedDataset` once
     global fds
@@ -35,7 +35,7 @@ def load_data(partition_id: int, num_partitions: int, partition_type: str, datas
             train_partitioner = DirichletPartitioner(
                 num_partitions=num_partitions,
                 partition_by="label",
-                alpha=0.1,  # Non-iidness
+                alpha=float(alpha),  # Non-iidness
                 self_balancing=True,
                 shuffle=False
             )  # Unbalances number of classes on each partition
