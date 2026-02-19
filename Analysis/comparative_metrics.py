@@ -1,150 +1,78 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-from itertools import product
+from pathlib import Path
+import numpy as np
 
-# Define lists of the data that is going to be read and processed
-# Loop order is -> strategy, sync, data_type, window_size
-strategies = ['FedAvg_windows_sameSize']
-synces = [3]
-data_types = ['iid']
-window_sizes = [32, 64, 128, 256, 512, 1024, 1536, 2048]
-supernodes = range(1, 6)
+# Parámetros del experimento (ejemplo)
+strategy = "FedAvg"
+strategyComp = "FedMOpt"
+data = "iid"
+sync = 5
+slow = 0
+med = 0
+beta = 0.7
+k = 8
+supernode = 1
+ex = 1
 
-# Unformatted path that reads metrics from a certain supernode at a certain configuration
-metrics_unformatted_path = '../local-execution/results/{strategy}/sync{sync}_data{data_type}_window{window_size}/metrics/supernode-{supernode}/ex_1.csv'
+# Construcción de la ruta
+csv_path_base = Path(
+    f"../local-execution/results/{strategy}/{data}/"
+    f"sync{sync}/slow{slow}_med{med}/"
+    f"beta{beta}/k{k}/metrics/"
+    f"supernode-{supernode}/ex_{ex}.csv"
+)
 
-# Dictionary that stores lists of rows to print later
-dict_summary = {
-    'rows_cpu': [],
-    'rows_ram': [],
-    'rows_net': [],
-}
+csv_path_comp = Path(
+    f"../local-execution/results/{strategyComp}/{data}/"
+    f"/slow{slow}_med{med}/"
+    f"beta{beta}/k{k}/metrics/"
+    f"supernode-{supernode}/ex_{ex}.csv"
+)
 
-def plotFigure(data, x, y, hue, marker, title, xlabel, xticks, ylabel, legend, savefig, second_y=None):
-    plt.figure(figsize=(10, 6))
+# Cargar CSV
+df_base = pd.read_csv(csv_path_base)
+df_comp = pd.read_csv(csv_path_comp)
 
-    sns.lineplot(
-        data=data,
-        x=x,
-        y=y,
-        hue=hue,
-        marker=marker
-    )
+df_base = df_base.sort_values("Time_stamp(s)").reset_index(drop=True)
+df_comp = df_comp.sort_values("Time_stamp(s)").reset_index(drop=True)
 
-    if second_y is not None:
-        sns.lineplot(
-            data=data,
-            x=x,
-            y=second_y,
-            hue=hue,
-            marker=marker
-        )
+print(df_base.head())
+print(df_comp.head())
 
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.xticks(ticks=xticks, rotation=50)
-    plt.ylabel(ylabel)
-    plt.legend(title=legend)
-    plt.tight_layout()
-    plt.savefig(savefig)
-    plt.close()
+# Delta de tiempo entre muestras
+df_base["dt"] = df_base["Time_stamp(s)"].diff()
 
-# Iterate over different configurations, same as nested for loop
-for strategy, sync, data_type in product(
-    strategies, synces, data_types
-):
-    for supernode, window_size in product(
-        supernodes, window_sizes
-    ):
-        # Format path having selected a configuration
-        real_path = metrics_unformatted_path.format(
-            strategy=strategy,
-            sync=sync,
-            data_type=data_type,
-            window_size=window_size,
-            supernode=supernode
-        )
+df_base["net_tx_Bps"] = df_base["Net_transmit(B)"].diff() / df_base["dt"]
+df_base["net_rx_Bps"] = df_base["Net_receive(B)"].diff() / df_base["dt"]
 
-        # Save .csv to a dataframe and read necessary columns
-        try:
-            df = pd.read_csv(real_path)
-        except FileNotFoundError:
-            print(f"File not found: {real_path}")
-            continue
+df_base["cpu_time_delta"] = df_base["CPU_time(s)"].diff()
+df_base["cpu_throttled_delta"] = df_base["CPU_throttled_time(s)"].diff()
+df_base["num_cpus"] = df_base["cpu_client(quota)"] / 100000
 
-        df = df[['Time_stamp(s)', 'CPU_time(s)', 'RAM_usage(B)', 'Net_transmit(B)', 'Net_receive(B)']]
+df_base["cpu_usage"] = df_base["cpu_time_delta"] / (df_base["dt"] * df_base["num_cpus"]) * 100
 
-        # Effective CPU usage = total CPU seconds usage / total app seconds
-        last_time = df['Time_stamp(s)'].iloc[-1]    # Total app seconds
-        last_cpu = df['CPU_time(s)'].iloc[-1]   # Total CPU seconds
-        effective_cpu_usage = (last_cpu / last_time) * 100  # Effective CPU usage in %
+df_base["cpu_demand"] = (
+    df_base["cpu_time_delta"] + df_base["cpu_throttled_delta"]
+) / (df_base["dt"] * df_base["num_cpus"])
 
-        # Diff for CPU seconds usage (dCPU / dTime)
-        d_cpu = df['CPU_time(s)'].diff()    # Differential CPU usage
-        d_time = df['Time_stamp(s)'].diff() # Differential time elapsed between rows
-        instantaneous_cpu = (d_cpu / d_time) * 100  # List of instantaneus CPU usage
-        instantaneous_cpu = instantaneous_cpu.dropna()  # Drop NaN values
+df_base["cpu_pressure"] = (
+    df_base["cpu_throttled_delta"]
+    / (df_base["cpu_time_delta"] + df_base["cpu_throttled_delta"])
+)
+df_base["cpu_pressure_pct"] = 100 * df_base["cpu_pressure"]
 
-        # Save row for CPU usage
-        row_cpu = {
-            'Supernode': supernode,
-            'Window Size': window_size,
-            'Effective CPU (%)': round(effective_cpu_usage, 2),
-            'Mean CPU (%)': round(instantaneous_cpu.mean(), 2),
-            'Median CPU (%)': round(instantaneous_cpu.median(), 2),
-            'Std Dev CPU (%)': round(instantaneous_cpu.std(), 2)
-        }
+df_base["ram_usage_pct"] = 100 * df_base["RAM_usage(B)"] / df_base["memory_client(B)"]
+df_base["swap_usage_pct"] = 100 * df_base["Swap_usage(B)"] / df_base["swap_client(B)"]
 
-        # Memory column cleaning (to MB)
-        ram = df['RAM_usage(B)'] / (1024 * 1024)
-        ram = ram.dropna()
+df_base["ram_usage_pct"] = 100 * df_base["RAM_usage(B)"] / df_base["memory_client(B)"]
+df_base["swap_usage_pct"] = 100 * df_base["Swap_usage(B)"] / df_base["swap_client(B)"]
 
-        # Save row for RAM usage
-        row_ram = {
-            'Supernode': supernode,
-            'Window Size': window_size,
-            'Mean RAM (MB)': round(ram.mean(), 2),
-            'Median RAM (MB)': round(ram.median(), 2),
-            'Std Dev RAM (MB)': round(ram.std(), 2)
-        }
+df_clean = df_base.drop(columns=[
+    "cpu_time_delta",
+    "cpu_throttled_delta",
+    "num_cpus"
+])
 
-        # Net transmit and receive columns cleaning (to MB)
-        net_transmit = df['Net_transmit(B)'].iloc[-1] / (1024 * 1024)
-        net_receive = df['Net_receive(B)'].iloc[-1] / (1024 * 1024)
+df_clean = df_clean.dropna(subset=["dt"])
 
-        # Save row for Net usage
-        row_net = {
-            'Supernode': supernode,
-            'Window Size': window_size,
-            'Net Transmit (MB)': round(net_transmit, 2),
-            'Net Receive (MB)': round(net_receive, 2)
-        }
-
-        # Save all data to dict
-        dict_summary['rows_cpu'].append(row_cpu)
-        dict_summary['rows_ram'].append(row_ram)
-        dict_summary['rows_net'].append(row_net)
-
-    summary_cpu = pd.DataFrame(dict_summary['rows_cpu'])
-    summary_ram = pd.DataFrame(dict_summary['rows_ram'])
-    summary_net = pd.DataFrame(dict_summary['rows_net'])
-
-    print(summary_cpu)
-    print(summary_net)
-    print(summary_ram)
-
-    sns.set_theme(style='whitegrid')
-
-    plotFigure(summary_cpu, 'Window Size', 'Mean CPU (%)', 'Supernode', 'o',
-               "Mean CPU usage vs Window size per supernode", "Window Size", window_sizes,
-               "Mean CPU (%)", "Supernode", f'../local-execution/results/{strategy}/sync{sync}_data{data_type}_metrics_CPU.png')
-
-    plotFigure(summary_ram, 'Window Size', 'Mean RAM (MB)', 'Supernode', 'o',
-               "Mean RAM usage vs Window size per supernode", "Window Size", window_sizes,
-               "Mean RAM (MB)", "Supernode", f'../local-execution/results/{strategy}/sync{sync}_data{data_type}_metrics_RAM.png')
-    
-    plotFigure(summary_net, 'Window Size', 'Net Transmit (MB)', 'Supernode', 'o',
-               "Net usage vs Window size per supernode", "Window Size", window_sizes,
-               "Net Usage (MB)", "Supernode", f'../local-execution/results/{strategy}/sync{sync}_data{data_type}_metrics_Net.png',
-               "Net Receive (MB)")
+#print(df_clean)

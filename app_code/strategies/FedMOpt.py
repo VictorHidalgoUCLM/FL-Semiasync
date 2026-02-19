@@ -1,9 +1,6 @@
 import math
-import os
-import re
 from collections import defaultdict
 from logging import INFO
-from itertools import product
 
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -15,7 +12,6 @@ from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
 
 from app_code.strategies.FedAvg import FedAvgCustom
-from app_code.strategies.early_stopping import EarlyStoppingTriggered, EMAEarlyStopping
 
 class FedMOpt(FedAvgCustom):
     def __init__(
@@ -31,24 +27,16 @@ class FedMOpt(FedAvgCustom):
         """
 
         super().__init__(*args, **kwargs)
-        self.m = len(self.config["names"])  # First training round is syncrhonous
-        self.data_history = {}  # Keep data history of last round
+        self.m = 8  # First training round is syncrhonous
         self.init_time_round = [0]
 
-        self.early_stopper = EMAEarlyStopping(
-            alpha=0.3, patience=3, min_delta=0.01
-        )    # EMAEarlyStopping class object
-
-        self.best_parameters = None     # Best checkpoint before early_stopping
-
-        self.duraciones_fit = {}
         self.prev_time = 0
-        self.prev_updates = {}
-        self.prev_prev_updates = {}
+        self.new_time = 0
+        self.holt_state = {}
+        self.estadisticas = {}
 
-        self.beta = self.config["tempConfig"].get("beta", 0.75)
-        self.k_param = self.config["tempConfig"].get("k", 7)
-        self.slope = self.config["tempConfig"].get("slope", 0.03)
+        self.slope = self.config["tempConfig"].get("slope", 0.00)
+        self.debug = self.config["tempConfig"].get("debug", False)
 
     def aggregate_fit(
             self,
@@ -56,89 +44,66 @@ class FedMOpt(FedAvgCustom):
             results,
             failures,
             counters,
-            w_global,
             times,
+            global_parameters,
+            prev_updates,
+            beta,
+            gamma
         ):
         aggregated_parameters, aggregated_metrics = super().aggregate_fit(
             server_round=server_round,
             results=results,
             failures=failures,
             counters=counters,
-            w_global=w_global,
-            times=times,
-            prev_updates=self.prev_updates,
-            beta=self.beta,
-            k=self.k_param,
+            global_parameters=global_parameters,
+            prev_updates=prev_updates,
+            beta=beta,
+            gamma=gamma,
         )
 
-        prev_prev_time = self.prev_time
-        self.prev_time = max(times[id][-1] for id in times)
-        self.new_time = self.prev_time - prev_prev_time
+        if server_round > 0:
+            prev_prev_time = self.prev_time
 
-        for key, counter in counters.items():
-            self.prev_updates.setdefault(key, 0)
-            self.prev_prev_updates[key] = self.prev_updates[key]
-            if counter == 0:
-                self.prev_updates[key] = server_round
-        
-        # Check if model was improved, if it was, save it for later
-        if self.early_stopper.improved:
-            self.best_parameters = aggregated_parameters
+            valid_ids = [self.client_mapping[client.cid] for client, *_ in results]
+            self.prev_time = max(times[cid][-1] for cid in valid_ids)
 
+            self.new_time = self.prev_time - prev_prev_time
         return aggregated_parameters, aggregated_metrics
 
 
     def aggregate_evaluate(self, server_round, results, failures, times):
         loss_aggregated, metrics_aggregated = super().aggregate_evaluate(server_round, results, failures, times)
-        
-        # Update early_stopper only if server_round > 1, if early_stopping is detected...
-        if server_round > 1 and not self.early_stopper.end_flag and self.early_stopper.update(self.data['server']['ev']['loss']):
-            self.early_stopper.restart()    # Restart the early_stopper for the last evaluation
-            
-            log(INFO, f"Early stopping detected, round {server_round}")
-            log(INFO, "")
-
-            # Decomment for normal use, else early stopping won't happen
-            r"""# Save the best checkpoint with the maximum rounds permitted so run.py knows it ended 
-            # because of early_stopping and not because of an error
-            dir_name, filename = os.path.split(self.filename)
-            match = re.match(r"round-(\d+)-weights\.npz", filename)
-            if not match:
-                raise ValueError(f"Nombre de archivo no válido: {filename}")
-
-            config = self.config["config"]            
-
-            new_filename = f"round-{int(config['rounds'])}-weights.npz"
-            new_path = os.path.join(dir_name, new_filename)
-            os.rename(self.filename, new_path)
-
-            # Raise an excection that will lead to the last evaluation of checkpoint
-            raise EarlyStoppingTriggered(f"Early stopping en server_round {server_round}")
-            """
         return loss_aggregated, metrics_aggregated
 
 
     def configure_fit(
-        self, server_round: int, parameters: Parameters, client_manager: ClientManager
+        self,
+        server_round: int,
+        parameters: Parameters,
+        client_manager: ClientManager,
+        prev_updates: List[int],
+        beta: float = 0.9,
+        gamma: float = 0.9
     ) -> list[tuple[ClientProxy, FitIns]]:
-        """Configure the next round of training."""
-        fit_config = super().configure_fit(server_round, parameters, client_manager)
+        """Configure the next round of training."""       
+        fit_config = super().configure_fit(server_round, parameters, client_manager)   
 
-        if server_round > 1:   
-            estadisticas = _get_statistics_semiasynchronous(
-                server_round,
-                self.timestamps,
-                self.duraciones_fit,
-                self.init_time_round,
-                self.prev_updates,
-                self.prev_prev_updates
-            )
-
+        if server_round > self.init_round:  
             self.init_time_round.append(self.timestamps['server']['ev'])
 
             for node, values in self.prop.items():
-                # Save quantity data on client statistics
-                estadisticas[node]['quantity_data'] = values.properties["quantity_data"]
+                self.estadisticas.setdefault(node, {})['quantity_data'] = values.properties["quantity_data"]
+
+            simulations = 1000 if not self.debug else 1
+            self.estadisticas, self.holt_state = _get_statistics_semiasynchronous(
+                server_round,
+                self.timestamps,
+                self.init_time_round,
+                prev_updates,
+                self.holt_state,
+                self.estadisticas,
+                self.init_rounds
+            )
 
             # Initialize data for every function
             f1 = {}
@@ -203,31 +168,29 @@ class FedMOpt(FedAvgCustom):
 
             # Calculate optimal m and prepare next round
             self.m = _calculate_optimal_m(
-                server_round=server_round,
-                simulations=1,
-                estadisticas=estadisticas,
+                simulations=simulations,
+                estadisticas=self.estadisticas,
                 prev_counters=self.prev_counters,
                 prev_max=self.new_time,
-                prev_updates=self.prev_updates,
-                k_param=self.k_param,
-                beta=self.beta,
+                prev_updates=prev_updates,
+                beta=beta,
                 slope=self.slope,
-                f1=f1
+                f1=f1,
+                debug=self.debug,
             )           
 
         return fit_config
 
 def _calculate_optimal_m(
-        server_round: int,
         simulations: int,
         estadisticas: Dict[str, Dict[str, float]],
         prev_counters: List[int],
         prev_max: float,
         prev_updates: List[int],
-        k_param: int,
         beta: float,
         slope: float,
         f1: Dict[str, Any],
+        debug: bool = False,
     ) -> Tuple[int, List[float], List[float]]:
 
     mu_dict = {k: v['mu'] for k, v in estadisticas.items() if k != 'server'}
@@ -236,58 +199,70 @@ def _calculate_optimal_m(
     M_candidates = list(range(1, len(mu_dict) + 1))
     best_score = -math.inf
 
-    utilities = {m: [] for m in M_candidates}
+    velocities = {m: [] for m in M_candidates}
     times = {m: [] for m in M_candidates}
     scores = []
 
     for _ in range(simulations):
         simulated_times = {}
-        f2 = {}
+        velocity_dict = {}
         for k in mu_dict:
             simulated_time = np.random.lognormal(mean=mu_dict[k], sigma=sigma_dict[k])
             simulated_times[k] = simulated_time
-            f2[k] = estadisticas[k]['quantity_data'] / simulated_time
-
-        utility_dict = {
-            node: _calculate_utility(f1=f1, f2=f2, node=node)
-            for node in f2
-        }
+            velocity_dict[k] = estadisticas[k]['quantity_data'] / simulated_time # Data per time unit
 
         for m in M_candidates:
-            est_utility, est_time =_simulate_semiasynchronous(
-                server_round=server_round,
+            est_velocity, est_time =_simulate_semiasynchronous(
                 simulated_times=simulated_times,
-                utility_dict=utility_dict,
+                velocity_dict=velocity_dict,
                 prev_counters=prev_counters,
                 prev_max=prev_max,
                 prev_updates=prev_updates,
                 m=m,
                 beta=beta,
-                k=k_param)
+                debug=debug,
+            )
             
-            utilities[m].append(est_utility)
+            velocities[m].append(est_velocity)
             times[m].append(est_time)  
 
-    med_utilities = {m: np.median(u_list) for m, u_list in utilities.items()}
+    med_velocities = {m: np.median(v_list) for m, v_list in velocities.items()}
     med_times = {m: np.median(t_list) for m, t_list in times.items()}
 
-    max_utility = max(med_utilities.values())
+    vel_p10 = np.percentile(
+        np.array(list(med_velocities.values()), dtype=float),
+        10
+    )
+
+    time_p10 = np.percentile(
+        np.array(list(med_times.values()), dtype=float),
+        10
+    )
+
+    max_velocity = max(med_velocities.values())
     min_time = min((t for t in med_times.values() if t > 0), default=0)
 
     for m in M_candidates:
-        med_utility = med_utilities[m]
+        med_velocity = med_velocities[m]
         med_time = med_times[m]
 
-        utility_score = max(0.0, min(med_utility / max_utility, 1.0)) if max_utility > 0 else 1.0
-        time_score = max(0.0, min(min_time / med_time, 1.0)) if med_time > 0 else 1.0
+        velocity_score_1 = max(0.0, min(med_velocity / max_velocity, 1.0)) if max_velocity > 0 else 1.0
+        time_score_1 = max(0.0, min(min_time / med_time, 1.0)) if med_time > 0 else 1.0
 
-        score = 2 * utility_score * time_score / (utility_score + time_score) if (utility_score + time_score) > 0 else 0.0
-        scores.append(score)
+        velocity_score_2 = max(0.0, min(med_velocity / vel_p10, 1.0)) if vel_p10 > 0 else 1.0
+        time_score_2 = max(0.0, min(time_p10 / med_time , 1.0)) if med_time > 0 else 1.0
 
-        print(f"Score: {score}, utility_score: {utility_score}, time_score: {time_score}.")
+        alpha = 0.4
+        score_1 = velocity_score_1 * time_score_1 / (alpha * velocity_score_1 + (1 - alpha) * time_score_1) if (velocity_score_1 + time_score_1) > 0 else 0.0
+        score_2 = velocity_score_2 * time_score_2 / (alpha * velocity_score_2 + (1 - alpha) * time_score_2) if (velocity_score_2 + time_score_2) > 0 else 0.0
+        
+        scores.append(score_1)
 
-        if score >= best_score:
-            best_score = score
+        log(INFO, f"Score 1: {score_1}, velocity_score: {velocity_score_1}, time_score: {time_score_1}.")
+        #log(INFO, f"Score 2: {score_2}, velocity_score: {velocity_score_2}, time_score: {time_score_2}.")
+
+        if score_1 >= best_score:
+            best_score = score_1
             best_m = m
 
     for k in range(best_m, len(M_candidates)):
@@ -301,35 +276,35 @@ def _calculate_optimal_m(
 
 
 def _simulate_semiasynchronous(
-        server_round: int,
         simulated_times: List[float],
-        utility_dict: Dict[int, float],
+        velocity_dict: Dict[int, float],
         prev_counters: Dict[int, int],
         prev_max: float,
         prev_updates: Dict[int, int],
         m: int,
-        beta: float = 0.75,
-        k: int = 7,
+        beta: float = 0.9,
+        debug: bool = False,
     ):
     execution_counters = prev_counters.copy()
     updated_times = simulated_times.copy()
     
-    total_utility = 0
+    total_velocity = 0
 
     for cid, counter_val in execution_counters.items():
         if counter_val != 0:
             updated_times[cid] = max(0, simulated_times[cid] - prev_max)
 
-    if m == 1:
+    if m == 1 and debug:
         print("--- Simulation Step ---")
         print(f"  Simulated times: {simulated_times}")
         print(f"  Prev counters: {execution_counters}")
-        print(f"  Utility dict: {utility_dict}")
+        print(f"  Velocity dict: {velocity_dict}")
         print(f"  Prev max: {prev_max}")
         print(f"  Prev updates: {prev_updates}")
         print(f"  Adjusted simulated times: {updated_times}")
 
-    print(f"--- M = {m} ---")
+    if debug:
+        print(f"--- M = {m} ---")
 
     def m_minimos_con_indices(diccionario, m):
         ordenada = sorted(diccionario.items(), key=lambda x: x[1])        
@@ -341,90 +316,82 @@ def _simulate_semiasynchronous(
     valores, indices = m_minimos_con_indices(updated_times, m)
     max_value = max(valores) if valores else 0
 
-    print(f"  Chosen indices: {indices} with max time {max_value}")
-
-    # --- Counter updates ---
-    for cid in execution_counters.keys():
-        if cid in indices:  # clients that updated last round
-            execution_counters[cid] = 0
-        else:
-            execution_counters[cid] += 1
-
-    print(f"  Updated execution counters: {execution_counters}")
+    if debug:
+        print(f"  Chosen indices: {indices} with max time {max_value}")
 
     for cid, counter_val in execution_counters.items():
-        if counter_val == 0:
+        """if counter_val == 0:
             total_bias = sum(
                 server_round - prev_updates[cid2]
                 for cid2, cval2 in execution_counters.items()
                 if cval2 != 0 and cid2 != cid
             )
         else:
-            total_bias = 0
+            total_bias = 0"""
 
-        """if cid in indices or updated_times[cid] <= 0:
-            t_i = 1.0
-        else:
-            t_i = max_value / updated_times[cid]"""
-        
-        t_i = max_value / updated_times[cid] if updated_times[cid] > 0 else 0.0
-
-        mu_i = np.exp(-beta * (counter_val + np.log1p(total_bias / k)))
-        total_utility += utility_dict[cid] * mu_i * t_i
-
-        print(f"    Utility contribution from client {cid}: {utility_dict[cid]} * {mu_i} * {t_i} = {utility_dict[cid] * mu_i * t_i}")
-    return total_utility, max_value
+        if cid in indices or updated_times[cid] <= 0:
+            mu_i = beta ** counter_val
+            n_i = 1/8
+            total_velocity += velocity_dict[cid] * mu_i * n_i
+    return total_velocity, max_value
 
 
 def _get_statistics_semiasynchronous(
         server_round,
         timestamps,
-        duraciones_fit,
         start_time_round,
         prev_updates,
-        prev_prev_updates
+        holt_state,
+        estadisticas,
+        init_rounds: Dict = {}
     ):
-    # 1. Construir supernodes_fit y actualizar duraciones_fit en un solo paso
-    for node, vals in timestamps.items():
+    def update_holt(node, new_time, holt_state, n=3):       
+            alpha = 2 / (n + 1)
+            gamma = alpha / 3
+            y = np.log(new_time)
+
+            # Inicialización
+            if node not in holt_state:
+                holt_state[node] = {
+                    "L": y,
+                    "T": 0.0,
+                    "sigma": 0.0
+                }
+                return holt_state
+
+            L_prev = holt_state[node]["L"]
+            T_prev = holt_state[node]["T"] 
+
+            # Holt update
+            L = alpha * y + (1 - alpha) * (L_prev + T_prev)
+            T = gamma * (L - L_prev) + (1 - gamma) * T_prev
+
+            # Actualizar sigma log (EMA de error)
+            err = y - (L_prev + T_prev)
+            beta_sigma = alpha / 2
+            sigma = np.sqrt(
+                beta_sigma * err**2 + (1 - beta_sigma) * holt_state[node]["sigma"]**2
+            )
+
+            holt_state[node]["L"] = L
+            holt_state[node]["T"] = T
+            holt_state[node]["sigma"] = sigma
+            return holt_state
+
+    for node, time in timestamps.items():
         if node == 'server' or prev_updates[node] != (server_round - 1):
             continue
 
-        if prev_prev_updates[node] == (server_round - 2):
-            init_round = server_round - 2
-        else:
-            init_round = prev_prev_updates[node]
+        real_time = float(time['fit']) - start_time_round[init_rounds[node]]
+        holt_state = update_holt(node, real_time, holt_state)
 
-        # Duración no negativa
-        fit_time = float(vals['fit'])
-        dur = fit_time - start_time_round[init_round]
-        if dur > 0:
-            duraciones_fit.setdefault(node, []).append(dur)
+        estadisticas[node]['mu'] = holt_state[node]["L"] + holt_state[node]["T"]
+        estadisticas[node]['sigma'] = holt_state[node]["sigma"]
 
-    # 2. Calcular media y sigma logarítmicas
-    weights = np.array(2 ** np.arange(3))
-    estadisticas = {}
-
-    for node in duraciones_fit.keys():
-        # 1. Tomar los últimos N tiempos y aplicar log
-        times_window = duraciones_fit[node][-len(weights):]
-        if len(times_window) == 0:
-            continue
-
-        y = np.log(times_window)       
-        w = weights[-len(y):]  # recortar pesos si hay menos elementos
-
-        # 2. Media y desviación ponderadas en log-escala
-        mu = np.sum(w * y) / np.sum(w)
-        sigma = np.sqrt(np.sum(w * (y - mu)**2) / np.sum(w))
-
-        estadisticas[node] = {
-            'mu': mu,
-            'sigma': sigma, 
-        }
-    return estadisticas
+    return estadisticas, holt_state
 
 
-def _calculate_utility(f1, f2, node,
+"""def _calculate_metrics(f1, f2, node,
     weights={"w1": 0.0, "w2": 1.0, "w3": 0.0}
 ):  
     f1_value = f1['raw'][node]
@@ -437,6 +404,9 @@ def _calculate_utility(f1, f2, node,
 
     # Obtener todos los valores
     times = np.array(list(f2.values()))
+    max_value = times.max()
+    f2_score = f2[node] / max_value if max_value > 0 else 1.0
+
     ratio = times.max() / times.min()
 
     f2_values = np.log(times) if ratio > 1.5 else times
@@ -460,4 +430,4 @@ def _calculate_utility(f1, f2, node,
         )
     
     #print(f"Utility calculation for node {node}: f1={f1_score}, f2={f2_score}, total={utility}")
-    return round(utility, 4)
+    return round(utility, 4)"""

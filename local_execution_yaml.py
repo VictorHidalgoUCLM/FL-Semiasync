@@ -106,16 +106,17 @@ for i in range(1, n+1):
     supernode_config = {
         'image': 'flwr/supernode:1.18.0',
         'container_name': supernode_name,
-        'ports': [f'{9093 + i}:{9093 + i}'],
+        'ports': [f'{9200 + i}:{9200 + i}'],
         'networks': ['master_default'],
         'command': [
             '--insecure', '--superlink', 'superlink:9092',
             '--node-config', f'partition-id={i-1} num-partitions={n} partition-type="{data_type}" partition-alpha="{alpha}" dataset-name="{dataset_name}"',
-            '--clientappio-api-address', f'0.0.0.0:{9093 + i}', '--isolation', 'process'
+            '--clientappio-api-address', f'0.0.0.0:{9200 + i}', '--isolation', 'process'
         ],
         'depends_on': ['superlink'],
         'environment': [f'DEVICE={supernode_name}'],
         'cpuset': f'{i-1}',
+        'cpus': 1,
         'mem_limit': '1g' # 1 GB RAM memory limit
     }
 
@@ -123,7 +124,7 @@ for i in range(1, n+1):
     cpuset_string = ','.join(cpuset_list)
 
     if i <= slowclients:
-        cpus_limit = 0.2
+        cpus_limit = 0.4
     elif i <= slowclients + medclients:
         cpus_limit = 0.33
     else:
@@ -138,7 +139,7 @@ for i in range(1, n+1):
         },
         'container_name': client_name,
         'networks': ['master_default'],
-        'command': ['--insecure', '--clientappio-api-address', f'{supernode_name}:{9093 + i}'],
+        'command': ['--insecure', '--clientappio-api-address', f'{supernode_name}:{9200 + i}'],
         'depends_on': [supernode_name],
         'environment': [f'DEVICE={supernode_name}'],
         'mem_limit': '2g',

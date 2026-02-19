@@ -41,9 +41,9 @@ paths = {
 config = {
     'fraction_fit': 1,
     'fraction_evaluate': 0,
-    'min_fit_clients': 8,
-    'min_evaluate_clients': 8,
-    'min_available_clients': 8,
+    'min_fit_clients': 3,
+    'min_evaluate_clients': 3,
+    'min_available_clients': 3,
     'evaluate_fn': "evaluate_server",
     'on_fit_config_fn': "None",
     'on_evaluate_config_fn': "None",
@@ -57,7 +57,7 @@ config = {
     'inplace': True,
 }
 
-devices = {
+"""devices = {
     'raspberrypi1': 'raspberrypi1',
     'raspberry4': 'raspberry4',
     'raspberry3': 'raspberry3',
@@ -66,9 +66,15 @@ devices = {
     'raspberry2': 'raspberry2',
     'raspberry5': 'raspberry5',
     'raspberry8': 'raspberry8',
+}"""
+
+devices = {
+    'raspberrypi1': 'raspberrypi1',
+    'raspberry4': 'raspberry4',
+    'raspberry3': 'raspberry3',
 }
 
-clients = {
+"""clients = {
     'raspberrypi1': [1, 32, new_value],
     'raspberry4': [1, 32, new_value],
     'raspberry3': [1, 32, new_value],
@@ -77,6 +83,12 @@ clients = {
     'raspberry2': [1, 32, new_value],
     'raspberry5': [1, 32, new_value],
     'raspberry8': [1, 32, new_value],
+}"""
+
+clients = {
+    'raspberrypi1': [1, 32, new_value],
+    'raspberry4': [1, 32, new_value],
+    'raspberry3': [1, 32, new_value],
 }
 
 prometheus_conf = {
@@ -92,7 +104,7 @@ remote_execution = {
     'devices': ["raspberrypi1", "raspberry4", "raspberry3", "raspberry6", "raspberry7"],
 }
 
-names = {
+"""names = {
     'supernode-1': [1, 32, new_value],
     'supernode-2': [1, 32, new_value],
     'supernode-3': [1, 32, new_value],
@@ -101,7 +113,14 @@ names = {
     'supernode-6': [1, 32, new_value],
     'supernode-7': [1, 32, new_value],
     'supernode-8': [1, 32, new_value],
-    'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5", "client-6", "client-7", "client-8",]
+    'clientapps': ["client-1", "client-2", "client-3", "client-4", "client-5", "client-6", "client-7", "client-8"],
+}"""
+
+names = {
+    'supernode-1': [1, 32, new_value],
+    'supernode-2': [1, 32, new_value],
+    'supernode-3': [1, 32, new_value],
+    'clientapps': ["client-1", "client-2", "client-3"],
 }
 
 fedProx = {

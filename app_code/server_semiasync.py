@@ -5,7 +5,6 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from logging import INFO, WARNING
 from typing import Any, Dict, List, Optional, Tuple, Union
-import numpy as np
 
 import toml
 from flwr.common import (
@@ -29,9 +28,10 @@ from flwr.server.server import (
     EvaluateResultsAndFailures,
     FitResultsAndFailures,
 )
-from flwr.server.strategy.aggregate import aggregate
 import timeit
 from app_code.history import MyHistory
+from app_code.strategies.FedMOpt import FedMOpt
+from app_code.strategies.FedAvg import FedAvgCustom
 
 class CustomServerSemiasync(Server):
     """Class that inherits from Flwr original Server class. This permits to change the synchrony
@@ -60,6 +60,15 @@ class CustomServerSemiasync(Server):
 
         self.init_loss = 0
         self.latest_round = 1
+
+        self.prev_updates = {}
+        self.prev_prev_updates = {}
+
+        self.config = toml.load(os.environ.get("CONFIG_PATH"))
+        self.beta = self.config["tempConfig"].get("beta", 0.9)
+        self.gamma = self.config["tempConfig"].get("gamma", 0.9)
+
+        self.init_round = 1
 
     def evaluate_round(
         self,
@@ -167,6 +176,7 @@ class CustomServerSemiasync(Server):
         self.parameters = self._get_initial_parameters(server_round=0, timeout=timeout)
         log(INFO, "Starting evaluation of initial global parameters")
         res = self.strategy.evaluate(0, parameters=self.parameters)
+
         if res is not None:
             self.init_loss = res[0]
             log(
@@ -180,18 +190,24 @@ class CustomServerSemiasync(Server):
         else:
             log(INFO, "Evaluation returned no results (`None`)")
 
+        if isinstance(self.strategy, FedMOpt):
+            self.init_round = 0
+            self.strategy.init_round = 0
+        else:
+            self.init_round = 1
+            self.strategy.init_round = 1
+
         # Run federated learning for num_rounds
         start_time = timeit.default_timer()
 
-        for current_round in range(1, num_rounds + 1):
+        for current_round in range(self.init_round, num_rounds + 1):
             log(INFO, "")
             log(INFO, "[ROUND %s]", current_round)
 
             # Train model and replace previous global model
             res_fit = self.fit_round(
                 server_round=current_round,
-                timeout=timeout,
-                w_global=self.parameters,
+                timeout=timeout
             )
             
             if res_fit is not None:
@@ -202,8 +218,33 @@ class CustomServerSemiasync(Server):
                     server_round=current_round, metrics=fit_metrics
                 )
 
+            if current_round == 0:
+                continue
+            
             # Evaluate model using strategy implementation
-            res_cen = self.strategy.evaluate(current_round, parameters=self.parameters)
+            try:
+                res_cen = self.strategy.evaluate(current_round, parameters=self.parameters)
+
+            except Exception as e:
+                log(WARNING, "")
+                log(WARNING, f"{e}")
+                log(WARNING, f"Charging latest saved model and reevaluating...")
+
+                if self.strategy.best_parameters is not None:
+                    self.parameters = self.strategy.best_parameters
+
+                    res_cen = self.strategy.evaluate(current_round, parameters=self.parameters)
+
+                    loss_cen, metrics_cen = res_cen
+                    history.add_loss_centralized(
+                        server_round=current_round, loss=loss_cen
+                    )
+                    history.add_metrics_centralized(
+                        server_round=current_round, metrics=metrics_cen
+                    )
+
+                break
+
             if res_cen is not None:
                 loss_cen, metrics_cen = res_cen
                 log(
@@ -265,8 +306,7 @@ class CustomServerSemiasync(Server):
     def fit_round(
         self,
         server_round: int,
-        timeout: Optional[float],
-        w_global: Optional[Parameters],
+        timeout: Optional[float]
     ) -> Optional[
         tuple[Optional[Parameters], dict[str, Scalar], FitResultsAndFailures]
     ]:
@@ -276,6 +316,9 @@ class CustomServerSemiasync(Server):
             server_round=server_round,
             parameters=self.parameters,
             client_manager=self._client_manager,
+            prev_updates=self.prev_updates,
+            beta=self.beta,
+            gamma=self.gamma
         )
 
         if not client_instructions:
@@ -288,16 +331,29 @@ class CustomServerSemiasync(Server):
             self._client_manager.num_available(),
         )
 
-        if server_round == 1:
+        if server_round == 0:
+            self.init_time = time.time()
+        elif server_round == 1:
             self.init_time = self.strategy.init_time
 
         # Collect `fit` results from all clients participating in this round
-        results, failures, times, counters = self.fit_clients(
+        results, failures, times, init_rounds, counters = self.fit_clients(
             client_instructions=client_instructions,
             max_workers=self.max_workers,
             timeout=timeout,
-            group_id=server_round,
+            group_id=server_round
         )
+
+        # Write client-specific metrics to self.data from fit
+        for client, _, _, _ in results:
+            id = self.client_mapping[client.cid]
+
+            if self.strategy.server_type == 1:
+                self.strategy.timestamps[id]["fit"] = str(times[id][-1])
+            elif self.strategy.server_type == 2:
+                self.strategy.timestamps[id]["fit"] = ";".join(map(str, times[id]))
+
+        self.strategy.init_rounds = init_rounds
 
         log(
             INFO,
@@ -309,21 +365,26 @@ class CustomServerSemiasync(Server):
         # Aggregate training results
         aggregated_result: tuple[
             Optional[Parameters],
-            dict[str, Scalar],
-            dict[str, float],
-            Optional[np.ndarray],
+            dict[str, Scalar]
         ] = self.strategy.aggregate_fit(
                 server_round=server_round,
                 results=results,
                 failures=failures,
                 counters=counters,
-                w_global=w_global,
                 times=times,
+                global_parameters=self.parameters,
+                prev_updates=self.prev_updates,
+                beta=self.beta,
+                gamma=self.gamma,
             )
+
+        for key, counter in counters.items():
+            self.prev_prev_updates[key] = self.prev_updates.get(key, 0)
+            if counter == 0:
+                self.prev_updates[key] = server_round
 
         results = [(client, fitres) for client, fitres, _, _ in results]
         parameters_aggregated, metrics_aggregated = aggregated_result
-
         return parameters_aggregated, metrics_aggregated, (results, failures)
 
     def fit_clients(
@@ -331,17 +392,16 @@ class CustomServerSemiasync(Server):
         client_instructions: list[tuple[ClientProxy, FitIns]],
         max_workers: Optional[int],
         timeout: Optional[float],
-        group_id: int,
+        group_id: int
     ) -> FitResultsAndFailures:
         """Refine parameters concurrently on all selected clients."""
         m = self.strategy.m     # Get semiasynchrony level from strategy
         completed = 0
         finished_fs = []
 
-        if group_id == 1:
+        if group_id == self.init_round:
             for client, _ in client_instructions:
                 client_id = self.client_mapping[client.cid]
-
                 client_data = self.client_dictionary.setdefault(
                     client_id, {"future": None, "counter": 0, "times": [], "init_round": 1}
                 )
@@ -391,9 +451,9 @@ class CustomServerSemiasync(Server):
                 client_id=client_id,
                 init_round=init_round
             )
-
+                    
         """ Log writing """
-        for result in results:
+        """for result in results:
             key = result[2]
             loss_value = result[1].metrics['loss']
 
@@ -408,7 +468,7 @@ class CustomServerSemiasync(Server):
                 else:
                     self.strategy.data_history[key] = [mejora_relativa]
 
-            self.strategy.prev_loss[key] = loss_value
+            self.strategy.prev_loss[key] = loss_value"""
 
         return (
             results,
@@ -417,9 +477,12 @@ class CustomServerSemiasync(Server):
                 client_id: client_data["times"]
                 for client_id, client_data in self.client_dictionary.items()
             },
+            {
+                client_id: client_data["init_round"]
+                for client_id, client_data in self.client_dictionary.items()
+            },
             return_counters,
         )
-
 
 def _handle_finished_future_after_fit(
     future: concurrent.futures.Future,  # type: ignore
@@ -460,7 +523,7 @@ def _handle_finished_future_after_fit(
 
 def _update_client_data(
     client_data: Dict[str, Any],
-    init_time: float
+    init_time: float,
 ):
     """Updates necessary client data."""
     client_data["future"] = None

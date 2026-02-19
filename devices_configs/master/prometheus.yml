@@ -51,16 +51,18 @@ scrape_configs:
         targets:
           - 172.24.100.152:9090
 
-  - job_name: node_exporter
+  - job_name: slave_node_exporter
     scrape_interval: 5s
     static_configs:
       - targets:
-          - 'node_exporter:9100'
+          - 'slave_node_exporter:9100'
+        labels:
+          hostname: "victorPC"
 
   - job_name: cadvisor
     scrape_interval: 5s
     static_configs:
       - targets:
-          - 'cadvisor:8080'
+          - 'slave_cadvisor:8080'
         labels:
           hostname: "victorPC"

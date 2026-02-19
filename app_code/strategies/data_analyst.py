@@ -40,10 +40,8 @@ class DataAnalyst:
         self.devices = []
         self.names = {}
         self.output_files = []
-        self.queries_one_time = []
-        self.queries_recursive = []
-        self.result_one_time = []
-        self.result_recursive = []
+        self.queries = []
+        self.queries_results = []
         self.clientapps = []
 
     def get_hostnames(self):
@@ -68,16 +66,14 @@ class DataAnalyst:
             'container_network_transmit_bytes_total{{hostname="{device}",name="{name}"}}',
             'container_network_receive_bytes_total{{hostname="{device}",name="{name}"}}',
             'container_cpu_usage_seconds_total{{hostname="{device}",name="{name}"}}',
+            'container_cpu_cfs_throttled_seconds_total{{hostname="{device}",name="{name}"}}',
             'container_memory_usage_bytes{{hostname="{device}",name="{name}"}}',
-            'node_memory_SwapFree_bytes{{hostname="{device}"}}',
-            'node_thermal_zone_temp{{hostname="{device}"}}',
+            'container_memory_swap{{hostname="{device}",name="{name}"}}',
+            'node_thermal_zone_temp{{hostname="{device}",type="x86_pkg_temp"}}',
             'container_memory_failures_total{{hostname="{device}",name="{name}",scope="container"}}',
-        ]
-
-        one_time_queries = [
-            'machine_cpu_cores{{hostname="{device}"}}',
-            'machine_memory_bytes{{hostname="{device}"}}',
-            'node_memory_SwapFree_bytes{{hostname="{device}"}}',
+            'container_spec_cpu_quota{{hostname="{device}",name="{name}"}}',
+            'container_spec_memory_limit_bytes{{hostname="{device}",name="{name}"}}',
+            'container_spec_memory_swap_limit_bytes{{hostname="{device}",name="{name}"}}',
         ]
 
         # Local execution has only 1 device and several containers
@@ -90,12 +86,7 @@ class DataAnalyst:
                 queries = [query.format(device=self.devices[0], name=name)
                         for query in recursive_queries]
                 
-                self.queries_recursive.append(queries)  # Store recursive query config 
-
-                queries = [query.format(device=self.devices[0])
-                        for query in one_time_queries]
-                
-                self.queries_one_time.append(queries)  # Store one_time query config
+                self.queries.append(queries)  # Store recursive query config 
 
         # Remote execution has several devices and 2 containers per device
         elif self.configVariable["federation"] == "remote-execution":
@@ -107,16 +98,13 @@ class DataAnalyst:
                 queries = [query.format(device=device, name=list(self.names.keys())[i])
                         for query in recursive_queries]
                 
-                self.queries_recursive.append(queries)
+                self.queries.append(queries)
 
             for i, device in enumerate(self.devices):
                 queries = [query.format(device=device, name=self.clientapps[i])
                         for query in recursive_queries]
 
-                self.queries_recursive.append(queries)  # Store recursive query config 
-
-                queries = [query.format(device=device) for query in one_time_queries]
-                self.queries_one_time.append(queries)  # Store one_time query config 
+                self.queries.append(queries)  # Store recursive query config 
 
         for name in devices_list:
             # Create directory for storing metrics results for each hostname
@@ -176,34 +164,29 @@ class DataAnalyst:
 
     def execute_one_time_queries(self):
         """Executes all one-time queries and stores the results."""
-        for query in self.queries_one_time:
-            if self.configVariable["federation"] == "local-execution":
-                self.result_one_time.append([None, None, None])
-            else:
+        for query in self.queries:
+            query_result = self.execute_query(query)
+
+            while any(not res for res in query_result):
                 query_result = self.execute_query(query)
-
-                while any(not res for res in query_result):
-                    query_result = self.execute_query(query)
-                    print("No response received, waiting...")
-                    time.sleep(5)
-
-                query_values = [result[0]["value"][1] for result in query_result]
-                self.result_one_time.append(query_values)
+                print("No response received, waiting...")
+                time.sleep(5)
 
     def execute_recursive_queries(self):
         """
         Executes all recursive queries and appends the results to self.result_recursive.
         """
         self.elapsed_time = int(time.time() - self.init_time)
-        self.result_recursive = []
+        self.queries_results = []
 
-        for query in self.queries_recursive:
+        for query in self.queries:
             query_result = self.execute_query(query)
 
             query_values = [
                 value["value"][1] for result in query_result for value in result
             ]
-            self.result_recursive.append(query_values)
+
+            self.queries_results.append(query_values)
 
     def export_data(self):
         """
@@ -217,25 +200,8 @@ class DataAnalyst:
         for i, _ in enumerate(device_list):
             output_file = self.output_files[i]
 
-            cpu_total = self.result_one_time[i][0]
-            memory_total = self.result_one_time[i][1]
-            swap_total = self.result_one_time[i][2]
-
-            result_supernode = self.result_recursive[i]
-            result_clientapp = self.result_recursive[i + len(self.names)]
-
-            fin_result = [
-                (
-                    str(float(result_supernode[j]) + float(result_clientapp[j]))
-                    if j in [2, 3, 6, 7]
-                    else (
-                        str(result_clientapp[j])
-                        if j in [0, 1]
-                        else str(result_supernode[j])
-                    )
-                )
-                for j in range(len(result_supernode))
-            ]
+            result_supernode = self.queries_results[i]
+            result_clientapp = self.queries_results[i + len(self.names)]
 
             with open(output_file, "a", newline="") as csvfile:
                 csv_writer = csv.writer(csvfile)
@@ -246,17 +212,23 @@ class DataAnalyst:
                         "Net_transmit(B)",
                         "Net_receive(B)",
                         "CPU_time(s)",
+                        "CPU_throttled_time(s)",
                         "RAM_usage(B)",
-                        "Swap_free(B)",
+                        "Swap_usage(B)",
                         "Temp(C)",
                         "Mem_fault",
                         "Mem_majfault",
                         "",
-                        cpu_total if cpu_total is None else int(cpu_total),
-                        memory_total if memory_total is None else int(memory_total),
-                        swap_total if swap_total is None else int(swap_total),
+                        "cpu_client(quota)",
+                        "memory_client(B)",
+                        "swap_client(B)",
                     ]
                     csv_writer.writerow(header_row)
 
-                row = [self.elapsed_time] + [float(value) for value in fin_result[:8]]
+                row = (
+                    [self.elapsed_time] + 
+                    [float(value) for value in result_clientapp[:8]] + 
+                    [""] + 
+                    [float(value) for value in result_clientapp[8:]]
+                )
                 csv_writer.writerow(row)

@@ -4,6 +4,7 @@ import fnmatch
 import re
 import numpy as np
 import csv
+import sys
 import random
 import contextlib
 
@@ -186,6 +187,17 @@ def server_side_parameters():
 
 def get_evaluate_fn(model: torch.nn.Module, device: str = "cpu"):
     """Return an evaluation function for server-side evaluation using PyTorch (MNIST)."""
+    class DummyFile(object):
+        def write(self, x): pass
+        def flush(self): pass
+
+    def block_print():
+        sys.stdout = DummyFile()
+
+    def enable_print():
+        sys.stdout = sys.__stdout__
+
+
     dataset_name = projectconf["config"]["dataset_name"]
 
     if dataset_name == "uoft-cs/cifar10":
@@ -195,10 +207,13 @@ def get_evaluate_fn(model: torch.nn.Module, device: str = "cpu"):
             transforms.Normalize((0.4914, 0.4822, 0.4465),
                                 (0.2470, 0.2535, 0.2616))  # Normalización CIFAR10
         ])
+
+        block_print()
         # Dataset CIFAR-10
         testset = torchvision.datasets.CIFAR10(
             root="./data", train=False, download=True, transform=transform
         )
+        enable_print()
 
     elif dataset_name == "ylecun/mnist":
         # Transformaciones básicas para MNIST

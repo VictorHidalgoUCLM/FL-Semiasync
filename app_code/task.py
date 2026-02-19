@@ -175,7 +175,7 @@ def train(
 
     # Training loop for the specified number of epochs
     for _ in range(epochs):
-        for batch in dataloader:         
+        for batch in dataloader:               
             images, label = batch
             optimizer.zero_grad()  # Reset gradients
             outputs = net(images.to(device))  # Forward pass

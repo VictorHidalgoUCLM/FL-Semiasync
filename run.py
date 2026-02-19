@@ -7,6 +7,7 @@ import subprocess
 import threading
 import time
 import random
+import sys
 
 import requests
 import toml
@@ -106,14 +107,15 @@ parser.add_argument(
     type=float,
     nargs='+',
     help="List of Federated betas.",
-    default=[0.75]
+    default=[0.9]
 )
 
 parser.add_argument(
-    '-k',
-    type=int,
-    nargs='*',
-    help="List of Federated ks."
+    '-g', '--gammas',
+    type=float,
+    nargs='+',
+    help="List of Federated gammas.",
+    default=[0.9]
 )
 
 parser.add_argument(
@@ -122,6 +124,12 @@ parser.add_argument(
     nargs='+',
     help="List of alphas considered for non-iid data distribution.",
     default=[0.5]
+)
+
+parser.add_argument(
+    '--debug',
+    action='store_true',
+    help="Enable debug mode."
 )
 
 def signal_handler(sig, frame, event):
@@ -185,7 +193,7 @@ def local_run(command, show_output=False):
         if show_output:
             subprocess.run(command_parts, check=True)
         else:
-            subprocess.run(command_parts, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            subprocess.run(command_parts, stdout=sys.stdout, stderr=sys.stderr, check=True)
 
     except subprocess.CalledProcessError as e:
         print(f"Error when executing Docker command: {e}")
@@ -373,59 +381,67 @@ def init_containers(federation, devices, data_type):
             remote_run(client_command, ip, user)
 
 
-def generar_perfil_cpus(duracion_total, num_cambios, valores_cpu, min_primer_intervalo=400):
+def generar_perfil_cpus_interpolado(
+    duracion_total,
+    num_cambios,
+    cpu_max,
+    cpu_min,
+    min_primer_intervalo=300
+):
     """
-    Genera un perfil aleatorio de cambios de CPU donde el primer cambio siempre es 1.0.
+    Genera un perfil de CPU interpolando entre cpu_max y cpu_min.
+    El primer tramo siempre usa cpu_max.
     """
     if num_cambios < 1:
         raise ValueError("num_cambios debe ser >= 1")
 
     tiempo_restante = duracion_total - min_primer_intervalo
     if tiempo_restante <= 0:
-        raise ValueError("duración_total demasiado pequeña para el mínimo primer intervalo")
+        raise ValueError("duracion_total demasiado pequeña")
 
     cambios_restantes = num_cambios - 1
 
-    # Generar intervalos aleatorios para los cambios restantes
     if cambios_restantes > 0:
-        cortes = sorted([random.uniform(0, tiempo_restante) for _ in range(cambios_restantes - 1)])
-        intervalos = [cortes[0]] + \
-                     [cortes[i] - cortes[i - 1] for i in range(1, len(cortes))] + \
-                     [tiempo_restante - cortes[-1]]
+        cortes = [
+            i * tiempo_restante / cambios_restantes
+            for i in range(1, cambios_restantes)
+        ]
+
+        intervalos = (
+            [cortes[0]] +
+            [cortes[i] - cortes[i - 1] for i in range(1, len(cortes))] +
+            [tiempo_restante - cortes[-1]]
+        )
     else:
         intervalos = []
 
-    # Añadimos el primer intervalo
     intervalos = [min_primer_intervalo] + intervalos
 
     perfil = []
-    tiempo_acumulado = 0
+    tiempo_acumulado = 0.0
 
-    # Primer cambio siempre CPU = 1.0
+    # Primer tramo: CPU max
     perfil.append({
         "start": tiempo_acumulado,
         "duration": intervalos[0],
-        "cpu": 1.0
+        "cpu": cpu_max
     })
     tiempo_acumulado += intervalos[0]
 
-    # Los demás cambios aleatorios
-    for intervalo in intervalos[1:]:
-        cpu = random.choice(valores_cpu)
+    # Interpolación lineal
+    for i, intervalo in enumerate(intervalos[1:], start=1):
+        alpha = i / (num_cambios - 1)  # 0 → 1
+        cpu = cpu_max - alpha * (cpu_max - cpu_min)
+
         perfil.append({
             "start": tiempo_acumulado,
             "duration": intervalo,
-            "cpu": cpu
+            "cpu": round(cpu, 3)
         })
         tiempo_acumulado += intervalo
 
     return perfil
 
-
-
-# ---------------------------------------------
-# EJECUTOR DEL PERFIL
-# ---------------------------------------------
 def ejecutar_perfil(container_name, perfil, ciclos=1):
     """
     Ejecuta docker update según el perfil, repitiéndolo 'ciclos' veces.
@@ -445,11 +461,7 @@ def ejecutar_perfil(container_name, perfil, ciclos=1):
 
     print(f"[{container_name}] Perfil completado.")
 
-
-# ---------------------------------------------
-# LANZADOR DE HILOS (TU FUNCIÓN ADAPTADA)
-# ---------------------------------------------
-def lanzar_todos_perfiles_generados(clientes, duracion, cambios, valores_cpu, ciclos=1, seed=42):
+def lanzar_todos_perfiles_generados(clientes, duracion, cambios, cpu_max, cpu_min, min_primer_intervalo, ciclos=1, seed=42):
     """
     Genera y lanza perfiles aleatorios para cada cliente en hilos
     """
@@ -460,11 +472,12 @@ def lanzar_todos_perfiles_generados(clientes, duracion, cambios, valores_cpu, ci
         contenedor = f"client-{client_id}"
 
         # Generar perfil aleatorio
-        perfil = generar_perfil_cpus(
+        perfil = generar_perfil_cpus_interpolado(
             duracion_total=duracion,
             num_cambios=cambios,
-            valores_cpu=valores_cpu,
-            min_primer_intervalo=300
+            cpu_max=cpu_max,
+            cpu_min=cpu_min,
+            min_primer_intervalo=min_primer_intervalo
         )
 
         # Lanzar hilo
@@ -474,14 +487,13 @@ def lanzar_todos_perfiles_generados(clientes, duracion, cambios, valores_cpu, ci
         hilos.append(t)
 
         print(f"[INFO] Lanzado perfil de {contenedor}")
-
     return hilos
 
 
 def load_and_update_config(projectconf, server_type, dataset, federation, local_run, rounds):
     # 1. Escribir config temporal
     writeConfig_cmd = f'python configWriter.py 1 {rounds} {server_type} {dataset}'
-    local_run(writeConfig_cmd, False)
+    local_run(writeConfig_cmd, True)
 
     # 2. Cargar config
     try:
@@ -493,7 +505,9 @@ def load_and_update_config(projectconf, server_type, dataset, federation, local_
     # 3. Actualizar campos necesarios
     config['tempConfig']['federation'] = federation
     devices = config.get("devices", {})
-    clients = config.get("names", {}).pop('clientapps', None)
+    clients = {
+        k: v for k, v in config.get("names", {}).items() if k != "clientapps"
+    }
     rounds = config['config']['rounds']
 
     # 4. Guardar archivo actualizado
@@ -504,13 +518,14 @@ def load_and_update_config(projectconf, server_type, dataset, federation, local_
     return config, devices, clients, rounds
 
 
-def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta=0.75, k=8, alpha=None):
+def update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta=0.9, gamma=0.9, debug=False):
     temp = config.setdefault('tempConfig', {})
     temp['strategy'] = strategy
     temp['execution_name'] = execution_name
     temp['num_exec'] = act_exec
     temp['beta'] = beta
-    temp['k'] = k
+    temp['gamma'] = gamma
+    temp['debug'] = debug
 
     config["config"]["inplace"] = inplace
 
@@ -541,16 +556,14 @@ def main():
     dataset = args.dataset
     strategies = args.strategies
     betas = args.betas
-    ks = args.k
+    gammas = args.gammas
     alphas = args.i
+    debug = args.debug
 
     event = threading.Event()
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, event))
 
     # Iterate through data_list, federations, window_size, slowclients, heterogeneities
-    """for server_type, data_type, federation, alpha, slow_client in product(
-        asynchronies, data_list, federations, alphas, slowclients
-    ):"""
     for server_type, data_type, federation, alpha in product(
         asynchronies, data_list, federations, alphas
     ):
@@ -571,30 +584,24 @@ def main():
                 )
 
                 local_run(cmd, True)
-                
-            if ks is None:
-                ks = [len(clients)-1]
 
             if data_type == "noniid":
                 data_type = f"{data_type}{alpha}"
 
             # Iterate through strategies, sync_list and num_executions (1 to num_executions + 1)
-            for strategy, sync_number, beta, k, act_exec in product(
-                strategies, sync_list, betas, ks, range(1, num_executions + 1)):
+            for strategy, sync_number, beta, gamma, act_exec in product(
+                strategies, sync_list, betas, gammas, range(1, num_executions + 1)):
 
+                local_run("docker compose -f devices_configs/master/docker-compose.yml up -d", True)
                 init_containers(federation, devices, data_type) 
 
-                # Send an HTTP POST request to delete data series on the server
-                #requests.post(url, params=params)
-
                 if strategy == "FedMOpt":
-                    execution_name = f"{data_type}/slow{slow_client}_med{med_client}/beta{beta}/k{k}"
-                    inplace = False
-                    update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta, k)
+                    execution_name = f"{data_type}/slow{slow_client}_med{med_client}/beta{beta}/gamma{gamma}"
                 else:
-                    execution_name = f"{data_type}/sync{sync_number}/slow{slow_client}_med{med_client}"
-                    inplace = True
-                    update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number)            
+                    execution_name = f"{data_type}/sync{sync_number}/slow{slow_client}_med{med_client}/beta{beta}/gamma{gamma}"
+
+                inplace = False
+                update_temp_config(config, strategy, execution_name, act_exec, clients, inplace, sync_number, beta, gamma, debug)
 
                 last_round = get_last_round(config, strategy, act_exec, federation, execution_name)
                 step_rounds = rounds - last_round
@@ -610,13 +617,14 @@ def main():
 
                     # In case we need to generate false CPU usage
                     """lanzar_todos_perfiles_generados(
-                        clientes=[i+1 for i in range(len(clients))],
-                        duracion=step_rounds * 120,  # Assuming each round takes approx 60 seconds
-                        cambios=3,
-                        valores_cpu=[0.2, 0.33, 1.0],
-                        ciclos=1    
-                    )"""
-
+                        clientes=[i+1 for i in range(slow_client)],
+                        duracion=1000, 
+                        cambios=15,
+                        cpu_min=0.2,
+                        cpu_max=1.0,
+                        min_primer_intervalo=200
+                    )
+"""
                     docker_logs = local_Popen(
                         f"docker logs -f serverapp",
                         True,
@@ -646,6 +654,9 @@ def main():
                         f.close()
 
                         local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+                        # Send an HTTP POST request to delete data series on the server
+                        requests.post(url, params=params)
+                        local_run("docker compose -f devices_configs/master/docker-compose.yml down")
 
                         if federation == "remote-execution":
                             for i, (user, ip) in enumerate(devices.items(), start=1):
@@ -660,6 +671,9 @@ def main():
                     step_rounds = rounds - last_round
 
                 local_run(f"docker compose -f dockerfiles/{federation}.yml down")
+                # Send an HTTP POST request to delete data series on the server
+                requests.post(url, params=params)
+                local_run("docker compose -f devices_configs/master/docker-compose.yml down")
 
                 if federation == "remote-execution":
                     for i, (user, ip) in enumerate(devices.items(), start=1):

@@ -38,27 +38,56 @@ og_colors = plt.cm.tab10.colors
 y_min_global = np.inf
 y_max_global = -np.inf
 
-def find_numeric_dirs(base_path, prefix):
-    """Devuelve lista de valores numéricos en directorios tipo prefixN o prefixN.M."""
+def find_slow_dirs_univ(base_path):
     result = []
-    pattern = re.compile(rf"{prefix}(\d+(\.\d+)?)$")
+    pattern = re.compile(
+        r"^slow(\d+(\.\d+)?)(?:_med(\d+(\.\d+)?))?$"
+    )
 
     if not os.path.isdir(base_path):
         return result
 
     for name in os.listdir(base_path):
         full = os.path.join(base_path, name)
+        if not os.path.isdir(full):
+            continue
+
+        m = pattern.match(name)
+        if not m:
+            continue
+
+        slow = m.group(1)
+        med = m.group(3)
+
+        slow = float(slow) if "." in slow else int(slow)
+        med = (
+            float(med) if med and "." in med
+            else int(med) if med
+            else None
+        )
+
+        if med is None:
+            result.append((slow,))
+        else:
+            result.append((slow, med))
+
+    return result
+
+
+def find_numeric_dirs(base_path, prefix):
+    """Sin cambios: detecta valores numéricos en betaX o kY"""
+    result = []
+    pattern = re.compile(rf"{prefix}(\d+(\.\d+)?)$")
+    if not os.path.isdir(base_path):
+        return result
+    for name in os.listdir(base_path):
+        full = os.path.join(base_path, name)
         if os.path.isdir(full):
             m = pattern.match(name)
             if m:
                 value = m.group(1)
-                # INT si no tiene punto, FLOAT si lo tiene
-                if "." in value:
-                    value = float(value)
-                else:
-                    value = int(value)
+                value = float(value) if "." in value else int(value)
                 result.append(value)
-
     return result
 
 
@@ -108,23 +137,21 @@ def interpolate_at_time(timestamps, values, target_time):
 
 
 config = toml.load(projectconf)
-
-# Detectar parámetros directamente desde el filesystem
 slows = set()
-betas = {}  # betas[slow] = [beta1, beta2, ...]
-ks = {}     # ks[(slow, beta)] = [k1, k2, ...]
+betas = {}  # betas[slow_tuple] = [beta1, beta2, ...]
+ks = {}     # ks[(slow_tuple, beta)] = [k1, k2, ...]
 
 for data_type in data_types:
     root_path = os.path.join(root, final_strat, data_type)
 
-    # Detectar slows (ordenados)
-    found_slows = sorted(find_numeric_dirs(root_path, "slow"))
+    # Detectar slows como tuples (N, S)
+    found_slows = sorted(find_slow_dirs_univ(root_path))
     for slow in found_slows:
         slows.add(slow)
 
-        slow_dir = os.path.join(root_path, f"slow{slow}")
+        slow_dir = os.path.join(root_path, f"slow{slow[0]}_med{slow[1]}")
 
-        # Detectar betas dentro de slowX
+        # Detectar betas dentro de slowNmedS
         found_betas = sorted(find_numeric_dirs(slow_dir, "beta"))
         betas[slow] = found_betas
 
@@ -132,7 +159,7 @@ for data_type in data_types:
             beta_dir = os.path.join(slow_dir, f"beta{beta}")
 
             # Detectar ks dentro de betaX
-            found_ks = sorted(find_numeric_dirs(beta_dir, "k"))
+            found_ks = sorted(find_numeric_dirs(beta_dir, "gamma"))
             ks[(slow, beta)] = found_ks
 
 results_list = []
@@ -140,64 +167,70 @@ time_objective = []
 for strategy in strategies:
     for data_type in data_types:
         for slow in sorted(slows):
+            slow_dir_name = f"slow{slow[0]}_med{slow[1]}"            
+
             for beta in sorted(betas.get(slow, [])):
                 for k in sorted(ks.get((slow, beta), [])):
                     merged_df = None
                     for sync_client in range(1, available + 1):
-                        log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/slow{slow}", num_exec=1)
-                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/slow{slow}", num_exec=1)
-
+                        log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
+                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
+    
                         log_path = f"../{log_path}"
                         time_path = f"../{time_path}"
 
-                        temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
-                        temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                        if os.path.exists(log_path):
+                            temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                            temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                        else:
+                            temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
+                            temp_time_df = pd.DataFrame(columns=["server_ev"])
 
                         final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
-                        final_df.columns = [f'accuracy_{sync_client}', f'loss_{sync_client}', f'timestamp_{sync_client}']
+                        final_df.columns = [
+                            f'accuracy_{sync_client}',
+                            f'loss_{sync_client}',
+                            f'timestamp_{sync_client}'
+                        ]
 
                         if merged_df is None:
                             merged_df = final_df
                         else:
                             merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
 
-                    exec_metrics = []
-                    exec_times = []
-                    for num_exec in range(num_execs):
-                        log_path = config['paths']['localLog'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/slow{slow}/beta{beta}/k{k}", num_exec=1)
-                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/slow{slow}/beta{beta}/k{k}", num_exec=1)
+                    log_path = config['paths']['localLog'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
+                    time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
 
-                        log_path = f"../{log_path}"
-                        time_path = f"../{time_path}"
+                    log_path = f"../{log_path}"
+                    time_path = f"../{time_path}"
 
-                        metric = pd.read_csv(log_path)[["server_ev_loss"]].to_numpy().ravel()
-                        time = pd.read_csv(time_path)[["server_ev"]].to_numpy().ravel()
+                    if os.path.exists(log_path):
+                        temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                        temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                    else:
+                        temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
+                        temp_time_df = pd.DataFrame(columns=["server_ev"])
 
-                        exec_metrics.append(metric)
-                        exec_times.append(time)
-                    
-                    t_max = min(time[-1] for time in exec_times)
-                    t_grid = np.linspace(0, t_max, 50)
+                    final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                    final_df.columns = [
+                        f'accuracy_{available + 1}',
+                        f'loss_{available + 1}',
+                        f'timestamp_{available + 1}'
+                    ]
 
-                    all_interp = []
-                    for time, metric in zip(exec_times, exec_metrics):
-                        interp = np.interp(t_grid, time, metric)
-                        all_interp.append(interp)
-
-                    acc_mean = np.mean(all_interp, axis=0)
-
-                    final_df = pd.DataFrame({
-                        f'loss_{available+1}': acc_mean,
-                        f'timestamp_{available+1}': t_grid
-                    })
                     merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
+
+                    print(merged_df)
 
                     for i in range(1, available + 2):
                         # Calculamos el mínimo y máximo de loss para establecer el rango global
                         y_min_global = min(y_min_global, merged_df[f"loss_{i}"].min())
                         y_max_global = max(y_max_global, merged_df[f"loss_{i}"].max())
 
-                    last_valids = merged_df[time_columns].apply(lambda col: col.dropna().iloc[-1])
+                    last_valids = merged_df[time_columns].apply(
+                        lambda col: col.dropna().iloc[-1] if col.notna().any() else 0.0
+                    )
+
                     max_time = last_valids.min()
                     time_objective.append(max_time)
 
@@ -225,6 +258,7 @@ for strategy in strategies:
                         else:
                             axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"loss_{i}"], marker='o', markersize=4, linestyle='-', label=f"M = {i}", color=og_colors[i-1])
 
+                    print(y_min_global)
                     # Establece los límites del eje Y usando el rango global calculado
                     axs.set_ylim(y_min_global - 0.1, 3)  # Un margen pequeño para mayor claridad
                     axs.set_xlim(0, 4000)
@@ -241,11 +275,35 @@ for strategy in strategies:
                     plt.tight_layout()
 
                     os.makedirs(f'../{federation}/results/{final_strat}/{data_type}/graphs', exist_ok=True)
-                    plt.savefig(f'../{federation}/results/{final_strat}/{data_type}/graphs/slow{slow}_beta{beta}_k{k}.png', dpi=150)
+                    plt.savefig(f'../{federation}/results/{final_strat}/{data_type}/graphs/{slow_dir_name}_beta{beta}_gamma{k}.pdf', format="pdf")
 
                     loss_cols = [col for col in merged_df.columns if "loss" in col]
                     
-                    #print(f"Execution {slow}")
+                    plt.figure(figsize=(10, 6))
+
+                    for col in loss_cols:
+                        plt.plot(merged_df.index, merged_df[col], label=col)
+
+                        # Valor mínimo (ignora NaN)
+                        min_val = merged_df[col].min()
+
+                        # Línea horizontal en el mínimo
+                        plt.axhline(
+                            y=min_val,
+                            linestyle="--",
+                            alpha=0.4
+                        )
+
+                    plt.xlabel("Índice (ronda / fila)")
+                    plt.ylabel("Loss")
+                    plt.title("Evolución de loss_n")
+                    plt.legend()
+                    plt.grid(True)
+                    plt.tight_layout()
+                    plt.ylim(y_min_global - 0.1, 3)
+                    os.makedirs(f'../{federation}/results/{final_strat}/{data_type}/graphs/rounds', exist_ok=True)
+                    plt.savefig(f'../{federation}/results/{final_strat}/{data_type}/graphs/rounds/{slow_dir_name}_beta{beta}_gamma{k}.pdf', format="pdf")
+
                     for loss_col in loss_cols:
                         # índice de la fila donde ocurre el mínimo de la columna loss
                         idx_min = merged_df[loss_col].idxmin()
@@ -255,18 +313,16 @@ for strategy in strategies:
                         timestamp_col = f"timestamp_{n}"
                         
                         # valor del timestamp en esa fila
-                        ts_value = merged_df.at[idx_min, timestamp_col]
-                        min_loss = merged_df.at[idx_min, loss_col]
-
-                        #print(f"{loss_col}: min = {merged_df.at[idx_min, loss_col]} en timestamp = {ts_value}.")
+                        ts_value = merged_df[timestamp_col].get(idx_min, float(0))
+                        min_loss = merged_df[loss_col].get(idx_min, float(0))
 
             results = {}  # key = (beta, k) → value = dataframe
             for beta in sorted(betas.get(slow, [])):
                 for k in sorted(ks.get((slow, beta), [])):
-                    exec_metrics = []
+                    exec_loss = []
                     exec_times = []
 
-                    sub_exec = f"{data_type}/slow{slow}/beta{beta}/k{k}"
+                    sub_exec = f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}"
 
                     for exec_id in range(num_execs):
 
@@ -294,10 +350,10 @@ for strategy in strategies:
                         log_df = pd.read_csv(log_path)[["server_ev_loss"]]
                         time_df = pd.read_csv(time_path)[["server_ev"]]
 
-                        metric = log_df.to_numpy().ravel()
+                        loss = log_df.to_numpy().ravel()
                         time = time_df.to_numpy().ravel()
 
-                        exec_metrics.append(metric)
+                        exec_loss.append(loss)
                         exec_times.append(time)
 
                     # Interpolamos en una misma malla temporal
@@ -306,7 +362,7 @@ for strategy in strategies:
 
                     interpolated_runs = [
                         np.interp(t_grid, t, m)
-                        for t, m in zip(exec_times, exec_metrics)
+                        for t, m in zip(exec_times, exec_loss)
                     ]
 
                     mean_loss = np.mean(interpolated_runs, axis=0)
@@ -317,7 +373,7 @@ for strategy in strategies:
                         "loss": mean_loss
                     })
 
-            # =======================================================
+            """# =======================================================
             # 2. GRAFICAS FIJANDO beta
             # =======================================================
             for beta in sorted(betas.get(slow, [])):
@@ -394,3 +450,4 @@ for strategy in strategies:
                 save_path = f'../{federation}/results/{final_strat}/{data_type}/graphs/k_{k}_slow{slow}.png'
                 plt.savefig(save_path, dpi=300)
                 plt.close()
+"""
