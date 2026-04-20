@@ -74,7 +74,7 @@ services:
     - DEVICE=supernode-1
     mem_limit: 2g
     cpuset: '10'
-    cpus: 0.4
+    cpus: 1
   supernode-2:
     image: flwr/supernode:1.18.0
     container_name: supernode-2

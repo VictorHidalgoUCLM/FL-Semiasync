@@ -16,14 +16,14 @@ def cliente_numero(cliente):
 # -------------------------------------------------
 # Loop: una figura (9x7) por PDF
 # -------------------------------------------------
-for k in [2]:
+for k in [1]:
 
     if k == 3:
         fig, ax = plt.subplots(figsize=(10, 7))
     else:
         fig, ax = plt.subplots(figsize=(9, 7))
 
-    path = f"../local-execution/results/{strategy}/iid/sync{k}/slow1_med0/beta1.0/gamma0.9/logs/timestamp_1.csv"
+    path = f"../local-execution/results/{strategy}/iid_old/sync{k}/slow1_med0/beta1.0/gamma0.9/logs/timestamp_1.csv"
     df = pd.read_csv(path)
 
     intervalos = {}

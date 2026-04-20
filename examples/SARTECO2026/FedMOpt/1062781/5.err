@@ -1,0 +1,2444 @@
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9594
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9595
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9596
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9597
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9598
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9599
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to 127.0.0.1:9592.
+[92mINFO [0m:      Starting Flower ClientAppIo gRPC server on 127.0.0.1:9600
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message 7bd7d8ef-0942-41b5-b95d-74a5e7a40ef4
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message 4c444d77-a8e2-4e66-9b95-ca0b051bef09
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message c7af8084-0d1b-40c4-9076-3e3da975ccec
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1233845298516076414
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message a4d6169b-40fb-4705-a72c-ff4d253b11c4
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message 34278970-5f20-4c1a-82c3-c4b2cc25bcb1
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9515994434219339078
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message 11fa430d-7229-4165-914e-fd61f7c6a437
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1520311487507230428
+[92mINFO [0m:      
+[92mINFO [0m:      Received: get_properties message c832e4a0-b0bf-412b-90ed-eaffb661730c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3786914314535151297
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15788934718457708250
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15010152818081905924
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11742612587078554839
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1233845298516076414
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1520311487507230428
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9515994434219339078
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15788934718457708250
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3786914314535151297
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15010152818081905924
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11742612587078554839
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message ae97bfb0-93cb-404f-8f58-6233e0b6106e
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message d61c810d-4158-42ff-85ad-f5b05977e799
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message 81aba46d-618c-49bf-b04a-3b52823a9bb8
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message 913e7cc8-b1c5-49ec-bfe7-e9878c1d3532
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message 9b6eb5ee-9d54-428e-ab21-d349d6eb8aa3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18287618745069939190
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message 58b956f8-ac26-4dfc-b7ef-3f38354f735f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2148754368329705892
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4410579336087747437
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 880735128821089379
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4401402343584833656
+[92mINFO [0m:      
+[92mINFO [0m:      Received: train message 6f133e7e-e78f-4543-8eae-fa88bd0b4389
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14880312474005631362
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8141058192477324377
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182278.7381206
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18287618745069939190
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182278.8861322
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 880735128821089379
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182281.6164532
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4401402343584833656
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182282.2388804
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8141058192477324377
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182282.3836136
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14880312474005631362
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776182293.5540428
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2148754368329705892
+[92mINFO [0m:      Sent reply
+[W414 17:58:37.891306230 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776182317.534771
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4410579336087747437
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message c611320f-70b3-48e9-9221-2dedc0a714d6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message c057aed3-ae7b-457a-ada7-62f39e93f43f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message 0d0944d9-0749-4ec6-9cf0-e35970ed88ac
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4515556548218029821
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18435473247785450154
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 127903579228843216
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message 8943a770-8168-4628-8567-7fadb1235b8e
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message b3182c7d-5ce3-4471-8da2-6465da7e77e2
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message e57cd6ff-b875-4ade-9487-294e99da3070
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 1]
+[92mINFO [0m:      Received: train message f48b0f5c-f59c-43a0-bf69-c2f90cfd3a39
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12787828608435634928
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11740459203774912730
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7161491431504196002
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1317084802519906867
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182409.635034
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1317084802519906867
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182410.1861317
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 127903579228843216
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182412.502159
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7161491431504196002
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182413.0104046
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4515556548218029821
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182413.1886597
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18435473247785450154
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776182422.6605031
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11740459203774912730
+[92mINFO [0m:      Sent reply
+[W414 18:00:48.664919224 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776182448.3075042
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12787828608435634928
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message 9d6ea4d1-8d09-403c-b434-cb56ee9d7256
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message 26231df8-cf95-4e46-8da8-33a204c95785
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message 53cce40d-c6ef-47b6-80fe-76fa45fd90a7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message e0152b91-112e-4276-9d39-edcc5db5a507
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message 5f356da1-8a57-4560-8c0e-cc89a31360f9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 2]
+[92mINFO [0m:      Received: train message 6fea5fed-044b-4336-acfa-5c173a4b7861
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17219671136275839490
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17256594089236908362
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1358119047948656925
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16963762851386340776
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14941063861746683993
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 355941753546091888
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182537.3081026
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17219671136275839490
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182537.5014777
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1358119047948656925
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182538.7632551
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16963762851386340776
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182538.9274938
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17256594089236908362
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182539.1169362
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 355941753546091888
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776182548.2931519
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14941063861746683993
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message e298dd89-59f4-491d-bef5-69a52264c0b0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message c7f4217f-9829-4453-b675-c05f1db04ced
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message dffee863-84de-4237-a1b9-81121163aa43
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message cca0dc13-a552-4cde-a9fb-35735bc59239
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10525339234717848489
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message 2486dd01-27d1-488c-b430-902de0e7f8a4
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4758183225379297511
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11092060066149875718
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17309036963213995007
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1485560378892408898
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 3]
+[92mINFO [0m:      Received: train message 3802c7d6-fa14-4f55-b1f6-c2053a5aed6c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1921283937034526003
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182654.586773
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1485560378892408898
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182655.637621
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10525339234717848489
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182657.6544402
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11092060066149875718
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182657.7532508
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4758183225379297511
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182658.3605886
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17309036963213995007
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message 3cd6eb92-fb56-4cc6-ab40-0ba41892c0a9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message d11b0939-dee5-481f-aa84-d15aedee35e0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message 83532aad-187e-4b22-97bc-2a60a027914f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message 30b607cf-00f9-45c0-9d62-75525882cf2d
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10260287269882704072
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message 0d02d937-4137-47ad-92bc-5cd3e07eb54e
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1967940420500178860
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 4]
+[92mINFO [0m:      Received: train message f9680dae-055f-4b0e-b82d-63e2b254643f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3463827276809346795
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2272122057195801092
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13339827902950009971
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 523037313050955571
+[W414 18:04:53.817225846 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776182693.4613976
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1921283937034526003
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182773.519238
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1967940420500178860
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182773.6218324
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 523037313050955571
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182775.4082358
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3463827276809346795
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182775.5397341
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2272122057195801092
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182775.6690133
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13339827902950009971
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776182785.5384963
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10260287269882704072
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message ac28f5f6-68fe-41ee-a995-65f3877c9268
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message 56923448-108c-47dc-ab1b-c2cb08ee241a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message b91df407-44fd-4a60-86d8-4e000785ce21
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message 51d0ac1f-837f-4815-82c1-e756834cb6b0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message 464146fb-dac9-4d2c-b582-c85da868d412
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3604078963686092373
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7892559902551369233
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12185015028453487908
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 5]
+[92mINFO [0m:      Received: train message 61e7b6f1-d4e0-45fd-9e10-4b27d2245c0d
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9043627632845771145
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 327117197524558530
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11329165965527237410
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776182893.3948624
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 327117197524558530
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776182893.5256033
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9043627632845771145
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776182895.5607972
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3604078963686092373
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776182895.6694512
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7892559902551369233
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776182896.0452404
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12185015028453487908
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message 9af41c10-dc34-4bd5-8615-2203fc1945d8
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message 487fd36e-0c88-4b3e-9680-f69bb8376c3c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message d33d00f3-5557-425b-97f8-f5c054b4c113
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message 0c51ad5d-1b55-46b9-900f-5fc36170fbbf
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message 46a25311-bedf-4e42-8ad7-b3e60504640d
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3375769427204556605
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 107166329623427073
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13597386614676431457
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17523102857011200847
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 198549077260075795
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 6]
+[92mINFO [0m:      Received: train message 0bbed7de-25b3-4e1e-967e-bcd548b7782e
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8483390532538011132
+[W414 18:08:51.552409160 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776182931.1956964
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11329165965527237410
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183013.8272707
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3375769427204556605
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183013.9632936
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 107166329623427073
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183016.0395515
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17523102857011200847
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183016.1355793
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13597386614676431457
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183016.5000257
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8483390532538011132
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183024.4436193
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 198549077260075795
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message b7b46f08-adab-4a44-9b6f-a92f79cc16fc
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message b49951e3-f112-4c5a-a210-43e81de67b40
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message 808807f1-8ec2-4124-ad80-62e6c4ca9a24
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13739980365063896878
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8870234830898396971
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5951712754467992555
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message dfc0c916-d354-4819-9294-6cac10b00f30
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message adca1a9e-e63d-44b0-8e94-84ecbec26892
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11209466691761107222
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 7]
+[92mINFO [0m:      Received: train message ac9ae789-c462-4a54-a035-c33a69da8eb6
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16505470310300567681
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6398640828729793335
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183131.345231
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13739980365063896878
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183131.6501138
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8870234830898396971
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183134.0665243
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5951712754467992555
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183134.2322025
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16505470310300567681
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183134.481532
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6398640828729793335
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message 9fbb77b0-9e6b-4a5a-a171-257eabfc7309
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message f92bd112-c362-4679-97a8-ed9a6e404c88
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message 8c59393f-b852-4625-b7f0-d2a55ddd478c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message 835ddd3a-b9b0-4a79-a26c-98105aa223bc
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message 1e2b48ad-c104-4830-957d-7558e388d63f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1688991790266230846
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8793787660205472749
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12622234401274839229
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8703098043087318734
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14117050835699829423
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 8]
+[92mINFO [0m:      Received: train message 70768a1c-b4ab-44c4-a7ea-0f637e9b9ca3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3587987505799712498
+[W414 18:12:49.887778312 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776183169.5326424
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11209466691761107222
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183253.0387807
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1688991790266230846
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183253.4762502
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12622234401274839229
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183254.9536607
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3587987505799712498
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183255.0876818
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8703098043087318734
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183255.1884055
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8793787660205472749
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183264.1067376
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14117050835699829423
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message 0d691b30-ab20-4a0f-bfc4-42e79d67f267
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message 8f743f77-5cd2-4297-9cbd-cfbbc2190f16
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message b5b3b130-d752-4a58-a166-90f1deeaf321
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message 3c15fb2e-c442-41d5-b3c1-c778e2a566f8
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8807089731926869617
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6896624542595603840
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4384126985167928509
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3370750039603401913
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message 562ad745-ee18-458b-aa4d-354c12a43c32
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 9]
+[92mINFO [0m:      Received: train message 97067c98-daba-4bb3-9f36-16e7289c64de
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15218855728316448330
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17130777269295748509
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 10]
+[92mINFO [0m:      Received: train message ea4bb8be-d8e2-43a3-a7ed-62f8c02f06e9
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15285093561392792657
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183374.14524
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17130777269295748509
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183374.2664092
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4384126985167928509
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183376.394891
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6896624542595603840
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183376.5296328
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15218855728316448330
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183377.1029637
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8807089731926869617
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183405.622496
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15285093561392792657
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 11]
+[92mINFO [0m:      Received: train message eb33f007-ec66-43fc-b470-732075599017
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 11]
+[92mINFO [0m:      Received: train message 0671fc50-caa5-47fb-8f4b-7aa848fd16b4
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 11]
+[92mINFO [0m:      Received: train message e940498a-9fd7-4f90-adde-e7f1d1dd4777
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 11]
+[92mINFO [0m:      Received: train message 11d4b528-51fb-410b-b913-b69572da3b13
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 11]
+[92mINFO [0m:      Received: train message f0fec880-3aff-41c1-84be-8d378a67dd32
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8126752331740578599
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13125890669642469483
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11749895327765776423
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3320134682559042061
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9373849912517036289
+[92mINFO [0m:      Sent reply
+[W414 18:16:52.840844475 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776183412.4843905
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3370750039603401913
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183494.149856
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9373849912517036289
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183494.912073
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11749895327765776423
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183495.658026
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8126752331740578599
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183496.135473
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13125890669642469483
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183496.1989903
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3320134682559042061
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message 55f948a9-1e15-432a-98c3-bf2a41b2e0ae
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message 42a976cf-a348-4b97-b1b8-96989e33b33a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message 4d60e08b-9ff4-4f14-b2f5-c053d1e5f168
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4352254461263238219
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 917712616961291366
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message ebd0e894-333f-40a2-8bbf-039f1d0740fa
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 977426042578253326
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message a327fd88-5228-4391-80c3-9964f97222fc
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message 1e35df17-2a84-437d-902b-705f42bcb70e
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6702470544562923621
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11912176365444403236
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 12]
+[92mINFO [0m:      Received: train message 5fa2fa30-a223-419e-8151-95c01185616c
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11205899255943439438
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2105708055379272790
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183612.6651182
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2105708055379272790
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183612.7176886
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 917712616961291366
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183615.3118527
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 977426042578253326
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183615.7947454
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6702470544562923621
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183615.8870666
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11912176365444403236
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183625.6044314
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11205899255943439438
+[92mINFO [0m:      Sent reply
+[W414 18:20:51.069033573 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776183651.7120879
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4352254461263238219
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message a2375e71-9026-48ca-8eb3-c8a33ed01fc2
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message 29b65e86-fb9c-4771-bf0e-e815c5cddbd1
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message ff887b5f-ef79-491d-ab66-ba5f7aa3755c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message 1a9400b3-1a91-4027-a8f4-a075d2a71284
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message ab855e81-1ea3-429f-96f2-f47d1f0ebb61
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11823757409601484240
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16766268540741486801
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12501984198813650248
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10921737669776161742
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4985299904787555020
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 13]
+[92mINFO [0m:      Received: train message f37ef6a1-34dd-475e-a85b-a979eaec531f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8520647774167425632
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 14]
+[92mINFO [0m:      Received: train message 9498b844-549f-423a-9c6d-3a7b53f15356
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2910454757111980654
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183740.6644216
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10921737669776161742
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183741.0320659
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8520647774167425632
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183743.2526395
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11823757409601484240
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183743.3379645
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16766268540741486801
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183743.4897165
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12501984198813650248
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183752.2599823
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4985299904787555020
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message 49bd732c-5ba7-4f31-aedd-54d30636c337
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message ff2857ac-4d32-49a0-a588-ea57530e6df7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message 29761704-7601-4d8f-a290-42b41e299122
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message 62225a53-c90a-4eed-a8b1-1e4d62e748c0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message d1095d6b-ea69-466d-b43a-d4cb3fa6bed4
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 15]
+[92mINFO [0m:      Received: train message ac52f2b3-b86e-4fe0-9382-72634d2f1f19
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2269619614543932241
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13111751163015987259
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10529291919184812101
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1618442269469043231
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16500980050458287465
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9657043548148847567
+[W414 18:23:23.346815995 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776183803.9897747
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2910454757111980654
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183870.3618495
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2269619614543932241
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183870.5452125
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13111751163015987259
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183872.30656
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183872.313757
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10529291919184812101
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1618442269469043231
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183872.4512641
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16500980050458287465
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776183881.3183756
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9657043548148847567
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message 96e99cd9-2f07-4269-9c6d-2987fd888ec7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message 98bb41d9-f7ca-4b29-899e-1f162590c55f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message 2d3a4f05-e6c1-456b-9e08-72fc1ba6f930
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message b139aeb8-1e9c-4805-9fc0-727c705dc274
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message 3fcc3a46-56be-4a4e-a7ec-522715e61754
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 16]
+[92mINFO [0m:      Received: train message 6f17646b-1e42-48db-90e3-3f83c61abaf9
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12760376696630202009
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5163393847608371631
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6251181216003370856
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5278812498655684002
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2727482315729244159
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10351837071230395488
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776183987.0827107
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10351837071230395488
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776183987.1180792
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2727482315729244159
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776183989.8866255
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6251181216003370856
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776183990.0143118
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5163393847608371631
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776183990.124423
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12760376696630202009
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message f6767713-1183-4e16-893e-2b6ef5269dfb
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message f64abefe-08f1-4345-9642-9f26fbad0bad
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message de9da455-6091-4a8b-a078-73c61e911343
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message 64ebae86-839a-4e4b-b911-716c3be2d59c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message f42e5d82-0d5e-4d43-857b-93e99e42b573
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 17]
+[92mINFO [0m:      Received: train message 0c10ffbc-0569-4fcd-ae44-eb517b3bed90
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2711602605026094570
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17564786070965128789
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14248030838573420647
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10512813936273801618
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15844109411855888809
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 456292402578248630
+[W414 18:27:04.371297820 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776184025.0158114
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5278812498655684002
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184108.1990905
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 456292402578248630
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184108.6721058
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2711602605026094570
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184110.509734
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14248030838573420647
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184110.7661412
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10512813936273801618
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184110.8619938
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17564786070965128789
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184120.8164744
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15844109411855888809
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message caca07a6-6ab1-4ba2-9516-92e8f5c5c2d5
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message 3a4e57bd-351a-4d9a-82b6-768fde12dda6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message d747f445-bbdf-4ba6-a0d6-a177e9a21498
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message e28d1aab-ec2e-487f-9626-f127aaba8f24
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message b65dd6d0-3be4-4329-89ee-79e7a0faebd1
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16243410100287277199
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7618037432488946634
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9526358564922159497
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11471908580327930477
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3258130370450021221
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 18]
+[92mINFO [0m:      Received: train message c112aa18-2215-4c46-bf5a-e10abb6530cf
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3947261844954945682
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184227.6130202
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9526358564922159497
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184227.7193065
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11471908580327930477
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184230.2134748
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16243410100287277199
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184230.337381
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7618037432488946634
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184230.4468107
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3947261844954945682
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message 6d6e2ce4-813e-427a-95ab-1affef3ce8be
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message 83e2768d-5c30-4e8b-a08a-618fbb46a2a0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message e3f58fb7-42a1-4f34-bfa6-0aa7a67bf0b1
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15930170350540687851
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message eea709e7-3574-4a96-84e0-87e065b7efb1
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message ee8b1a11-8021-4c4a-882b-e6cf59a40fad
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 19]
+[92mINFO [0m:      Received: train message ed19308d-bc97-4f5f-9ed1-9a17cd654d72
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3184454859978387735
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12379356393461591168
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18154236232692765548
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1985335469650290408
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3472236778913973318
+[W414 18:31:05.709907398 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776184265.359935
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3258130370450021221
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184344.7698731
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18154236232692765548
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184344.8179631
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3472236778913973318
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184346.799666
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1985335469650290408
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184346.8999844
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184346.9065926
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3184454859978387735
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12379356393461591168
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184357.2113745
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15930170350540687851
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message 5a5376fa-a567-413e-8ccb-dfbb5e8fbce6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message 4a6230b0-b2e6-4c05-8c31-6371bc838698
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message b7877ec4-2155-4f23-a651-4d7bde5adbaf
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message 541eb2fe-c8fb-4e31-9ffc-e80267f5e978
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2721838938912104394
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14912708926480383493
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2360693846747141611
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4078527978584979305
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message dc27dda4-d312-45d6-a9e0-e9f56b07f67d
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 20]
+[92mINFO [0m:      Received: train message 5afae2aa-8232-42ca-8a57-8b5dce6e8d22
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9061848159723867106
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8763309908424023042
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 21]
+[92mINFO [0m:      Received: train message 5695fd45-f270-46d1-9b5c-ebccdf9dc30e
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4515319401310073942
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184465.491902
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2360693846747141611
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184465.5983696
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4078527978584979305
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184467.64236
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14912708926480383493
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184467.973018
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9061848159723867106
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184468.145139
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8763309908424023042
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 22]
+[92mINFO [0m:      Received: train message c0c15e31-41c4-4f15-a5b1-33bb1ad38863
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 22]
+[92mINFO [0m:      Received: train message cfe15c07-5e9f-47b1-9046-ed7ba5757499
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 22]
+[92mINFO [0m:      Received: train message bf226380-a7cf-4c12-b30d-48b067c4f57b
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 22]
+[92mINFO [0m:      Received: train message 6cca443c-365a-4dd1-9231-253f58c12660
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184498.5336215
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4515319401310073942
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6069931971512303261
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17745506235045185504
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7216804106330915625
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16421732844777937614
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 22]
+[92mINFO [0m:      Received: train message 4b9b5489-535e-4a07-9ce9-035abc58985a
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7421259345403353845
+[W414 18:35:03.940921611 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776184503.587962
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2721838938912104394
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184585.492999
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16421732844777937614
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184585.5836165
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7216804106330915625
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184586.7329953
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7421259345403353845
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184586.8288631
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6069931971512303261
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184587.0889015
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17745506235045185504
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message 460ab6c7-a4be-4fee-be5f-3081322feaf7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message 5f512e8e-c946-41dd-9d7e-c180dc894dc2
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message a5d270a3-9997-49d9-bf41-2d5031c97ba6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message 2176b6e0-9055-49ed-b8c2-8dd7920ce274
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2670860883026437090
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message 7c453710-1cbb-44c0-a7dc-6ffcd7852883
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13896234236525342994
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7780940690975657012
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message e220c71b-4792-4c42-9ed5-94dbd130a49b
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12582253649429202555
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3396104489127331954
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 23]
+[92mINFO [0m:      Received: train message 83d317a6-0593-4948-95b3-ad2c64b743cf
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8561030629309520551
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 433000179160300603
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184703.6834302
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8561030629309520551
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184704.148173
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2670860883026437090
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184707.0277925
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184707.0317163
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7780940690975657012
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12582253649429202555
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184707.1995044
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13896234236525342994
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184717.8513012
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 433000179160300603
+[92mINFO [0m:      Sent reply
+[W414 18:39:01.409978081 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776184742.0526547
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3396104489127331954
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message 6198b9ef-dce3-4e13-bf8a-4e9e0469458b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message 41531222-e8e1-43ec-9904-86ffe4d2c765
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message 795dc400-9ad0-419c-ba33-5bd17fd831a7
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11482600285193725926
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message 7b8d63fa-2b7f-4af2-ab45-0deb53fe9ba1
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message 3ba9d62e-bcdb-4afb-a23a-6c9fe67b8b6e
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 24]
+[92mINFO [0m:      Received: train message d86c01a0-0ca1-44c0-8d7a-119e92682b4f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11431177921294544541
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 532630496965449476
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14370302745397581282
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1613994921412129217
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10385622756734876882
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 25]
+[92mINFO [0m:      Received: train message b1bce647-3899-4eb7-9518-78af2b7e6478
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4400269585987104596
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184833.3767014
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11482600285193725926
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184833.907464
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14370302745397581282
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184835.9300506
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1613994921412129217
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184836.5766954
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11431177921294544541
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184836.6997137
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 532630496965449476
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184844.4860198
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10385622756734876882
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message 1b1742fe-c37e-4e16-81e3-321c797fb29f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message cbc438a6-22c5-420c-85a3-df07edacd52f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message 6ebe5ab6-b22a-4b4f-99e2-a10af8bed966
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message 456e9114-fb95-4c51-8599-7794f3027cc2
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11960421094488974243
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2174219299471947150
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2613432230185022517
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15147525515655422061
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message aedf5bd4-9bae-4b1d-a734-71441d1eb4fb
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 26]
+[92mINFO [0m:      Received: train message c3560453-dbce-452d-99d3-e1775eebbaa3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11095804317286394951
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11462697291267813620
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[W414 18:41:32.777397376 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776184892.4214432
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4400269585987104596
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776184957.878365
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15147525515655422061
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776184958.0891876
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11960421094488974243
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776184959.18111
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11462697291267813620
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776184959.3022926
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2174219299471947150
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776184959.8721309
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2613432230185022517
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776184968.7969441
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11095804317286394951
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message 1c63210c-05f0-4325-938f-c15716e4d252
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message 6608d0b1-c68d-4146-84eb-1d7742bce0a7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message b7b0a042-95b9-40fc-9a7a-a66a96ac0490
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message db386282-51ba-4cb2-b05d-11619c107516
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10519995716556610450
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7091875178457611021
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2316041034488917060
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message 609e60e9-3a8a-4f60-8d08-10af0b1dcc0c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 27]
+[92mINFO [0m:      Received: train message b402233c-fccb-44c6-a7f3-5776772eb2ac
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1343895968829441975
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8260071684091626726
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13776441856509051231
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185075.9779956
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8260071684091626726
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185076.3670557
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1343895968829441975
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185078.978601
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10519995716556610450
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185079.1821072
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7091875178457611021
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185079.3276222
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2316041034488917060
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message 0a67161d-fad4-4f7e-a24e-6673b338b345
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message dd47a58b-b46c-4ab2-bbf1-cc74048662ae
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10620336976643548462
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6725707741869226058
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message e8ef314e-d515-43b8-b4df-8a53af4ef6b9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message 960011c4-7e43-4708-9a96-7049e36c1fd9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message b72e3fde-84d8-47d4-a15c-ac1d6e1f9ac1
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 28]
+[92mINFO [0m:      Received: train message 616444da-c7b5-4939-bc33-881f3bb581b6
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7179452643740885279
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2610857285772816668
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3941750978678322030
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17387605365683805760
+[W414 18:45:13.418457082 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776185114.06519
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13776441856509051231
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185192.2690067
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7179452643740885279
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185193.355535
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6725707741869226058
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185194.087473
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3941750978678322030
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185194.2744584
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2610857285772816668
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185194.3459558
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17387605365683805760
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776185203.3834746
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10620336976643548462
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message 374a5494-8fbc-427c-b246-fb4b95f14723
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message 07dbe3bf-3c17-43f6-a295-0c4830491ad6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message cecbc803-6736-40c9-bee4-1467119c4182
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message 1db284b1-39ea-4385-8544-e0865692c49b
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5236729986612937208
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4487102972299144967
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17066586601384757616
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message 5c0492bd-91c2-4cc7-84be-d986144e88e0
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4430908953832434720
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 29]
+[92mINFO [0m:      Received: train message 4d2a9979-e2d5-4726-a7da-943b64ff0b58
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 315480346742434822
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8280908669549224739
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185311.8375986
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17066586601384757616
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185312.081176
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4430908953832434720
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185314.581702
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 315480346742434822
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185314.9318056
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8280908669549224739
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185315.2338839
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5236729986612937208
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message 59d62845-ca9d-4811-b1ef-dcafecb6e724
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message 0092e2d8-1958-4252-a06f-c83d93c1370f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message a82b8279-e86a-4d2c-8c5f-8e6645a7b0d0
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17553760289032010985
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12888110130714224354
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2524488791737345615
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message f9466834-bc56-479d-a378-eb089bd63065
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message dd83b7d6-d7fa-4dd6-85f9-9792fa2f388b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 30]
+[92mINFO [0m:      Received: train message 1a5b374c-6f9f-4816-a5d1-769a5cb077ea
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14071824060947528267
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1216979330980338457
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14260738466698598182
+[W414 18:49:09.097605380 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776185349.7411468
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4487102972299144967
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185432.527148
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14071824060947528267
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185433.377245
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1216979330980338457
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185434.929796
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12888110130714224354
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185435.0202084
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185435.0233023
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17553760289032010985
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2524488791737345615
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776185443.7848258
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14260738466698598182
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message fd00feb3-3a66-41d8-9797-ac8f6a5e315a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message cce1afa4-88cb-4fa2-81e4-fdad742adc6e
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message a0b38500-7ef6-4e8a-b467-d4d60d91d16f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4399982852253751678
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message 8f8fd2ea-3d26-4bd3-91be-6fc88371e98e
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message fe933b9e-9a25-4bc0-b039-f6a7f622d402
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 31]
+[92mINFO [0m:      Received: train message 14b6a356-7fc8-4574-880f-0bce4ac81c42
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 932554234609951182
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18440259863254695388
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10678058464349554627
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2843909660169409098
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9548580051184030217
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185548.5980508
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2843909660169409098
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185548.7294717
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9548580051184030217
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185551.2258937
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10678058464349554627
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185551.3651617
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18440259863254695388
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185551.7310596
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 932554234609951182
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message b9b5cfcc-377d-4a96-9af8-58b34233bd21
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message effef86d-bdab-4cee-8b99-0189e94bd4d7
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message bcf436a8-9414-49c8-8634-62e525696dd0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message e025dd08-edbe-47f2-8003-2fa8cc06072b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message 7c9608fa-daff-4059-89d4-5436218efa99
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16474937611533736959
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8374272319666443974
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3263513678497201843
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13566174862066068713
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5873387466330577520
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 32]
+[92mINFO [0m:      Received: train message f164c61c-45b3-4c17-8e37-afc3d1aa57da
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13766340775770198543
+[W414 18:53:06.041478761 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776185586.6855302
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4399982852253751678
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185669.3917387
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13766340775770198543
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185669.5343482
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16474937611533736959
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185671.4653945
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8374272319666443974
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185671.5148082
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13566174862066068713
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185671.6561763
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3263513678497201843
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776185681.6484973
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5873387466330577520
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message 3be98470-2cae-4201-9c7c-647f8d775bb5
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message 550d964b-a7de-4fbe-ba0f-6ccc86c43e94
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message e7d81bbd-a706-414e-b36f-41e7ab2414da
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1652972532514979885
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14406675874604582347
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 11530496207279516315
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message 2a301497-5805-4546-aa35-38bdd9932c81
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message ee2880c8-37ee-4513-b5a9-1126160577f9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 33]
+[92mINFO [0m:      Received: train message 5c5a743e-7fbe-4b6c-b0e4-9b97e57f598e
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18282489738415524214
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10148247581595548979
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8955960226490461456
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185786.3933053
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14406675874604582347
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185787.2200823
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1652972532514979885
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185789.714005
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18282489738415524214
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185789.8297226
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185789.8415034
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8955960226490461456
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10148247581595548979
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message 2b5ac0cc-35a5-4df0-91f7-a68a0d729538
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message aa676d4f-0b15-4b65-bd98-a6e2982888a8
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message bdac3def-3f58-4e73-99a2-bf30f0173808
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message 0d409db1-724e-4281-afae-36ea7e0f232f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message 47f0c441-d243-43d8-93f0-74c3a9b74fa7
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9442450965112234605
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6258247445556977060
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8143336336079525192
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12123076328694429143
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 373818407776263350
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 34]
+[92mINFO [0m:      Received: train message bb79ff16-5696-41f7-b1ca-84710a1f20e6
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10701154304293078093
+[W414 18:57:04.163479376 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776185824.8076506
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 11530496207279516315
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776185906.7447853
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10701154304293078093
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776185907.0576065
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12123076328694429143
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776185908.9376528
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776185908.940526
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8143336336079525192
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6258247445556977060
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776185909.13316
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9442450965112234605
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776185917.5971158
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 373818407776263350
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message 0eb82e92-f2ea-47cd-8807-151bd0e996c0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message bb643ad6-8122-4c6a-b723-362bdead3d2a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message 259b1b11-4ba1-431b-99bc-8816c1606e48
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message c47a1a9b-8ebc-4f41-9da7-60d9980cd8a6
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message ce1aa970-2409-4ced-92bf-ceb16cfb7a06
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 35]
+[92mINFO [0m:      Received: train message ef12e316-9e7d-4b0d-a151-5a46fb72750d
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14630525485175765806
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 18058277467430633293
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14343074239581859977
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10201795120986910314
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3917869006891301122
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12792255833839218867
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 36]
+[92mINFO [0m:      Received: train message a83da1f5-6b0b-4d96-81d8-12a6f9c53f2a
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17843655340834080963
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186026.8088284
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12792255833839218867
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186027.2906406
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3917869006891301122
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186030.2118888
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14630525485175765806
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186030.3431575
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10201795120986910314
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186030.6264782
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14343074239581859977
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186056.440996
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17843655340834080963
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 37]
+[92mINFO [0m:      Received: train message a624c605-8a4a-4d72-89fa-2cff7e931e1d
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 37]
+[92mINFO [0m:      Received: train message 9b66b7da-a0e9-49fc-814a-a52a84553593
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 37]
+[92mINFO [0m:      Received: train message e982fcef-8d95-469e-8b7b-9f3b36826155
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 37]
+[92mINFO [0m:      Received: train message d97b4306-516b-424e-be9f-c75874f288a9
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 37]
+[92mINFO [0m:      Received: train message 30f22dfe-4959-43b6-a96d-d9205275204d
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 940906067240804670
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14906138455418003011
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4789625022370030938
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8512940587195999874
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10813367030529290330
+[W414 19:01:06.383753051 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776186067.0309687
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 18058277467430633293
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186142.6900268
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 940906067240804670
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186143.3526337
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14906138455418003011
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186144.5204582
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8512940587195999874
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186144.7163653
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4789625022370030938
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186145.6490214
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10813367030529290330
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message c90e32b8-34fa-4a69-9e80-f9ce70f66b51
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message 2ba4d723-cb3b-4f36-bb82-d6df3a71a448
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message 797d2573-cf66-4564-8c7e-b05ac17f01b3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7165096011445295768
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message cd8d60a0-02c0-48e8-af7e-dcc422c97d39
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message dc2d697b-2a6c-4b4f-accc-7a451f3458c0
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17523751909712511091
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 10545760864954542824
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3733371742008301378
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5107804040029895104
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message d2e8b86b-f166-4cb2-9f9f-452034aef59a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 38]
+[92mINFO [0m:      Received: train message e006632e-3bfc-4ee4-90dd-825aedd5f982
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12336854794303974616
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14831116296596424476
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186263.7837381
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7165096011445295768
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186264.5462198
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14831116296596424476
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186266.643896
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12336854794303974616
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186267.4088206
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 10545760864954542824
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186267.8097072
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3733371742008301378
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186275.5353234
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17523751909712511091
+[92mINFO [0m:      Sent reply
+[W414 19:05:02.554839542 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776186302.1974885
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5107804040029895104
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message fe67e4ce-f01c-4680-9dcd-6ac415d49dff
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message fffdfd51-7d81-4c2c-bee0-c8141ca1141b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message bdcd836f-94ca-4b7d-9ec8-8ff36a06f740
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message 9748056f-c7d4-4862-9eae-5b7cdb97bc41
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message 4b5140bf-7b20-45b8-9630-9553dbe1c326
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 39]
+[92mINFO [0m:      Received: train message 6a351b32-8fd3-4489-be18-79627d56f8ca
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8063525299392877668
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7380698417041755534
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4307988342496036248
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2090801308698292158
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14315121093818446295
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17074557159705774144
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 40]
+[92mINFO [0m:      Received: train message e5b235c4-142b-4b66-8b3b-77bd27c2bfa3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5189563744008738900
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186396.7818372
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4307988342496036248
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186396.8730426
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14315121093818446295
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186399.1213546
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7380698417041755534
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186399.2519178
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8063525299392877668
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186399.533694
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17074557159705774144
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186410.1383436
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2090801308698292158
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message 15b29b02-f4f2-43c8-bbb0-560d0eb3a72b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message 53456166-5edd-48b9-99e1-90fb38754ae2
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message 5d78d57d-3ead-4f4a-bb2c-047b21893856
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message ae58f802-318a-4a4f-b08a-920df7fdf96a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message 5ed9756a-6009-4caa-8d4d-9d92953cd1fb
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 41]
+[92mINFO [0m:      Received: train message d0eb6265-7d94-4b74-ad0d-4933a82c34e3
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7914384067392058434
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7584839816999576050
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2574678564087556234
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6660559848901025011
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3756610946529352802
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4378727326288764302
+[W414 19:07:32.375973999 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776186453.020055
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5189563744008738900
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186525.5633264
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6660559848901025011
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186525.782566
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3756610946529352802
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186527.3712711
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7914384067392058434
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186527.5494454
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7584839816999576050
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186527.903502
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2574678564087556234
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186536.7878501
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4378727326288764302
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message 55ee8362-2de0-4d8c-b598-2a9e82a1b0c8
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message 6b80c7fe-61e3-4a90-a761-c6d0baa32016
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message 943c4209-7e01-4e65-89f5-ac1164c3a215
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message 976d2f01-bf0e-4705-9970-66744808d13d
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message ef282a48-c1fd-4573-822f-3675fda080ac
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 42]
+[92mINFO [0m:      Received: train message abff7095-7ad6-40ba-b09d-f7127399e293
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15564306740890321004
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5325890206100719218
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5957156052027410100
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9423438364279355385
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3636574842554923006
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3656329639511817341
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186644.5975015
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3656329639511817341
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186644.6916928
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3636574842554923006
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186647.158151
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186647.1665807
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15564306740890321004
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5957156052027410100
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186647.3296146
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5325890206100719218
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message c79a7d28-9719-41d5-ab04-28b10cbfabd0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message e49d5c86-d8a9-4dc6-a5ea-3b4a0618ea2f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message 1c16d91c-3986-41e6-a180-12b2ae337613
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message 4f200626-40d0-4668-b7f2-35c57720c667
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message 0ea97214-35c0-47d1-a34a-fc64d95b5fb8
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 43]
+[92mINFO [0m:      Received: train message 0b9ade3c-31ec-49ba-a7fa-f925cbf387c1
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8591893835319313700
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1347818104902366560
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12955272125907539921
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8678136971050531979
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 772577345801801463
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1391013669606894205
+[W414 19:11:21.539721539 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776186682.183029
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9423438364279355385
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186764.6628966
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 772577345801801463
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186765.3401241
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8678136971050531979
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186767.0895195
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12955272125907539921
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186767.1986232
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8591893835319313700
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186767.2466114
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1347818104902366560
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186775.796756
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1391013669606894205
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 44]
+[92mINFO [0m:      Received: train message e3fedb90-929c-439b-8399-b85cdf13a622
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 44]
+[92mINFO [0m:      Received: train message 3211f475-49b8-49ac-93e6-b2cb98902f40
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14914048770920136962
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 17783922457596724003
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 44]
+[92mINFO [0m:      Received: train message 13183a28-ed5b-4396-b00d-6ee72bc1af9a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 44]
+[92mINFO [0m:      Received: train message 9d6dbc76-1ce1-4156-a888-c715ba367e0b
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 44]
+[92mINFO [0m:      Received: train message 89a43e9d-0d66-4bd6-b66c-632f80191b46
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 1606332830108747300
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5424256149738883528
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4858915385013656346
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 45]
+[92mINFO [0m:      Received: train message 91b24011-bc96-4fa1-accd-ac1303b6f487
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13397511403174144448
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 46]
+[92mINFO [0m:      Received: train message c8e3b745-15a4-4ffc-b474-90cffea42686
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15735341828963356717
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776186883.4163618
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4858915385013656346
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776186883.8409603
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14914048770920136962
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776186884.503778
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 1606332830108747300
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186884.6691446
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5424256149738883528
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 47]
+[92mINFO [0m:      Received: train message ee45fe86-a851-4e1f-98b6-5f042c97c287
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15077268944738000501
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776186916.9742513
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13397511403174144448
+[92mINFO [0m:      Sent reply
+[W414 19:15:20.144672810 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776186920.7949626
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 17783922457596724003
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776186930.748316
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15735341828963356717
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 48]
+[92mINFO [0m:      Received: train message cbf83bf1-6e10-4598-b682-353b5d905c85
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 48]
+[92mINFO [0m:      Received: train message 3c203670-a7e3-4886-9194-b960d7d5f830
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9280357919225305712
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7432049611811373640
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 49]
+[92mINFO [0m:      Received: train message 40bdcce6-8e3d-419d-9cf5-9e2c3e938d33
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 49]
+[92mINFO [0m:      Received: train message ff3aafcf-07e1-4dad-b2f3-ebd8804dd6b2
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13660860466537475845
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14573401598687862150
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 50]
+[92mINFO [0m:      Received: train message 5aa5dc62-5210-47ea-b968-3651fbaf5426
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 50]
+[92mINFO [0m:      Received: train message 77bcf92d-16d2-4f75-906e-2b5c641b3dbd
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 7339056896023446825
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9666327703363886009
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776186995.9718895
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15077268944738000501
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776187016.8181498
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9280357919225305712
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776187018.3487344
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7432049611811373640
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 51]
+[92mINFO [0m:      Received: train message c82bb07a-5be0-4da5-947d-e7a55377c5da
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 16160123949896460551
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 52]
+[92mINFO [0m:      Received: train message 6685aeb8-cba6-4e52-9e43-f6af5ef7a14c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 13539404581948529753
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 52]
+[92mINFO [0m:      Received: train message 4404a4c0-7623-4c66-a3eb-65e054024172
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 14164525820352968753
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776187052.1849926
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13660860466537475845
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776187067.7611046
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9666327703363886009
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776187068.3781195
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 7339056896023446825
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[W414 19:17:59.102221777 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776187079.7512243
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14573401598687862150
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 53]
+[92mINFO [0m:      Received: train message 80a3d2f3-ed28-4087-858c-1977453e4af9
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 8052190856564117718
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 53]
+[92mINFO [0m:      Received: train message ec565992-d127-4e0d-8b33-b023a511070c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3951449439094700523
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776187111.0884395
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 16160123949896460551
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 54]
+[92mINFO [0m:      Received: train message d5ae2cdf-a446-4708-bf6d-f4f32f61139f
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 4631218611193435056
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776187135.5012946
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 14164525820352968753
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776187135.6701233
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 13539404581948529753
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 55]
+[92mINFO [0m:      Received: train message d8a887a3-03ff-4b8a-976a-cdc0ea64ba07
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 55]
+[92mINFO [0m:      Received: train message e0bb51fa-ab33-4873-b54f-25ff2d5e878c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 2587165450610819095
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3514400787849080821
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 56]
+[92mINFO [0m:      Received: train message 679cb683-e25d-4d04-8548-7edf8f82b82a
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 56]
+[92mINFO [0m:      Received: train message 607900d6-3c9f-4e4d-8203-8435dd2cb9ce
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 6980589079574411957
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 5136483887427878370
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776187180.0184495
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 8052190856564117718
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776187191.7863033
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3951449439094700523
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776187207.5164
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 4631218611193435056
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 57]
+[92mINFO [0m:      Received: train message 590dfb5d-e6ff-439a-a362-4a23f6905d3f
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 57]
+[92mINFO [0m:      Received: train message 7145492a-9083-45e4-b974-dd335c9f8c4c
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3271644507742187286
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 15195390419641697524
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776187229.4760928
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3514400787849080821
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 58]
+[92mINFO [0m:      Received: train message 5d7f68b6-e116-4e47-9db7-d803fa2ff7ab
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 12085733664155090988
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776187253.247464
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 5136483887427878370
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776187253.3990011
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 6980589079574411957
+[92mINFO [0m:      Sent reply
+Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+Found the latest cached dataset configuration 'plain_text' at /tmp/Victor.Hidalgo_1062781_5/.cache/huggingface/datasets/uoft-cs___cifar10/plain_text/0.0.0/0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Thu Feb 19 18:35:09 2026).
+[92mINFO [0m:      Sent reply
+[W414 19:21:04.229135916 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776187264.8760128
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 2587165450610819095
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 59]
+[92mINFO [0m:      Received: train message 7f540705-838a-43ec-bf4a-bdf4cb64863c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 59]
+[92mINFO [0m:      Received: train message 32cc6b1d-1099-4dd8-a57a-1db65b11acd9
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 336289824310400869
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3199082988384265631
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 60]
+[92mINFO [0m:      Received: train message a13977c6-f71e-4e5d-bf89-fa3920d50ee5
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 4726284377260563064, ROUND 60]
+[92mINFO [0m:      Received: train message 52dce589-29f1-48bb-85b5-e2d0276457ee
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 3711835799250833882
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      [flwr-clientapp] Pull `ClientAppInputs` for token 9052713754382835442
+[92mINFO [0m:      [flwr-clientapp-4] Push `fit` at 1776187305.922424
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 15195390419641697524
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-5] Push `fit` at 1776187314.6581244
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3271644507742187286
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-6] Push `fit` at 1776187328.8031075
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 12085733664155090988
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-7] Push `fit` at 1776187365.3302205
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 336289824310400869
+[92mINFO [0m:      [flwr-clientapp-3] Push `fit` at 1776187365.6706765
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3199082988384265631
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      [flwr-clientapp-2] Push `fit` at 1776187389.1862009
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 9052713754382835442
+[92mINFO [0m:      Sent reply
+[W414 19:23:44.929381026 NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+[92mINFO [0m:      [flwr-clientapp-1] Push `fit` at 1776187424.5734613
+[92mINFO [0m:      [flwr-clientapp] Push `ClientAppOutputs` for token 3711835799250833882
+[92mINFO [0m:      Sent reply
+[93mWARNING [0m:   Connection attempt failed, retrying...
+[93mWARNING [0m:   Connection attempt failed, retrying...
+[93mWARNING [0m:   Connection attempt failed, retrying in 0.81 seconds
+[92mINFO [0m:      SuperNode terminated gracefully.
+[93mWARNING [0m:   Connection attempt failed, retrying in 1.94 seconds
+[93mWARNING [0m:   Connection attempt failed, retrying in 2.01 seconds
+[93mWARNING [0m:   Connection attempt failed, retrying...
+[92mINFO [0m:      SuperNode terminated gracefully.
+[93mWARNING [0m:   Connection attempt failed, retrying...
+[92mINFO [0m:      SuperNode terminated gracefully.
+[93mWARNING [0m:   Connection attempt failed, retrying in 0.69 seconds
+[92mINFO [0m:      SuperNode terminated gracefully.
+[93mWARNING [0m:   Connection attempt failed, retrying in 1.87 seconds
+[93mWARNING [0m:   Connection attempt failed, retrying in 1.60 seconds
+[92mINFO [0m:      SuperNode terminated gracefully.
+[92mINFO [0m:      SuperNode terminated gracefully.
+[92mINFO [0m:      SuperNode terminated gracefully.

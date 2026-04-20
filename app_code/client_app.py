@@ -1,6 +1,3 @@
-import os
-import sys
-
 import torch
 from flwr.client import ClientApp, NumPyClient
 from flwr.common import Context
@@ -31,7 +28,7 @@ class FlowerClient(NumPyClient):
 
     def get_properties(self, config):
         """Returns properties of the client."""
-        user = os.getenv("DEVICE")  # Get device username
+        user = f"supernode-{self.partition_id + 1}" # Get device username
 
         # Properties used to calculate client utility
         labels = self.trainloader.tensors[1]    # List of all labels on data
@@ -46,9 +43,13 @@ class FlowerClient(NumPyClient):
         """Train the model on the client's local dataset."""
         set_weights(self.net, parameters)
 
+        print("starting training...")
+
         loss, y_true, y_pred = train(  # Train the model
             self.net, self.device, config, self.trainloader,
         )
+
+        print("ending training...")
 
         # Calculate training metrics
         accuracy = accuracy_score(y_true, y_pred)

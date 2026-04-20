@@ -18,21 +18,28 @@ def darken_color(color, factor=0.7):
     return tuple(color * factor)
 
 projectconf = '../projectconf.toml'
-data_types = ['iid']
-strategies = ['FedAvg']
+data_types = ['noniid0.7', 'noniid0.5']
+strategy = 'FedAvg'
 final_strat = 'FedMOpt'
 federation = 'local-execution'
-available = 8
-num_execs = 1
+available = 7
+num_execs = 3
+start = 5
 
 root = f'../{federation}/results'
 
 acc_columns = ['loss_1', 'loss_2', 'loss_3', 'loss_4', 'loss_5', 'loss_6', 'loss_7', 'loss_8', 'loss_9']
 time_columns = ['timestamp_1', 'timestamp_2', 'timestamp_3', 'timestamp_4', 'timestamp_5', 'timestamp_6', 'timestamp_7', 'timestamp_8', 'timestamp_9']
 
-acc_columns = acc_columns[:available + 1]
-time_columns = time_columns[:available + 1]
+acc_columns = acc_columns[start:available + 1]
+time_columns = time_columns[start:available + 1]
 
+COLORS_BY_METHOD = {
+    'sync5': '#1f77b4',    # Azul
+    'sync6': '#ff7f0e',    # Naranja  
+    'sync7': '#2ca02c',    # Verde
+    'FedMOpt': '#d62728'   # Rojo
+}
 og_colors = plt.cm.tab10.colors
 
 y_min_global = np.inf
@@ -149,7 +156,7 @@ for data_type in data_types:
     for slow in found_slows:
         slows.add(slow)
 
-        slow_dir = os.path.join(root_path, f"slow{slow[0]}_med{slow[1]}")
+        slow_dir = os.path.join(root_path, f"slow{slow[0]}")
 
         # Detectar betas dentro de slowNmedS
         found_betas = sorted(find_numeric_dirs(slow_dir, "beta"))
@@ -162,20 +169,256 @@ for data_type in data_types:
             found_ks = sorted(find_numeric_dirs(beta_dir, "gamma"))
             ks[(slow, beta)] = found_ks
 
+target_beta = 0.7
+target_gamma = 12.0
 results_list = []
-time_objective = []
-for strategy in strategies:
-    for data_type in data_types:
-        for slow in sorted(slows):
-            slow_dir_name = f"slow{slow[0]}_med{slow[1]}"            
 
-            for beta in sorted(betas.get(slow, [])):
-                for k in sorted(ks.get((slow, beta), [])):
-                    merged_df = None
-                    for sync_client in range(1, available + 1):
-                        log_path = config['paths']['localLog'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
-                        time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=strategy, sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
-    
+for data_type in data_types:
+    for slow in sorted(slows):
+
+        slow_dir_name = f"slow{slow[0]}"
+
+        # =========================
+        # SOLO ESTE BETA
+        # =========================
+        if target_beta not in betas.get(slow, []):
+            continue
+
+        beta = target_beta
+        gamma = target_gamma
+
+        merged_df = None
+
+        for sync_client in range(start, available + 1):
+            temp_dfs = []
+
+            for num_exec in range(1, num_execs + 1):
+                log_path = config['paths']['localLog'].format(
+                    federation=federation,
+                    strategy=strategy,
+                    sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                    num_exec=num_exec
+                )
+                time_path = config['paths']['localTimestamp'].format(
+                    federation=federation,
+                    strategy=strategy,
+                    sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                    num_exec=num_exec
+                )
+
+                log_path = f"../{log_path}"
+                time_path = f"../{time_path}"
+
+                if os.path.exists(log_path):
+                    temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                    temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                else:
+                    temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
+                    temp_time_df = pd.DataFrame(columns=["server_ev"])
+
+                temp_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                temp_df.columns = [
+                    f'server_ev_accuracy_{num_exec}',
+                    f'server_ev_loss_{num_exec}',
+                    f'server_ev_time_{num_exec}'
+                ]
+                temp_dfs.append(temp_df)
+
+            df_all = pd.concat(temp_dfs, axis=1)
+
+            accuracy_cols = [col for col in df_all.columns if "accuracy" in col]
+            loss_cols = [col for col in df_all.columns if "loss" in col]
+            timestamp_cols = [col for col in df_all.columns if "time" in col]
+
+            final_df = pd.DataFrame({
+                f'accuracy_{sync_client}': df_all[accuracy_cols].mean(axis=1),
+                f'loss_{sync_client}': df_all[loss_cols].mean(axis=1),
+                f'timestamp_{sync_client}': df_all[timestamp_cols].mean(axis=1),
+            })
+
+            if merged_df is None:
+                merged_df = final_df
+            else:
+                merged_df = pd.merge(
+                    merged_df, final_df,
+                    how="outer",
+                    left_index=True,
+                    right_index=True
+                )
+
+        # =========================
+        # FEDMOPT
+        # =========================
+        temp_dfs = []
+
+        for num_exec in range(1, num_execs + 1):
+            log_path = config['paths']['localLog'].format(
+                federation=federation,
+                strategy=final_strat,
+                sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                num_exec=num_exec
+            )
+            time_path = config['paths']['localTimestamp'].format(
+                federation=federation,
+                strategy=final_strat,
+                sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                num_exec=num_exec
+            )
+
+            log_path = f"../{log_path}"
+            time_path = f"../{time_path}"
+
+            if os.path.exists(log_path):
+                temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+            else:
+                temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
+                temp_time_df = pd.DataFrame(columns=["server_ev"])
+
+            temp_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+            temp_df.columns = [
+                f'server_ev_accuracy_{num_exec}',
+                f'server_ev_loss_{num_exec}',
+                f'server_ev_time_{num_exec}'
+            ]
+            temp_dfs.append(temp_df)
+
+        df_all = pd.concat(temp_dfs, axis=1)
+
+        accuracy_cols = [col for col in df_all.columns if "accuracy" in col]
+        loss_cols = [col for col in df_all.columns if "loss" in col]
+        timestamp_cols = [col for col in df_all.columns if "time" in col]
+
+        final_df = pd.DataFrame({
+            f'accuracy_{available + 1}': df_all[accuracy_cols].mean(axis=1),
+            f'loss_{available + 1}': df_all[loss_cols].mean(axis=1),
+            f'timestamp_{available + 1}': df_all[timestamp_cols].mean(axis=1),
+        })
+
+        merged_df = pd.merge(
+            merged_df, final_df,
+            how="outer",
+            left_index=True,
+            right_index=True
+        )
+
+        # =========================
+        # RESTO DEL CÓDIGO IGUAL
+        # =========================
+
+        for i in range(start, available + 2):
+            y_min_global = min(y_min_global, merged_df[f"loss_{i}"].min())
+            y_max_global = max(y_max_global, merged_df[f"loss_{i}"].max())
+
+        last_valids = merged_df[time_columns].apply(
+            lambda col: col.dropna().iloc[-1] if col.notna().any() else 0.0
+        )
+
+        max_time = last_valids.min()
+
+        estimations = []
+        for timestamp_col, loss_col in zip(time_columns, acc_columns):
+            timestamps = merged_df[timestamp_col].dropna().values
+            values = merged_df[loss_col].dropna().values
+            estimation = interpolate_at_time(timestamps, values, max_time)
+            estimations.append(estimation)
+
+        simplified_df = pd.Series(estimations, index=acc_columns)
+        simplified_df[acc_columns] = simplified_df[acc_columns].div(
+            simplified_df[f'loss_{available}'], axis=0
+        )
+        simplified_df[acc_columns] = simplified_df[acc_columns] - 1
+        simplified_df[acc_columns] = simplified_df[acc_columns] * 100
+        simplified_df[acc_columns] = simplified_df[acc_columns].round(2)
+
+        simplified_df = simplified_df.drop(f'loss_{available + 1}')
+        results_list.append(simplified_df)
+
+        # =========================
+        # PLOT
+        # =========================
+        fig, axs = plt.subplots(1, 1, figsize=(10, 6))
+
+        for i in range(start, available + 2):
+            if i == available + 1:
+                # FedMOpt - SIEMPRE el mismo color
+                color = COLORS_BY_METHOD['FedMOpt']
+                label = "FedMDyn"
+            else:
+                # syncX - SIEMPRE el mismo color por M
+                color = COLORS_BY_METHOD[f"sync{i}"]
+                label = f"M = {i}"
+
+            axs.plot(
+                merged_df[f"timestamp_{i}"],
+                merged_df[f"loss_{i}"],
+                marker='o',
+                markersize=4,
+                linestyle='-',
+                label=label,
+                color=color
+            )
+
+        axs.set_ylim(y_min_global - 0.05, 3 + 0.05)
+        axs.set_xlabel("Timestamp (s)", fontsize=18)
+        axs.set_ylabel("Loss", fontsize=18)
+        axs.legend(fontsize=16)
+        axs.grid(True)
+        axs.tick_params(axis='both', which='major', labelsize=16)
+
+        plt.tight_layout()
+
+        save_path = f'../{federation}/results/{final_strat}/{data_type}/graphs/by_slow/{slow_dir_name}.pdf'
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, format="pdf")
+
+        plt.close()
+"""# ==============================
+# GRÁFICAS POR (slow, método) COMPARANDO BETAS
+# ==============================
+
+methods = list(range(start, available + 1)) + ["FedMOpt"]
+
+for data_type in data_types:
+    for slow in sorted(slows):
+
+        slow_dir_name = f"slow{slow[0]}"
+        slow_betas = sorted(betas.get(slow, []))
+
+        for method in methods:
+
+            fig, axs = plt.subplots(1, 1, figsize=(10, 6))
+
+            y_min_global = np.inf
+            y_max_global = -np.inf
+            plotted_any = False
+
+            for beta in slow_betas:
+            #for gamma in ks.get((slow, beta), []):
+                merged_df = None
+                gamma = 12.0
+                #beta = 0.7
+
+                # ======================
+                # CONSTRUCCIÓN merged_df
+                # ======================
+                for sync_client in range(start, available + 1):
+                    temp_dfs = []
+
+                    for num_exec in range(1, num_execs + 1):
+                        log_path = config['paths']['localLog'].format(
+                            federation=federation,
+                            strategy=strategy,
+                            sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                            num_exec=num_exec
+                        )
+                        time_path = config['paths']['localTimestamp'].format(
+                            federation=federation,
+                            strategy=strategy,
+                            sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                            num_exec=num_exec
+                        )
+
                         log_path = f"../{log_path}"
                         time_path = f"../{time_path}"
 
@@ -186,20 +429,51 @@ for strategy in strategies:
                             temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
                             temp_time_df = pd.DataFrame(columns=["server_ev"])
 
-                        final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
-                        final_df.columns = [
-                            f'accuracy_{sync_client}',
-                            f'loss_{sync_client}',
-                            f'timestamp_{sync_client}'
+                        temp_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                        temp_df.columns = [
+                            f'server_ev_accuracy_{num_exec}',
+                            f'server_ev_loss_{num_exec}',
+                            f'server_ev_time_{num_exec}'
                         ]
+                        temp_dfs.append(temp_df)
 
-                        if merged_df is None:
-                            merged_df = final_df
-                        else:
-                            merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
+                    df_all = pd.concat(temp_dfs, axis=1)
 
-                    log_path = config['paths']['localLog'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
-                    time_path = config['paths']['localTimestamp'].format(federation=federation, strategy=final_strat, sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}", num_exec=1)
+                    accuracy_cols = [col for col in df_all.columns if "accuracy" in col]
+                    loss_cols = [col for col in df_all.columns if "loss" in col]
+                    timestamp_cols = [col for col in df_all.columns if "time" in col]
+
+                    final_df = pd.DataFrame({
+                        f'accuracy_{sync_client}': df_all[accuracy_cols].mean(axis=1),
+                        f'loss_{sync_client}': df_all[loss_cols].mean(axis=1),
+                        f'timestamp_{sync_client}': df_all[timestamp_cols].mean(axis=1),
+                    })
+
+                    if merged_df is None:
+                        merged_df = final_df
+                    else:
+                        merged_df = pd.merge(
+                            merged_df, final_df,
+                            how="outer",
+                            left_index=True,
+                            right_index=True
+                        )
+
+                # ===== FedMOpt =====
+                temp_dfs = []
+                for num_exec in range(1, num_execs + 1):
+                    log_path = config['paths']['localLog'].format(
+                        federation=federation,
+                        strategy=final_strat,
+                        sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                        num_exec=num_exec
+                    )
+                    time_path = config['paths']['localTimestamp'].format(
+                        federation=federation,
+                        strategy=final_strat,
+                        sub_execution=f"{data_type}/{slow_dir_name}/beta{beta}/gamma{gamma}",
+                        num_exec=num_exec
+                    )
 
                     log_path = f"../{log_path}"
                     time_path = f"../{time_path}"
@@ -211,243 +485,260 @@ for strategy in strategies:
                         temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
                         temp_time_df = pd.DataFrame(columns=["server_ev"])
 
-                    final_df = pd.concat([temp_log_df, temp_time_df], axis=1)
-                    final_df.columns = [
-                        f'accuracy_{available + 1}',
-                        f'loss_{available + 1}',
-                        f'timestamp_{available + 1}'
+                    temp_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                    temp_df.columns = [
+                        f'server_ev_accuracy_{num_exec}',
+                        f'server_ev_loss_{num_exec}',
+                        f'server_ev_time_{num_exec}'
                     ]
+                    temp_dfs.append(temp_df)
 
-                    merged_df = pd.merge(merged_df, final_df, how="outer", left_index=True, right_index=True)
+                df_all = pd.concat(temp_dfs, axis=1)
 
-                    print(merged_df)
+                accuracy_cols = [col for col in df_all.columns if "accuracy" in col]
+                loss_cols = [col for col in df_all.columns if "loss" in col]
+                timestamp_cols = [col for col in df_all.columns if "time" in col]
 
-                    for i in range(1, available + 2):
-                        # Calculamos el mínimo y máximo de loss para establecer el rango global
-                        y_min_global = min(y_min_global, merged_df[f"loss_{i}"].min())
-                        y_max_global = max(y_max_global, merged_df[f"loss_{i}"].max())
+                final_df = pd.DataFrame({
+                    f'accuracy_{available + 1}': df_all[accuracy_cols].mean(axis=1),
+                    f'loss_{available + 1}': df_all[loss_cols].mean(axis=1),
+                    f'timestamp_{available + 1}': df_all[timestamp_cols].mean(axis=1),
+                })
 
-                    last_valids = merged_df[time_columns].apply(
-                        lambda col: col.dropna().iloc[-1] if col.notna().any() else 0.0
-                    )
+                merged_df = pd.merge(
+                    merged_df, final_df,
+                    how="outer",
+                    left_index=True,
+                    right_index=True
+                )
 
-                    max_time = last_valids.min()
-                    time_objective.append(max_time)
+                # ======================
+                # SELECCIÓN DE MÉTODO
+                # ======================
+                if method == "FedMOpt":
+                    loss_col = f"loss_{available + 1}"
+                    time_col = f"timestamp_{available + 1}"
+                else:
+                    loss_col = f"loss_{method}"
+                    time_col = f"timestamp_{method}"
 
-                    estimations = []
-                    for timestamp_col, loss_col in zip(time_columns, acc_columns):
-                        timestamps = merged_df[timestamp_col].dropna().values
-                        values = merged_df[loss_col].dropna().values
-                        estimation = interpolate_at_time(timestamps, values, max_time)
-                        estimations.append(estimation)
-                    
-                    simplified_df = pd.Series(estimations, index=acc_columns)
-                    simplified_df[acc_columns] = simplified_df[acc_columns].div(simplified_df[f'loss_{available}'], axis=0)
-                    simplified_df[acc_columns] = simplified_df[acc_columns] - 1
-                    simplified_df[acc_columns] = simplified_df[acc_columns] * 100
-                    simplified_df[acc_columns] = simplified_df[acc_columns].round(2)
-                    simplified_df = simplified_df.drop(f'loss_{available + 1}')
+                if loss_col not in merged_df:
+                    continue
 
-                    results_list.append(simplified_df)
+                plotted_any = True
 
-                    fig, axs = plt.subplots(1, 1, figsize=(10, 6))  # 'sharex=True' para compartir el eje x (timestamp)
+                y_min_global = min(y_min_global, merged_df[loss_col].min())
+                y_max_global = max(y_max_global, merged_df[loss_col].max())
 
-                    for i in range(1, available + 2):
-                        if i == available + 1:
-                            axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"loss_{i}"], marker='o', markersize=4, linestyle='-', label=f"{final_strat}", color=og_colors[i-1])
-                        else:
-                            axs.plot(merged_df[f"timestamp_{i}"], merged_df[f"loss_{i}"], marker='o', markersize=4, linestyle='-', label=f"M = {i}", color=og_colors[i-1])
+                axs.plot(
+                    merged_df[time_col],
+                    merged_df[loss_col],
+                    marker='o',
+                    markersize=4,
+                    linestyle='-',
+                    label=rf"$\beta={beta},\ \gamma={gamma}$"
+                )
 
-                    print(y_min_global)
-                    # Establece los límites del eje Y usando el rango global calculado
-                    axs.set_ylim(y_min_global - 0.1, 3)  # Un margen pequeño para mayor claridad
-                    axs.set_xlim(0, 4000)
+            if not plotted_any:
+                plt.close(fig)
+                continue
 
-                    axs.set_xlabel("Timestamp (s)", fontsize=18)
-                    axs.set_ylabel("Loss", fontsize=18)
-                    axs.axvline(x=max_time, color='black', linestyle='--')
-                    axs.legend(fontsize=16)
-                    axs.grid(True)
+            axs.set_ylim(y_min_global - 0.05, y_max_global + 0.05)
+            axs.set_xlabel("Timestamp (s)", fontsize=18)
+            axs.set_ylabel("Loss", fontsize=18)
+            axs.legend(fontsize=12)
+            axs.grid(True)
+            axs.tick_params(axis='both', which='major', labelsize=16)
 
-                    axs.tick_params(axis='both', which='major', labelsize=16)
-                    axs.set_title(f"Comparative Loss Graph - {data_type.upper()} - Slow Client: {slow}\nBeta: {beta}, K: {k}", fontsize=20)
+            title_method = f"sync{method}" if method != "FedMOpt" else "FedMOpt"
 
-                    plt.tight_layout()
+            plt.tight_layout()
 
-                    os.makedirs(f'../{federation}/results/{final_strat}/{data_type}/graphs', exist_ok=True)
-                    plt.savefig(f'../{federation}/results/{final_strat}/{data_type}/graphs/{slow_dir_name}_beta{beta}_gamma{k}.pdf', format="pdf")
+            out_dir = f'../{federation}/results/{final_strat}/{data_type}/graphs/by_slow_method'
+            os.makedirs(out_dir, exist_ok=True)
 
-                    loss_cols = [col for col in merged_df.columns if "loss" in col]
-                    
-                    plt.figure(figsize=(10, 6))
+            plt.savefig(
+                f'{out_dir}/{slow_dir_name}_{title_method}.pdf',
+                format="pdf"
+            )
 
-                    for col in loss_cols:
-                        plt.plot(merged_df.index, merged_df[col], label=col)
+            plt.close()"""
 
-                        # Valor mínimo (ignora NaN)
-                        min_val = merged_df[col].min()
+# ==============================
+# BARPLOT TIEMPO - UNA GRÁFICA
+# (beta fijo = 0.7)
+# ==============================
 
-                        # Línea horizontal en el mínimo
-                        plt.axhline(
-                            y=min_val,
-                            linestyle="--",
-                            alpha=0.4
-                        )
+methods = list(range(start, available + 1)) + ["FedMOpt"]  # sync5,6,7 + FedMOpt
 
-                    plt.xlabel("Índice (ronda / fila)")
-                    plt.ylabel("Loss")
-                    plt.title("Evolución de loss_n")
-                    plt.legend()
-                    plt.grid(True)
-                    plt.tight_layout()
-                    plt.ylim(y_min_global - 0.1, 3)
-                    os.makedirs(f'../{federation}/results/{final_strat}/{data_type}/graphs/rounds', exist_ok=True)
-                    plt.savefig(f'../{federation}/results/{final_strat}/{data_type}/graphs/rounds/{slow_dir_name}_beta{beta}_gamma{k}.pdf', format="pdf")
+# Diccionario para almacenar todos los tiempos
+all_times = {}
 
-                    for loss_col in loss_cols:
-                        # índice de la fila donde ocurre el mínimo de la columna loss
-                        idx_min = merged_df[loss_col].idxmin()
-                        
-                        # nombre de la columna timestamp correspondiente
-                        n = loss_col.split("_")[1]         # extrae el número
-                        timestamp_col = f"timestamp_{n}"
-                        
-                        # valor del timestamp en esa fila
-                        ts_value = merged_df[timestamp_col].get(idx_min, float(0))
-                        min_loss = merged_df[loss_col].get(idx_min, float(0))
+for data_type in data_types:
+    for slow in sorted(slows):
+        if target_beta not in betas.get(slow, []):
+            continue
 
-            results = {}  # key = (beta, k) → value = dataframe
-            for beta in sorted(betas.get(slow, [])):
-                for k in sorted(ks.get((slow, beta), [])):
-                    exec_loss = []
-                    exec_times = []
+        slow_dir_name = f"slow{slow[0]}"
+        merged_df = None
 
-                    sub_exec = f"{data_type}/{slow_dir_name}/beta{beta}/gamma{k}"
+        # ======================
+        # CONSTRUCCIÓN merged_df (igual que antes)
+        # ======================
+        for sync_client in range(start, available + 1):
+            temp_dfs = []
 
-                    for exec_id in range(num_execs):
+            for num_exec in range(1, num_execs + 1):
+                log_path = config['paths']['localLog'].format(
+                    federation=federation,
+                    strategy=strategy,
+                    sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{target_beta}/gamma{target_gamma}",
+                    num_exec=num_exec
+                )
+                time_path = config['paths']['localTimestamp'].format(
+                    federation=federation,
+                    strategy=strategy,
+                    sub_execution=f"{data_type}/sync{sync_client}/{slow_dir_name}/beta{target_beta}/gamma{target_gamma}",
+                    num_exec=num_exec
+                )
 
-                        log_path = (
-                            "../" +
-                            config['paths']['localLog'].format(
-                                federation=federation,
-                                strategy=f'{final_strat}',
-                                sub_execution=sub_exec,
-                                num_exec=exec_id + 1
-                            )
-                        )
+                log_path = f"../{log_path}"
+                time_path = f"../{time_path}"
 
-                        time_path = (
-                            "../" +
-                            config['paths']['localTimestamp'].format(
-                                federation=federation,
-                                strategy=f'{final_strat}',
-                                sub_execution=sub_exec,
-                                num_exec=exec_id + 1
-                            )
-                        )
+                if os.path.exists(log_path):
+                    temp_log_df = pd.read_csv(log_path)[["server_ev_accuracy", "server_ev_loss"]]
+                    temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+                else:
+                    temp_log_df = pd.DataFrame(columns=["server_ev_accuracy", "server_ev_loss"])
+                    temp_time_df = pd.DataFrame(columns=["server_ev"])
 
-                        # Leer datos
-                        log_df = pd.read_csv(log_path)[["server_ev_loss"]]
-                        time_df = pd.read_csv(time_path)[["server_ev"]]
-
-                        loss = log_df.to_numpy().ravel()
-                        time = time_df.to_numpy().ravel()
-
-                        exec_loss.append(loss)
-                        exec_times.append(time)
-
-                    # Interpolamos en una misma malla temporal
-                    t_max = min(t[-1] for t in exec_times)
-                    t_grid = np.linspace(0, t_max, 50)
-
-                    interpolated_runs = [
-                        np.interp(t_grid, t, m)
-                        for t, m in zip(exec_times, exec_loss)
-                    ]
-
-                    mean_loss = np.mean(interpolated_runs, axis=0)
-
-                    # Guardar
-                    results[(beta, k)] = pd.DataFrame({
-                        "timestamp": t_grid,
-                        "loss": mean_loss
-                    })
-
-            """# =======================================================
-            # 2. GRAFICAS FIJANDO beta
-            # =======================================================
-            for beta in sorted(betas.get(slow, [])):
-                ks_for_beta = sorted(ks.get((slow, beta), []))
-                if len(ks_for_beta) <= 1:
-                    continue  # solo hay un k → no graficar
-
-                fig, ax = plt.subplots(figsize=(10, 6))
-
-                for idx, k in enumerate(ks_for_beta):
-                    df = results[(beta, k)]
-                    color = og_colors[idx % len(og_colors)]
-
-                    ax.plot(
-                        df["timestamp"],
-                        df["loss"],
-                        marker="o",
-                        markersize=4,
-                        linestyle="-",
-                        color=color,
-                        label=f"k={k}"
-                    )
-
-                ax.set_title(f"{final_strat} — slow={slow}, data={data_type}, β={beta}", fontsize=18)
-                ax.set_xlabel("Timestamp (s)", fontsize=18)
-                ax.set_ylabel("Loss", fontsize=18)
-                ax.legend(fontsize=14)
-                ax.grid(True)
-                ax.tick_params(axis='both', which='major', labelsize=14)
-                plt.ylim(1.3, 2.8)
-                plt.tight_layout()
-
-                save_path = f'../{federation}/results/{final_strat}/{data_type}/graphs/beta_{beta}_slow{slow}.png'
-                plt.savefig(save_path, dpi=300)
-                plt.close()
-
-            # =======================================================
-            # 2. GRAFICAS FIJANDO K
-            # =======================================================
-            for k in sorted(ks.get((slow, beta), [])):
-                betas_for_k = [
-                    beta for beta in sorted(betas.get(slow, []))
-                    if k in ks.get((slow, beta), [])
+                temp_df = pd.concat([temp_log_df, temp_time_df], axis=1)
+                temp_df.columns = [
+                    f'server_ev_accuracy_{num_exec}',
+                    f'server_ev_loss_{num_exec}',
+                    f'server_ev_time_{num_exec}'
                 ]
+                temp_dfs.append(temp_df)
 
-                if len(betas_for_k) <= 1:
-                    continue  # solo hay un beta → no graficar
+            df_all = pd.concat(temp_dfs, axis=1)
 
-                fig, ax = plt.subplots(figsize=(10, 6))
+            final_df = pd.DataFrame({
+                f'timestamp_{sync_client}': df_all.filter(like="time").mean(axis=1),
+            })
 
-                for idx, beta in enumerate(betas_for_k):
-                    df = results[(beta, k)]
-                    color = og_colors[idx % len(og_colors)]
+            if merged_df is None:
+                merged_df = final_df
+            else:
+                merged_df = pd.merge(
+                    merged_df, final_df,
+                    how="outer",
+                    left_index=True,
+                    right_index=True
+                )
 
-                    ax.plot(
-                        df["timestamp"],
-                        df["loss"],
-                        marker="o",
-                        markersize=4,
-                        linestyle="-",
-                        color=color,
-                        label=f"β={beta}"
-                    )
+        # ===== FedMOpt =====
+        temp_dfs = []
+        for num_exec in range(1, num_execs + 1):
+            log_path = config['paths']['localLog'].format(
+                federation=federation,
+                strategy=final_strat,
+                sub_execution=f"{data_type}/{slow_dir_name}/beta{target_beta}/gamma{target_gamma}",
+                num_exec=num_exec
+            )
+            time_path = config['paths']['localTimestamp'].format(
+                federation=federation,
+                strategy=final_strat,
+                sub_execution=f"{data_type}/{slow_dir_name}/beta{target_beta}/gamma{target_gamma}",
+                num_exec=num_exec
+            )
 
-                ax.set_title(f"{final_strat} — slow={slow}, data={data_type}, k={k}", fontsize=18)
-                ax.set_xlabel("Timestamp (s)", fontsize=18)
-                ax.set_ylabel("Loss", fontsize=18)
-                ax.legend(fontsize=14)
-                ax.grid(True)
-                ax.tick_params(axis='both', which='major', labelsize=14)
-                plt.ylim(1.3, 2.8)
-                plt.tight_layout()
+            log_path = f"../{log_path}"
+            time_path = f"../{time_path}"
 
-                save_path = f'../{federation}/results/{final_strat}/{data_type}/graphs/k_{k}_slow{slow}.png'
-                plt.savefig(save_path, dpi=300)
-                plt.close()
-"""
+            if os.path.exists(log_path):
+                temp_time_df = pd.read_csv(time_path)[["server_ev"]]
+            else:
+                temp_time_df = pd.DataFrame(columns=["server_ev"])
+
+            temp_time_df.columns = [f'server_ev_time_{num_exec}']
+            temp_dfs.append(temp_time_df)
+
+        df_all = pd.concat(temp_dfs, axis=1)
+
+        final_df = pd.DataFrame({
+            f'timestamp_{available + 1}': df_all.mean(axis=1),
+        })
+
+        merged_df = pd.merge(
+            merged_df, final_df,
+            how="outer",
+            left_index=True,
+            right_index=True
+        )
+
+        # ======================
+        # EXTRAER TIEMPOS POR MÉTODO
+        # ======================
+        slow_times = {}
+        for m in methods:
+            if m == "FedMOpt":
+                col = f"timestamp_{available + 1}"
+                label = "FedMDyn"
+            else:
+                col = f"timestamp_{m}"
+                label = f"sync{m}"
+
+            if col in merged_df:
+                last_val = merged_df[col].dropna()
+                time = last_val.iloc[-1] if len(last_val) > 0 else 0.0
+                slow_times[label] = time
+
+        all_times[slow_dir_name] = slow_times
+
+# ======================
+# UNA SOLA GRÁFICA - BARRAS AGRUPADAS
+# ======================
+plt.figure(figsize=(10, 6))
+
+# Preparar datos para barras agrupadas
+slow_list = sorted(all_times.keys())
+method_labels = [5, 6, 7, "FedMOpt"]
+n_methods = len(method_labels)
+bar_width = 0.2
+x_pos = np.arange(len(slow_list))
+
+# Crear barras agrupadas
+for i, method in enumerate(method_labels):
+    if i == n_methods - 1:
+        times = [all_times[slow]["FedMDyn"] if "FedMDyn" in all_times[slow] else 0 
+             for slow in slow_list]
+        color = COLORS_BY_METHOD[method]
+        label = "FedMDyn"
+    else:
+        times = [all_times[slow][f"sync{method}"] if f"sync{method}" in all_times[slow] else 0 
+             for slow in slow_list]
+        color = COLORS_BY_METHOD[f"sync{method}"]
+        label = f"M = {method}"
+        
+
+    plt.bar(x_pos + i * bar_width, times, bar_width, 
+            label=label, alpha=0.8, color=color)
+
+# Personalizar gráfica
+plt.xlabel("Configuración Slow", fontsize=18)
+plt.ylabel("Tiempo total (s)", fontsize=18)
+#plt.title(f"Tiempo total por método - {data_type.upper()} - beta={target_beta}", fontsize=18)
+plt.xticks(x_pos + bar_width * (n_methods-1)/2, slow_list, fontsize=16)
+plt.yticks(fontsize=16)
+plt.legend(fontsize=16)
+plt.grid(axis='y', alpha=0.3)
+
+plt.tight_layout()
+
+# Guardar
+out_dir = f'../{federation}/results/{final_strat}/{data_type}/graphs/barplots'
+os.makedirs(out_dir, exist_ok=True)
+plt.savefig(f"{out_dir}/time_comparison_all_slow_beta{target_beta}.pdf", format="pdf", bbox_inches='tight')
+plt.close()
+
+print(f"Gráfica guardada: time_comparison_all_slow_beta{target_beta}")

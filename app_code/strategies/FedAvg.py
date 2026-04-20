@@ -303,7 +303,7 @@ class FedAvgCustom(FedAvg):
                 self.total_data += prop.properties["quantity_data"]
 
         # Initialize the data analyst and start the export thread during the first round
-        if server_round == 1:
+        """if server_round == 1:
             analyst = DataAnalyst(
                 self.prometheus_conf["prometheus_url"],
                 self.num_exec,
@@ -327,7 +327,7 @@ class FedAvgCustom(FedAvg):
             export_thread.daemon = (
                 True  # Ensure the thread exits when the main program ends
             )
-            export_thread.start()
+            export_thread.start()"""
 
         return fit_config, self.client_mapping
 

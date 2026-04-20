@@ -1,0 +1,69 @@
+synchrony = 7
+
+[paths]
+checkpoint = "{tmp}/{federation}/results/{strategy}/{sub_execution}/checkpoints/{num_exec}"
+metrics = "{tmp}/{federation}/results/{strategy}/{sub_execution}/metrics"
+logs = "{tmp}/{federation}/results/{strategy}/{sub_execution}/logs"
+localCheckpoint = "{federation}/results/{strategy}/{sub_execution}/checkpoints/{num_exec}"
+
+[config]
+fraction_fit = 1
+fraction_evaluate = 0
+min_fit_clients = 7
+min_evaluate_clients = 7
+min_available_clients = 7
+evaluate_fn = "evaluate_server"
+on_fit_config_fn = "None"
+on_evaluate_config_fn = "None"
+accept_failures = true
+initial_parameters = "server_side"
+fit_metrics_aggregation_fn = "fit_weighted_average"
+evaluate_metrics_aggregation_fn = "evaluate_weighted_average"
+rounds = 60
+dataset_name = "uoft-cs/cifar10"
+server_type = 1
+inplace = false
+
+[devices]
+raspberrypi1 = "raspberrypi1"
+raspberry4 = "raspberry4"
+raspberry3 = "raspberry3"
+
+[clients]
+raspberrypi1 = [ 1, 32, 1,]
+raspberry4 = [ 1, 32, 1,]
+raspberry3 = [ 1, 32, 1,]
+
+[prometheus_conf]
+prometheus_url = "http://master_prometheus:9090"
+sleep_time = 5
+
+[local-execution]
+devices = [ "victorPC",]
+
+[remote-execution]
+devices = [ "raspberrypi1", "raspberry4", "raspberry3", "raspberry6", "raspberry7",]
+
+[tempConfig]
+federation = "local-execution"
+strategy = "FedMOpt"
+execution_name = "iid/slow1/beta0.7/gamma12.0"
+num_exec = 1
+beta = 0.7
+gamma = 12.0
+debug = false
+slow = 1
+step_rounds = 60
+last_round = 0
+
+[names]
+supernode-1 = [ 1, 32, 1,]
+supernode-2 = [ 1, 32, 1,]
+supernode-3 = [ 1, 32, 1,]
+clientapps = [ "client-1", "client-2", "client-3",]
+
+[fedProx]
+proximal_mu = 0.1
+
+[tempConfig.parameters_fit]
+learning_rate = 1.0

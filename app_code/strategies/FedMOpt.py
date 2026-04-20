@@ -331,7 +331,7 @@ def _simulate_semiasynchronous(
 
         if cid in indices or updated_times[cid] <= 0:
             mu_i = beta ** counter_val
-            n_i = 1/8
+            n_i = 1/len(simulated_times)
             total_velocity += velocity_dict[cid] * mu_i * n_i
     return total_velocity, max_value
 

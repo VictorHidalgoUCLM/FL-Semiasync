@@ -164,6 +164,7 @@ cython_debug/
 /Flwr
 /local-execution
 /remote-execution
+/data
 projectconf.toml
 dockerfiles/local-execution.yml
 dockerfiles/remote-execution.yml

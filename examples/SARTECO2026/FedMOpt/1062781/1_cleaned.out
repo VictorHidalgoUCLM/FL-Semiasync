@@ -1,0 +1,962 @@
+[92mINFO [0m:      Starting Flower SuperLink
+[92mINFO [0m:      Flower Deployment Engine: Starting Exec API on 0.0.0.0:9193
+[92mINFO [0m:      Flower ECE: Starting ServerAppIo API (gRPC-rere) on 0.0.0.0:9191
+[92mINFO [0m:      Starting Flower SuperLink
+[92mINFO [0m:      Flower Deployment Engine: Starting Exec API on 0.0.0.0:9193
+[92mINFO [0m:      Flower ECE: Starting ServerAppIo API (gRPC-rere) on 0.0.0.0:9191
+[92mINFO [0m:      ExecServicer.StartRun
+[92mINFO [0m:      Created run 13561137057723466532
+[92mINFO [0m:      Launching flwr-serverapp subprocess. Connects to SuperLink on 127.0.0.1:9191
+[92mINFO [0m:      Start `flwr-serverapp` process
+[92mINFO [0m:      Starting run 13561137057723466532
+[92mINFO [0m:      Starting Flower ServerApp, config: num_rounds=60, no round_timeout
+[92mINFO [0m:
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Using initial global parameters provided by strategy
+[92mINFO [0m:      Starting evaluation of initial global parameters
+[92mINFO [0m:      initial parameters (loss, other metrics): 2.3026123809814454, {'accuracy': 0.1, 'precision': 0.01, 'recall': 0.1, 'f1': 0.01818181818181818}
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 0]
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 1]
+[92mINFO [0m:      Score: 0.2577893928392189, velocity_score: 0.14796683694822013, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4474838480315797, velocity_score: 0.29108558639307325, time_score: 0.9670999000318676.
+[92mINFO [0m:      Score: 0.5990750701986656, velocity_score: 0.4340928737412845, time_score: 0.9663467144224501.
+[92mINFO [0m:      Score: 0.7216616600368811, velocity_score: 0.5767341414170689, time_score: 0.9638734005485744.
+[92mINFO [0m:      Score: 0.8230914751104703, velocity_score: 0.7191272108292058, time_score: 0.9621962442228473.
+[92mINFO [0m:      Score: 0.9089988437111588, velocity_score: 0.8614977284143256, time_score: 0.9620438541989107.
+[92mINFO [0m:      Score: 0.9668913785672415, velocity_score: 1.0, time_score: 0.9359048588969433.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (1, 2.3612435642242433, {'accuracy': 0.0915, 'precision': 0.05429741409160245, 'recall': 0.0915, 'f1': 0.06334365677012702}, 248.15606890805066)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 2]
+[92mINFO [0m:      Score: 0.2556717643248887, velocity_score: 0.14657319597073168, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4499562333143386, velocity_score: 0.2913748146900687, time_score: 0.987292425563422.
+[92mINFO [0m:      Score: 0.6013113364710694, velocity_score: 0.43464167919590496, time_score: 0.9753069261858305.
+[92mINFO [0m:      Score: 0.7233253072597239, velocity_score: 0.5767990268654642, time_score: 0.9696485235382968.
+[92mINFO [0m:      Score: 0.8247659122708402, velocity_score: 0.718645987930729, time_score: 0.9676563154896345.
+[92mINFO [0m:      Score: 0.9103079958904945, velocity_score: 0.8602587457914374, time_score: 0.9665406527474234.
+[92mINFO [0m:      Score: 0.9773901240299901, velocity_score: 1.0, time_score: 0.9557800555200723.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (2, 2.4676566730499268, {'accuracy': 0.1025, 'precision': 0.04914926265385566, 'recall': 0.1025, 'f1': 0.05240038044380222}, 366.6865161843598)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 3]
+[92mINFO [0m:      Score: 0.25622726307022714, velocity_score: 0.14693844997333858, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4506416656991626, velocity_score: 0.2919867383866025, time_score: 0.9868716931740605.
+[92mINFO [0m:      Score: 0.6018014424891923, velocity_score: 0.43523749819421487, time_score: 0.9748877417868154.
+[92mINFO [0m:      Score: 0.7234789901586157, velocity_score: 0.5775582258214963, time_score: 0.968060651033789.
+[92mINFO [0m:      Score: 0.8234040099437068, velocity_score: 0.7190135697867126, time_score: 0.9632547621873488.
+[92mINFO [0m:      Score: 0.9067323847977132, velocity_score: 0.8600130907713193, time_score: 0.9588192162209507.
+[92mINFO [0m:      Score: 0.9754591954916213, velocity_score: 1.0, time_score: 0.9520940417396953.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (3, 2.5057264545440674, {'accuracy': 0.1066, 'precision': 0.05294151198727348, 'recall': 0.1066, 'f1': 0.04838631683110543}, 487.8778712814674)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 4]
+[92mINFO [0m:      Score: 0.25743653858127435, velocity_score: 0.14773438344201237, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45167490943952915, velocity_score: 0.2931367400899384, time_score: 0.9836843720200985.
+[92mINFO [0m:      Score: 0.6031576096089493, velocity_score: 0.43692206888716784, time_score: 0.9735721701464405.
+[92mINFO [0m:      Score: 0.7244618675459108, velocity_score: 0.5796178598154028, time_score: 0.9658148372336754.
+[92mINFO [0m:      Score: 0.8228335846248455, velocity_score: 0.7212234598031987, time_score: 0.9577697109489556.
+[92mINFO [0m:      Score: 0.9034837475469113, velocity_score: 0.861557699249624, time_score: 0.9496990238743365.
+[92mINFO [0m:      Score: 0.968050294172168, velocity_score: 1.0, time_score: 0.9380789477483269.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (4, 2.785140512466431, {'accuracy': 0.1187, 'precision': 0.04118691271195622, 'recall': 0.1187, 'f1': 0.05617181717927313}, 608.9117758953944)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 5]
+[92mINFO [0m:      Score: 0.2574270547906413, velocity_score: 0.1477281370047399, time_score: 1.0.
+[92mINFO [0m:      Score: 0.452141110041314, velocity_score: 0.29341213216451884, time_score: 0.9850057925807473.
+[92mINFO [0m:      Score: 0.6038479702553906, velocity_score: 0.43750023984899983, time_score: 0.974299048023308.
+[92mINFO [0m:      Score: 0.7248606362929371, velocity_score: 0.5801672641727768, time_score: 0.9657075198753811.
+[92mINFO [0m:      Score: 0.8229571963052127, velocity_score: 0.7216276489889915, time_score: 0.9573923653591797.
+[92mINFO [0m:      Score: 0.903105756347164, velocity_score: 0.8616944754713842, time_score: 0.9486982619391665.
+[92mINFO [0m:      Score: 0.9677567496809049, velocity_score: 1.0, time_score: 0.9375278059524673.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 5 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (5, 2.8567919372558594, {'accuracy': 0.1439, 'precision': 0.04764873817435021, 'recall': 0.1439, 'f1': 0.07023682553555782}, 731.7359136082232)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 6]
+[92mINFO [0m:      Score: 0.2570985571644983, velocity_score: 0.14751181612784042, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4518771521279418, velocity_score: 0.2930808878244155, time_score: 0.9862376902194163.
+[92mINFO [0m:      Score: 0.6036749748980719, velocity_score: 0.43698006307223225, time_score: 0.9759837985535966.
+[92mINFO [0m:      Score: 0.7244876047693128, velocity_score: 0.5796323235334768, time_score: 0.9658661632740001.
+[92mINFO [0m:      Score: 0.8226441890378389, velocity_score: 0.7210005627916636, time_score: 0.9576496011843919.
+[92mINFO [0m:      Score: 0.9036006399736463, velocity_score: 0.8611827557368607, time_score: 0.9504136246006792.
+[92mINFO [0m:      Score: 0.9693253518404381, velocity_score: 1.0, time_score: 0.9404765641333344.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (6, 2.5289311473846436, {'accuracy': 0.1697, 'precision': 0.1593369738901677, 'recall': 0.1697, 'f1': 0.09276858713905732}, 853.2669101469219)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 7]
+[92mINFO [0m:      Score: 0.2571572575905455, velocity_score: 0.14755046530189483, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45244241707357363, velocity_score: 0.293388489966359, time_score: 0.9881403171061081.
+[92mINFO [0m:      Score: 0.6042688394206899, velocity_score: 0.4375109201968203, time_score: 0.9764405751041803.
+[92mINFO [0m:      Score: 0.7243183200012576, velocity_score: 0.5799289235880627, time_score: 0.9644432191450516.
+[92mINFO [0m:      Score: 0.8222359342201379, velocity_score: 0.7210576154568956, time_score: 0.9564434321876515.
+[92mINFO [0m:      Score: 0.903136906739678, velocity_score: 0.8611467846307129, time_score: 0.9494318717081223.
+[92mINFO [0m:      Score: 0.9693384684204432, velocity_score: 1.0, time_score: 0.9405012593560838.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (7, 2.4288258865356447, {'accuracy': 0.1822, 'precision': 0.20237437899473928, 'recall': 0.1822, 'f1': 0.1169054186679946}, 971.3712230129167)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 8]
+[92mINFO [0m:      Score: 0.2578015820859426, velocity_score: 0.14797486866886822, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45259244214465244, velocity_score: 0.293790392843029, time_score: 0.9850280986274761.
+[92mINFO [0m:      Score: 0.6046624997843959, velocity_score: 0.43824891415082756, time_score: 0.9748279791433062.
+[92mINFO [0m:      Score: 0.7256280416889755, velocity_score: 0.5809723552840276, time_score: 0.9662015286356482.
+[92mINFO [0m:      Score: 0.8235088500132273, velocity_score: 0.7224865830165034, time_score: 0.9573745101576683.
+[92mINFO [0m:      Score: 0.9021797271448965, velocity_score: 0.8622706421274181, time_score: 0.9459623761760666.
+[92mINFO [0m:      Score: 0.9643507515661335, velocity_score: 1.0, time_score: 0.931155748941495.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (8, 2.2686822017669677, {'accuracy': 0.2088, 'precision': 0.27802393889935834, 'recall': 0.2088, 'f1': 0.15375463550789029}, 1092.330432430841)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 9]
+[92mINFO [0m:      Score: 0.25735101897221124, velocity_score: 0.1476780589631019, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45226360051282727, velocity_score: 0.29344283179483854, time_score: 0.9858228927635236.
+[92mINFO [0m:      Score: 0.6043226922931436, velocity_score: 0.43758041692503075, time_score: 0.9763756837598797.
+[92mINFO [0m:      Score: 0.7256191782794443, velocity_score: 0.5804273385921258, time_score: 0.9676811968231925.
+[92mINFO [0m:      Score: 0.8235203666614399, velocity_score: 0.7219978906339795, time_score: 0.9582651522151605.
+[92mINFO [0m:      Score: 0.9031374867207274, velocity_score: 0.8619522162308507, time_score: 0.9484560291805006.
+[92mINFO [0m:      Score: 0.9660720720409418, velocity_score: 1.0, time_score: 0.9343708066266653.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (9, 2.0635327388763427, {'accuracy': 0.2535, 'precision': 0.3572680358995114, 'recall': 0.2535, 'f1': 0.2126275457318839}, 1213.6777976965532)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 10]
+[92mINFO [0m:      Score: 0.2571055729108502, velocity_score: 0.14751643525548958, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4523283729359078, velocity_score: 0.2933415231950597, time_score: 0.9875852509632438.
+[92mINFO [0m:      Score: 0.6046304410210338, velocity_score: 0.43753056136013796, time_score: 0.9782332929573877.
+[92mINFO [0m:      Score: 0.7253670350883534, velocity_score: 0.5802705315005267, time_score: 0.9672202107339882.
+[92mINFO [0m:      Score: 0.8231577439692259, velocity_score: 0.7217381665654388, time_score: 0.9577407018052004.
+[92mINFO [0m:      Score: 0.9032592385080346, velocity_score: 0.8617123701610914, time_score: 0.9490153603912947.
+[92mINFO [0m:      Score: 0.968244097165079, velocity_score: 1.0, time_score: 0.9384429926736229.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 10 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (10, 1.91521671333313, {'accuracy': 0.2994, 'precision': 0.38718386957424, 'recall': 0.2994, 'f1': 0.2732942914588116}, 1336.8197890110314)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 11]
+[92mINFO [0m:      Score: 0.2564017521821407, velocity_score: 0.14705322886337577, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4520509130757994, velocity_score: 0.29286450980756884, time_score: 0.9903616418074324.
+[92mINFO [0m:      Score: 0.6047320401775591, velocity_score: 0.4371549195729756, time_score: 0.9806504370859505.
+[92mINFO [0m:      Score: 0.7258389810858723, velocity_score: 0.579840052238331, time_score: 0.9701028556722201.
+[92mINFO [0m:      Score: 0.8244471173044902, velocity_score: 0.7213728073187379, time_score: 0.9618877193801205.
+[92mINFO [0m:      Score: 0.9052037410277999, velocity_score: 0.8615118077363937, time_score: 0.9535641474008519.
+[92mINFO [0m:      Score: 0.9705229719606783, velocity_score: 1.0, time_score: 0.9427339761131692.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (11, 1.8229182943344115, {'accuracy': 0.3309, 'precision': 0.4080429919699494, 'recall': 0.3309, 'f1': 0.315258791502831}, 1458.2168739633635)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 12]
+[92mINFO [0m:      Score: 0.25664493357901885, velocity_score: 0.14721323184375618, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4519928183448323, velocity_score: 0.2929012121898356, time_score: 0.9893852042269107.
+[92mINFO [0m:      Score: 0.604838731615247, velocity_score: 0.43727937283427204, time_score: 0.98058537537496.
+[92mINFO [0m:      Score: 0.7250150877346064, velocity_score: 0.5798464494454428, time_score: 0.9671471918453706.
+[92mINFO [0m:      Score: 0.8230991017879976, velocity_score: 0.7210404325399021, time_score: 0.9588129530992898.
+[92mINFO [0m:      Score: 0.9042820865169929, velocity_score: 0.8611443033208646, time_score: 0.9519696337878442.
+[92mINFO [0m:      Score: 0.9705936124570981, velocity_score: 1.0, time_score: 0.942867291482245.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (12, 1.7430918458938598, {'accuracy': 0.367, 'precision': 0.4219345097188757, 'recall': 0.36699999999999994, 'f1': 0.356455467670279}, 1579.2247756263241)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 13]
+[92mINFO [0m:      Score: 0.25512402669277046, velocity_score: 0.14621327280311483, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4502133387548199, velocity_score: 0.291239628745926, time_score: 0.9913359910659.
+[92mINFO [0m:      Score: 0.6038092732748938, velocity_score: 0.4352952238975945, time_score: 0.9852092947497074.
+[92mINFO [0m:      Score: 0.7273895403057099, velocity_score: 0.5784445753581833, time_score: 0.9796389183213119.
+[92mINFO [0m:      Score: 0.8274182869268145, velocity_score: 0.7203860147784003, time_score: 0.9718055354454086.
+[92mINFO [0m:      Score: 0.9085737342187844, velocity_score: 0.8611051476087435, time_score: 0.9615810756556467.
+[92mINFO [0m:      Score: 0.9743119684466518, velocity_score: 1.0, time_score: 0.9499106341049038.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (13, 1.6580295875549316, {'accuracy': 0.3964, 'precision': 0.4280075445784268, 'recall': 0.3964, 'f1': 0.38728293406104053}, 1700.972375110723)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 14]
+[92mINFO [0m:      Score: 0.25506973719849024, velocity_score: 0.14617761101178464, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45007433133374386, velocity_score: 0.2910953037901105, time_score: 0.9916607395390499.
+[92mINFO [0m:      Score: 0.6036764544994494, velocity_score: 0.43512566912709744, time_score: 0.9853708552753733.
+[92mINFO [0m:      Score: 0.7267801862896943, velocity_score: 0.5781350619938997, time_score: 0.9783165359088787.
+[92mINFO [0m:      Score: 0.8267107922727602, velocity_score: 0.7199043277781992, time_score: 0.9707303072148661.
+[92mINFO [0m:      Score: 0.9086801336849192, velocity_score: 0.8607153075831712, time_score: 0.9623062902820427.
+[92mINFO [0m:      Score: 0.9756201341710897, velocity_score: 1.0, time_score: 0.9524007321069661.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (14, 1.6211525526046753, {'accuracy': 0.4105, 'precision': 0.441209322945096, 'recall': 0.4105, 'f1': 0.4009006145432152}, 1821.9888774305582)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 15]
+[92mINFO [0m:      Score: 0.2549190068556365, velocity_score: 0.1460786105957823, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4500203215721216, velocity_score: 0.2910095828067372, time_score: 0.9921316128664687.
+[92mINFO [0m:      Score: 0.6036904249707948, velocity_score: 0.4350188185234862, time_score: 0.9859937837443029.
+[92mINFO [0m:      Score: 0.7266903018777627, velocity_score: 0.5780240213148797, time_score: 0.9783087869947874.
+[92mINFO [0m:      Score: 0.82676486090865, velocity_score: 0.7197815732667916, time_score: 0.9711027694858085.
+[92mINFO [0m:      Score: 0.9091937764445133, velocity_score: 0.8606413558505797, time_score: 0.9635518112838504.
+[92mINFO [0m:      Score: 0.9768972412904159, velocity_score: 1.0, time_score: 0.9548378527710686.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 15 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (15, 1.5983225700378418, {'accuracy': 0.4229, 'precision': 0.4565401650771193, 'recall': 0.4229, 'f1': 0.4162223575255556}, 1945.8554602460936)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 16]
+[92mINFO [0m:      Score: 0.25553002700955174, velocity_score: 0.14648003747035596, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4504931382116116, velocity_score: 0.2915829645144153, time_score: 0.9900758393943113.
+[92mINFO [0m:      Score: 0.603878158751783, velocity_score: 0.4356987247484451, time_score: 0.9835139101137998.
+[92mINFO [0m:      Score: 0.7266856798052204, velocity_score: 0.5786956775401617, time_score: 0.9763740901835379.
+[92mINFO [0m:      Score: 0.8267012680747727, velocity_score: 0.7207451694575249, time_score: 0.9691794695291567.
+[92mINFO [0m:      Score: 0.9082761123136674, velocity_score: 0.8614226129803135, time_score: 0.9605195788407249.
+[92mINFO [0m:      Score: 0.9736002278553808, velocity_score: 1.0, time_score: 0.9485584996000965.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (16, 1.56677428855896, {'accuracy': 0.4336, 'precision': 0.45731117572231395, 'recall': 0.43359999999999993, 'f1': 0.42573166364143306}, 2067.4493471141905)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 17]
+[92mINFO [0m:      Score: 0.2565491510224315, velocity_score: 0.14715020568138326, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45131303102614256, velocity_score: 0.29252518884096, time_score: 0.9871620226406292.
+[92mINFO [0m:      Score: 0.6035930435663176, velocity_score: 0.4365048916729402, time_score: 0.9779322410033927.
+[92mINFO [0m:      Score: 0.7255631283620788, velocity_score: 0.5794019603217033, time_score: 0.970344220581037.
+[92mINFO [0m:      Score: 0.8247631106862385, velocity_score: 0.7211549001033215, time_score: 0.9631368263956775.
+[92mINFO [0m:      Score: 0.9055162637518339, velocity_score: 0.8614100238483443, time_score: 0.954382937747613.
+[92mINFO [0m:      Score: 0.9700917743054617, velocity_score: 1.0, time_score: 0.9419206004022947.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (17, 1.5422143287658692, {'accuracy': 0.4419, 'precision': 0.46497848702958045, 'recall': 0.44189999999999996, 'f1': 0.4347601757161971}, 2186.245258647017)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 18]
+[92mINFO [0m:      Score: 0.2580529886318492, velocity_score: 0.14814055017045016, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4528940030145246, velocity_score: 0.2940821182609534, time_score: 0.9846070661726591.
+[92mINFO [0m:      Score: 0.6042872710639655, velocity_score: 0.4382765287884695, time_score: 0.97274406360401.
+[92mINFO [0m:      Score: 0.7249877674407965, velocity_score: 0.5812529291250708, time_score: 0.9631630605840257.
+[92mINFO [0m:      Score: 0.8225553086382363, velocity_score: 0.7225613353291674, time_score: 0.9546704476495702.
+[92mINFO [0m:      Score: 0.9016193207764516, velocity_score: 0.8624025750343969, time_score: 0.9445726545205595.
+[92mINFO [0m:      Score: 0.9642162384003438, velocity_score: 1.0, time_score: 0.9309049573351255.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (18, 1.5143809942245483, {'accuracy': 0.4512, 'precision': 0.4703722333476071, 'recall': 0.45120000000000005, 'f1': 0.443694997968936}, 2309.6432952787727)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 19]
+[92mINFO [0m:      Score: 0.25797013950676967, velocity_score: 0.14808594580217424, time_score: 1.0.
+[92mINFO [0m:      Score: 0.452614076725841, velocity_score: 0.29391281831495175, time_score: 0.9838587691311353.
+[92mINFO [0m:      Score: 0.6043186948541835, velocity_score: 0.438230769095758, time_score: 0.9731325034207291.
+[92mINFO [0m:      Score: 0.7252892168530523, velocity_score: 0.581233870622543, time_score: 0.9642803461550231.
+[92mINFO [0m:      Score: 0.8229643187581356, velocity_score: 0.7227078560514214, time_score: 0.9555168239251366.
+[92mINFO [0m:      Score: 0.9019442317655616, velocity_score: 0.862707291091107, time_score: 0.9449203174200672.
+[92mINFO [0m:      Score: 0.9628925289988267, velocity_score: 1.0, time_score: 0.9284404518552902.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (19, 1.4974456554412843, {'accuracy': 0.462, 'precision': 0.48011582359716753, 'recall': 0.462, 'f1': 0.4551513142132043}, 2431.0031034173444)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 20]
+[92mINFO [0m:      Score: 0.25824154647081277, velocity_score: 0.1482648446158297, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4527574412511741, velocity_score: 0.29412146648553467, time_score: 0.9828778040555257.
+[92mINFO [0m:      Score: 0.6040688404623463, velocity_score: 0.4382770001107075, time_score: 0.9716106355747303.
+[92mINFO [0m:      Score: 0.7246354581809816, velocity_score: 0.5810295465160495, time_score: 0.9625328357020528.
+[92mINFO [0m:      Score: 0.8222308000216735, velocity_score: 0.7224545635177902, time_score: 0.95398276761811.
+[92mINFO [0m:      Score: 0.901762923838018, velocity_score: 0.8624038857091634, time_score: 0.9448863592217321.
+[92mINFO [0m:      Score: 0.9642158137200515, velocity_score: 1.0, time_score: 0.930904165647733.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 20 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (20, 1.474574607849121, {'accuracy': 0.4727, 'precision': 0.48770293646095214, 'recall': 0.4727, 'f1': 0.4651927690710954}, 2555.747815331444)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 21]
+[92mINFO [0m:      Score: 0.25817527273972596, velocity_score: 0.1482211549182743, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45298916211076956, velocity_score: 0.2942961475380977, time_score: 0.9831112480247828.
+[92mINFO [0m:      Score: 0.6043329728162548, velocity_score: 0.43846138052436756, time_score: 0.972071152318526.
+[92mINFO [0m:      Score: 0.7247344838027763, velocity_score: 0.5810638377005009, time_score: 0.9627881927781735.
+[92mINFO [0m:      Score: 0.8223976837340735, velocity_score: 0.7226707085745311, time_score: 0.9540552139052241.
+[92mINFO [0m:      Score: 0.9012645319710334, velocity_score: 0.8624192866645427, time_score: 0.9437741790365528.
+[92mINFO [0m:      Score: 0.9624255945336196, velocity_score: 1.0, time_score: 0.9275726053603047.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (21, 1.469001900100708, {'accuracy': 0.4713, 'precision': 0.4850858301040488, 'recall': 0.4713, 'f1': 0.4635702646998777}, 2677.0788170406595)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 22]
+[92mINFO [0m:      Score: 0.2578895154389907, velocity_score: 0.148032812915408, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4522718446729787, velocity_score: 0.2936815633154665, time_score: 0.9832159445231279.
+[92mINFO [0m:      Score: 0.6037977426083969, velocity_score: 0.43773918984210725, time_score: 0.9728552521177036.
+[92mINFO [0m:      Score: 0.7247006560692875, velocity_score: 0.58062965878722, time_score: 0.9638628934897873.
+[92mINFO [0m:      Score: 0.8226181080607754, velocity_score: 0.7221061638480011, time_score: 0.9556356664195771.
+[92mINFO [0m:      Score: 0.9024741287837534, velocity_score: 0.8621740574133026, time_score: 0.9467263772033481.
+[92mINFO [0m:      Score: 0.9648596303543998, velocity_score: 1.0, time_score: 0.9321051121643894.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (22, 1.4473514701843262, {'accuracy': 0.4763, 'precision': 0.4864359979752965, 'recall': 0.4763, 'f1': 0.46877883266589093}, 2798.47069707606)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 23]
+[92mINFO [0m:      Score: 0.2578580043967162, velocity_score: 0.1480120478396613, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4525105083475797, velocity_score: 0.2938254765644266, time_score: 0.9838587994943679.
+[92mINFO [0m:      Score: 0.6038035439565428, velocity_score: 0.4378448252129705, time_score: 0.9723639821087392.
+[92mINFO [0m:      Score: 0.7241276498221755, velocity_score: 0.580239966858196, time_score: 0.9629096008943594.
+[92mINFO [0m:      Score: 0.8220875446460847, velocity_score: 0.7215942252658127, time_score: 0.9551002409725765.
+[92mINFO [0m:      Score: 0.9022384121018378, velocity_score: 0.8618632691691411, time_score: 0.9465823334374652.
+[92mINFO [0m:      Score: 0.9658682673261803, velocity_score: 1.0, time_score: 0.9339895845076338.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (23, 1.4387963108062745, {'accuracy': 0.4818, 'precision': 0.49241357242210865, 'recall': 0.48179999999999995, 'f1': 0.4742541339922276}, 2922.6627997672185)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 24]
+[92mINFO [0m:      Score: 0.2580379060893766, velocity_score: 0.14813060915125517, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45303329153681404, velocity_score: 0.294193994221342, time_score: 0.9846697351414705.
+[92mINFO [0m:      Score: 0.6045067622954142, velocity_score: 0.4383958721799256, time_score: 0.9732937427758871.
+[92mINFO [0m:      Score: 0.7251173759525468, velocity_score: 0.5813296644533755, time_score: 0.9634098810541406.
+[92mINFO [0m:      Score: 0.8224814309190046, velocity_score: 0.7226319720436107, time_score: 0.9543482127824511.
+[92mINFO [0m:      Score: 0.901694191720368, velocity_score: 0.8625786161570457, time_score: 0.9445258496728813.
+[92mINFO [0m:      Score: 0.9640706182311305, velocity_score: 1.0, time_score: 0.9306335308155478.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (24, 1.4218093551635742, {'accuracy': 0.4909, 'precision': 0.5027226466382876, 'recall': 0.4909, 'f1': 0.48590148567763586}, 3043.2592098526657)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 25]
+[92mINFO [0m:      Score: 0.2575754509482047, velocity_score: 0.1478258849649323, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45242930669095566, velocity_score: 0.2936481915038572, time_score: 0.9850813951146234.
+[92mINFO [0m:      Score: 0.6039662058928235, velocity_score: 0.43759395936917717, time_score: 0.9744498719847801.
+[92mINFO [0m:      Score: 0.7251505219400297, velocity_score: 0.5803915082177048, time_score: 0.9661152701686104.
+[92mINFO [0m:      Score: 0.823500031281391, velocity_score: 0.7223000908181713, time_score: 0.9576783181317639.
+[92mINFO [0m:      Score: 0.9031770193220959, velocity_score: 0.8623718885428365, time_score: 0.9480355241751676.
+[92mINFO [0m:      Score: 0.9655351362716137, velocity_score: 1.0, time_score: 0.933366777477257.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 25 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (25, 1.4233914455413819, {'accuracy': 0.4893, 'precision': 0.4993102268553855, 'recall': 0.48930000000000007, 'f1': 0.4840107655080949}, 3164.52050226368)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 26]
+[92mINFO [0m:      Score: 0.2574433343171413, velocity_score: 0.14773885945124, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4523616132819915, velocity_score: 0.29352024358119727, time_score: 0.9858806143213059.
+[92mINFO [0m:      Score: 0.6045331894425164, velocity_score: 0.43782319458494917, time_score: 0.9762661961885247.
+[92mINFO [0m:      Score: 0.7257800823093841, velocity_score: 0.5806864392741806, time_score: 0.9675335665127474.
+[92mINFO [0m:      Score: 0.823680591299711, velocity_score: 0.7224327145904236, time_score: 0.9579335637969307.
+[92mINFO [0m:      Score: 0.9027851518499114, velocity_score: 0.8622276166715298, time_score: 0.9473465170247716.
+[92mINFO [0m:      Score: 0.9654957297654326, velocity_score: 1.0, time_score: 0.9332931313531576.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (26, 1.407139945602417, {'accuracy': 0.4947, 'precision': 0.5019571308863094, 'recall': 0.49470000000000003, 'f1': 0.49044872667390793}, 3285.6717637917027)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 27]
+[92mINFO [0m:      Score: 0.2572960364701484, velocity_score: 0.14764184959388893, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4522167014896951, velocity_score: 0.2932959196234875, time_score: 0.987037598964878.
+[92mINFO [0m:      Score: 0.6044654929099876, velocity_score: 0.4375449292006039, time_score: 0.9772985917932406.
+[92mINFO [0m:      Score: 0.7257205278084857, velocity_score: 0.5804497939303593, time_score: 0.967979320436297.
+[92mINFO [0m:      Score: 0.8237096002744035, velocity_score: 0.722072028539828, time_score: 0.9586470504241573.
+[92mINFO [0m:      Score: 0.9033401961881485, velocity_score: 0.8620597732458093, time_score: 0.948772949029305.
+[92mINFO [0m:      Score: 0.9664376178028691, velocity_score: 1.0, time_score: 0.935054946319187.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (27, 1.3983491703033448, {'accuracy': 0.5001, 'precision': 0.5083482379445037, 'recall': 0.5001, 'f1': 0.49528237920501506}, 3407.199767352082)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 28]
+[92mINFO [0m:      Score: 0.2563721228443048, velocity_score: 0.1470337370738265, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4512355154840549, velocity_score: 0.29235961948833306, time_score: 0.9883080884677489.
+[92mINFO [0m:      Score: 0.6039288295304531, velocity_score: 0.43643419109990045, time_score: 0.9800536499073083.
+[92mINFO [0m:      Score: 0.7257872194869563, velocity_score: 0.5792508136203093, time_score: 0.9715711561015928.
+[92mINFO [0m:      Score: 0.824565892401603, velocity_score: 0.7208910091459902, time_score: 0.9630696823146999.
+[92mINFO [0m:      Score: 0.904974566567024, velocity_score: 0.8612244355333005, time_score: 0.9534075945552634.
+[92mINFO [0m:      Score: 0.9705602417010152, velocity_score: 1.0, time_score: 0.9428043106716021.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (28, 1.38913731842041, {'accuracy': 0.5006, 'precision': 0.5106538599136493, 'recall': 0.5006, 'f1': 0.4968413575789761}, 3529.020551114343)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 29]
+[92mINFO [0m:      Score: 0.25624016213375084, velocity_score: 0.14694693418750773, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4507406978002778, velocity_score: 0.29204682169959095, time_score: 0.9871352118397353.
+[92mINFO [0m:      Score: 0.6032128021566687, velocity_score: 0.4359962508694192, time_score: 0.9784910118791987.
+[92mINFO [0m:      Score: 0.7252553414559646, velocity_score: 0.5787150957060287, time_score: 0.9711722336101659.
+[92mINFO [0m:      Score: 0.8248865972414364, velocity_score: 0.7205664781438034, time_score: 0.9645259911349112.
+[92mINFO [0m:      Score: 0.9062859563227336, velocity_score: 0.861025695019931, time_score: 0.9565684732115904.
+[92mINFO [0m:      Score: 0.9723329326275958, velocity_score: 1.0, time_score: 0.9461555823849744.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (29, 1.3894015771865844, {'accuracy': 0.5034, 'precision': 0.5135910741301356, 'recall': 0.5034000000000001, 'f1': 0.4998271926973626}, 3649.8948175208643)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 30]
+[92mINFO [0m:      Score: 0.2567421205587216, velocity_score: 0.14727718921368568, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4515084423326955, velocity_score: 0.292722007803189, time_score: 0.9867912948686866.
+[92mINFO [0m:      Score: 0.6034049241281403, velocity_score: 0.4365423506476685, time_score: 0.9767577188702797.
+[92mINFO [0m:      Score: 0.7245711429669887, velocity_score: 0.5791614881703984, time_score: 0.96747418490895.
+[92mINFO [0m:      Score: 0.8232250701418466, velocity_score: 0.7204449600886284, time_score: 0.9602106267959074.
+[92mINFO [0m:      Score: 0.9046657655530495, velocity_score: 0.8608465984905807, time_score: 0.9531851894935334.
+[92mINFO [0m:      Score: 0.9712970350737187, velocity_score: 1.0, time_score: 0.9441958156923594.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 30 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (30, 1.3684976459503173, {'accuracy': 0.513, 'precision': 0.5226547843640054, 'recall': 0.513, 'f1': 0.5113467165686927}, 3772.7010785629973)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 31]
+[92mINFO [0m:      Score: 0.2560850913479523, velocity_score: 0.14684494643485346, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45062744096704455, velocity_score: 0.2919663359415268, time_score: 0.986968342575777.
+[92mINFO [0m:      Score: 0.6027284374923206, velocity_score: 0.43562995435298313, time_score: 0.9777869257757299.
+[92mINFO [0m:      Score: 0.7246714205503638, velocity_score: 0.5782693092895062, time_score: 0.97033357415514.
+[92mINFO [0m:      Score: 0.8244384874296994, velocity_score: 0.7199166928011667, time_score: 0.9644653068311363.
+[92mINFO [0m:      Score: 0.9067112873378981, velocity_score: 0.8606759928980108, time_score: 0.9579494849427713.
+[92mINFO [0m:      Score: 0.9745234054237564, velocity_score: 1.0, time_score: 0.9503126746900131.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (31, 1.363131885910034, {'accuracy': 0.5173, 'precision': 0.5237503667028122, 'recall': 0.5173000000000001, 'f1': 0.5139216279118981}, 3891.129655734636)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 32]
+[92mINFO [0m:      Score: 0.2577178019398144, velocity_score: 0.1479196666457082, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4518983524947828, velocity_score: 0.2933345546229395, time_score: 0.9835768913037513.
+[92mINFO [0m:      Score: 0.6034032424817772, velocity_score: 0.43733261048272803, time_score: 0.9728157137369539.
+[92mINFO [0m:      Score: 0.7243442916000674, velocity_score: 0.5800388891740513, time_score: 0.96423128140762.
+[92mINFO [0m:      Score: 0.8224454845098184, velocity_score: 0.7213732121182104, time_score: 0.9564553315274004.
+[92mINFO [0m:      Score: 0.9022650320480784, velocity_score: 0.8614619337613519, time_score: 0.9471255845601855.
+[92mINFO [0m:      Score: 0.9671752513634138, velocity_score: 1.0, time_score: 0.9364369440606114.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (32, 1.3737306575775146, {'accuracy': 0.5142, 'precision': 0.5241464347235418, 'recall': 0.5142, 'f1': 0.5120858943221924}, 4014.970906374976)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 33]
+[92mINFO [0m:      Score: 0.2596363618234162, velocity_score: 0.14918512207910917, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4544082343146395, velocity_score: 0.29566397538113853, time_score: 0.9812476134857516.
+[92mINFO [0m:      Score: 0.6049626084408878, velocity_score: 0.4400766755571296, time_score: 0.9674378250253433.
+[92mINFO [0m:      Score: 0.7242713605024281, velocity_score: 0.5828159896553138, time_score: 0.9563991705695453.
+[92mINFO [0m:      Score: 0.8202761126448169, velocity_score: 0.723994803090422, time_score: 0.9460934785847105.
+[92mINFO [0m:      Score: 0.8974584129170396, velocity_score: 0.8632712456735095, time_score: 0.9344649863813488.
+[92mINFO [0m:      Score: 0.9566566899275936, velocity_score: 1.0, time_score: 0.9169145771023376.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (33, 1.3630792360305786, {'accuracy': 0.51, 'precision': 0.5183874197131534, 'recall': 0.51, 'f1': 0.5068599814266289}, 4139.244268430397)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 34]
+[92mINFO [0m:      Score: 0.25982419675145757, velocity_score: 0.1493091653535352, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4547506929657582, velocity_score: 0.29596752102857826, time_score: 0.9810990552095185.
+[92mINFO [0m:      Score: 0.6056397598822078, velocity_score: 0.44058207544064143, time_score: 0.9684588047203796.
+[92mINFO [0m:      Score: 0.7248705539407883, velocity_score: 0.5835622468253657, time_score: 0.9564800923936766.
+[92mINFO [0m:      Score: 0.8204335331520013, velocity_score: 0.7246846844495303, time_score: 0.9453358868919424.
+[92mINFO [0m:      Score: 0.8964193419765806, velocity_score: 0.8635573469797866, time_score: 0.9318813532430971.
+[92mINFO [0m:      Score: 0.9557424882720011, velocity_score: 1.0, time_score: 0.9152364024563958.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (34, 1.371325838661194, {'accuracy': 0.5131, 'precision': 0.5221543112174741, 'recall': 0.5131, 'f1': 0.5104726832759504}, 4260.064098642208)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 35]
+[92mINFO [0m:      Score: 0.25872907934405726, velocity_score: 0.14858634361538245, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45372396992442415, velocity_score: 0.2948514480695384, time_score: 0.9838375201234701.
+[92mINFO [0m:      Score: 0.6051177102541491, velocity_score: 0.43925807035088893, time_score: 0.9722178627953095.
+[92mINFO [0m:      Score: 0.7251476368938643, velocity_score: 0.5821823718039361, time_score: 0.9611833526096705.
+[92mINFO [0m:      Score: 0.8216092132433428, velocity_score: 0.7234569864507394, time_score: 0.9505747657800637.
+[92mINFO [0m:      Score: 0.8989861843140619, velocity_score: 0.8630455765864857, time_score: 0.93805028260804.
+[92mINFO [0m:      Score: 0.9587035346091766, velocity_score: 1.0, time_score: 0.9206825975821902.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 35 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (35, 1.3691000421524049, {'accuracy': 0.5095, 'precision': 0.519475983067026, 'recall': 0.5095000000000001, 'f1': 0.5068116635698716}, 4383.8698821226135)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 36]
+[92mINFO [0m:      Score: 0.25864090911925697, velocity_score: 0.14852818724967393, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4535123381853198, velocity_score: 0.2947185136340568, time_score: 0.9833274817591797.
+[92mINFO [0m:      Score: 0.6049760649541086, velocity_score: 0.43916227363833105, time_score: 0.9719558781691321.
+[92mINFO [0m:      Score: 0.7251183198282329, velocity_score: 0.5820172846922306, time_score: 0.9615305790426321.
+[92mINFO [0m:      Score: 0.8218322220396618, velocity_score: 0.723321214616284, time_score: 0.9514068019586553.
+[92mINFO [0m:      Score: 0.899919216961408, velocity_score: 0.8629588522302952, time_score: 0.9401872598099296.
+[92mINFO [0m:      Score: 0.9607507483136319, velocity_score: 1.0, time_score: 0.924466143954053.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (36, 1.3751948400497436, {'accuracy': 0.5084, 'precision': 0.5187737651546376, 'recall': 0.5084000000000001, 'f1': 0.5061465798301098}, 4504.702936650254)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 37]
+[92mINFO [0m:      Score: 0.25755053022496943, velocity_score: 0.14780946862018446, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4523733955743071, velocity_score: 0.2935524248539561, time_score: 0.985629584896862.
+[92mINFO [0m:      Score: 0.6044167846546815, velocity_score: 0.4378401727109429, time_score: 0.9755750040076644.
+[92mINFO [0m:      Score: 0.7255687176063645, velocity_score: 0.5806564052704238, time_score: 0.9668659430463671.
+[92mINFO [0m:      Score: 0.8237212509512212, velocity_score: 0.7223175749879912, time_score: 0.9582461229933477.
+[92mINFO [0m:      Score: 0.9028885578293014, velocity_score: 0.8623961888669247, time_score: 0.9473707657593948.
+[92mINFO [0m:      Score: 0.9651489607330317, velocity_score: 1.0, time_score: 0.9326453026676095.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (37, 1.363806244659424, {'accuracy': 0.5189, 'precision': 0.5279521825823232, 'recall': 0.5188999999999999, 'f1': 0.51654588788135}, 4626.171275766566)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 38]
+[92mINFO [0m:      Score: 0.2574449648835607, velocity_score: 0.14773993342847733, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45240327954568393, velocity_score: 0.29353331500775054, time_score: 0.9861289942818318.
+[92mINFO [0m:      Score: 0.6045440371994194, velocity_score: 0.43779872496008815, time_score: 0.9764444801172653.
+[92mINFO [0m:      Score: 0.7254459231353273, velocity_score: 0.5806509890928999, time_score: 0.9664449717307716.
+[92mINFO [0m:      Score: 0.8233506496926273, velocity_score: 0.722265513878343, time_score: 0.9573351012078932.
+[92mINFO [0m:      Score: 0.9027038224911565, velocity_score: 0.8620948459341984, time_score: 0.9473276921545628.
+[92mINFO [0m:      Score: 0.9655353564700777, velocity_score: 1.0, time_score: 0.9333671890180453.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (38, 1.3771737209320067, {'accuracy': 0.5099, 'precision': 0.520342530863376, 'recall': 0.5099, 'f1': 0.5084312752117142}, 4749.830251969397)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 39]
+[92mINFO [0m:      Score: 0.2572793742801355, velocity_score: 0.14763087696506794, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45256912493376705, velocity_score: 0.2935585304909593, time_score: 0.9874215180349566.
+[92mINFO [0m:      Score: 0.6045927020267581, velocity_score: 0.4377463569275385, time_score: 0.9769591774876538.
+[92mINFO [0m:      Score: 0.7257304660515984, velocity_score: 0.5806857532140774, time_score: 0.9673591403264268.
+[92mINFO [0m:      Score: 0.8238838127951077, velocity_score: 0.7222945976623366, time_score: 0.9587267064741605.
+[92mINFO [0m:      Score: 0.9038736432257011, velocity_score: 0.8623743108715, time_score: 0.9495689728533362.
+[92mINFO [0m:      Score: 0.9664218503622704, velocity_score: 1.0, time_score: 0.935025426670448.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (39, 1.3668024871826172, {'accuracy': 0.5222, 'precision': 0.5304592871043249, 'recall': 0.5222, 'f1': 0.5225194282594758}, 4868.214513540268)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 40]
+[92mINFO [0m:      Score: 0.2567382506367931, velocity_score: 0.1472746423367441, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4515844411050327, velocity_score: 0.2928060522569122, time_score: 0.9865624311998201.
+[92mINFO [0m:      Score: 0.6041208728470268, velocity_score: 0.4369250007703893, time_score: 0.9785947632440849.
+[92mINFO [0m:      Score: 0.7260972773041883, velocity_score: 0.5799445985208931, time_score: 0.9707331437340131.
+[92mINFO [0m:      Score: 0.8247729906470523, velocity_score: 0.7215844042842888, time_score: 0.9623986933258148.
+[92mINFO [0m:      Score: 0.9049922575316068, velocity_score: 0.8619947522353808, time_score: 0.952504516616343.
+[92mINFO [0m:      Score: 0.9679315094090201, velocity_score: 1.0, time_score: 0.9378558867297324.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 40 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (40, 1.3742041612625122, {'accuracy': 0.5177, 'precision': 0.5246606082492271, 'recall': 0.5177, 'f1': 0.516550833496358}, 4990.770127046853)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 41]
+[92mINFO [0m:      Score: 0.25646617512014386, velocity_score: 0.14709561206122082, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45142732961571774, velocity_score: 0.2925642005024262, time_score: 0.987811648790576.
+[92mINFO [0m:      Score: 0.6042751650340809, velocity_score: 0.4368598733248485, time_score: 0.9797323459513237.
+[92mINFO [0m:      Score: 0.7262170519609022, velocity_score: 0.5796522145475064, time_score: 0.9719824327296093.
+[92mINFO [0m:      Score: 0.8249225860016157, velocity_score: 0.7213515256777129, time_score: 0.9632210782797616.
+[92mINFO [0m:      Score: 0.9054260553863772, velocity_score: 0.8616301638652762, time_score: 0.9539125796652135.
+[92mINFO [0m:      Score: 0.9694217355943443, velocity_score: 1.0, time_score: 0.9406580451737152.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (41, 1.3656887447357178, {'accuracy': 0.5233, 'precision': 0.5299456022149973, 'recall': 0.5233000000000001, 'f1': 0.5217629725095912}, 5112.278461062349)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 42]
+[92mINFO [0m:      Score: 0.25601774782466974, velocity_score: 0.14680066124831823, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45083973667689614, velocity_score: 0.29205369447753415, time_score: 0.988007280558451.
+[92mINFO [0m:      Score: 0.603587863933618, velocity_score: 0.4360130926893524, time_score: 0.9803824202398492.
+[92mINFO [0m:      Score: 0.7261083511484023, velocity_score: 0.5789695057228772, time_score: 0.9735172414023741.
+[92mINFO [0m:      Score: 0.8257409859598355, velocity_score: 0.7208700460555554, time_score: 0.966319490782907.
+[92mINFO [0m:      Score: 0.9074040713252981, velocity_score: 0.8615681816988232, time_score: 0.9583909861061481.
+[92mINFO [0m:      Score: 0.9716806544124337, velocity_score: 1.0, time_score: 0.94492110702948.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (42, 1.3831278387069703, {'accuracy': 0.5196, 'precision': 0.5279527545423708, 'recall': 0.5196000000000001, 'f1': 0.5187810480547963}, 5233.616968310438)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 43]
+[92mINFO [0m:      Score: 0.2559984568442818, velocity_score: 0.14678797610526212, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4511114927165275, velocity_score: 0.2921869553847194, time_score: 0.9890927654003999.
+[92mINFO [0m:      Score: 0.6038653984609236, velocity_score: 0.4362694862436071, time_score: 0.9805506481298337.
+[92mINFO [0m:      Score: 0.7263881098792861, velocity_score: 0.5794642219400121, time_score: 0.9731252505967652.
+[92mINFO [0m:      Score: 0.8254727951223927, velocity_score: 0.7211163299671299, time_score: 0.9651437236240133.
+[92mINFO [0m:      Score: 0.9065095541609138, velocity_score: 0.8614110877127771, time_score: 0.9565910911214796.
+[92mINFO [0m:      Score: 0.9717832106248789, velocity_score: 1.0, time_score: 0.9451150969976493.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (43, 1.3860122640609742, {'accuracy': 0.5137, 'precision': 0.5208270417027443, 'recall': 0.5137, 'f1': 0.5120199042854877}, 5354.623275810853)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 44]
+[92mINFO [0m:      Score: 0.2557026706462579, velocity_score: 0.14659351152076527, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4507503717628251, velocity_score: 0.2918285406401411, time_score: 0.9897304933824175.
+[92mINFO [0m:      Score: 0.604024406234435, velocity_score: 0.4359408278025412, time_score: 0.9830568345096774.
+[92mINFO [0m:      Score: 0.7262196685280867, velocity_score: 0.578802763755255, time_score: 0.9743897313393587.
+[92mINFO [0m:      Score: 0.8256660647526453, velocity_score: 0.7205386912035231, time_score: 0.9667101150098261.
+[92mINFO [0m:      Score: 0.9072576058108913, velocity_score: 0.861020961041739, time_score: 0.9587418413272212.
+[92mINFO [0m:      Score: 0.9732818248653813, velocity_score: 1.0, time_score: 0.947954218047975.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (44, 1.3959880012512207, {'accuracy': 0.5174, 'precision': 0.526739786303094, 'recall': 0.5174000000000001, 'f1': 0.516556534139867}, 5472.801119303331)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 45]
+[92mINFO [0m:      Score: 0.2568345830998153, velocity_score: 0.14733804411777282, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4508719184727801, velocity_score: 0.29241829701394356, time_score: 0.9841639075741694.
+[92mINFO [0m:      Score: 0.603039894630582, velocity_score: 0.43633778018391495, time_score: 0.975869005556045.
+[92mINFO [0m:      Score: 0.7250050071647067, velocity_score: 0.5791688923519206, time_score: 0.9690020434959095.
+[92mINFO [0m:      Score: 0.8241730493081643, velocity_score: 0.7210446375908863, time_score: 0.9617251218972441.
+[92mINFO [0m:      Score: 0.9050970450858575, velocity_score: 0.8613650861253336, time_score: 0.9535071027461164.
+[92mINFO [0m:      Score: 0.9698655035402225, velocity_score: 1.0, time_score: 0.9414940542941925.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 45 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (45, 1.3947750991821288, {'accuracy': 0.5162, 'precision': 0.5235786979001906, 'recall': 0.5162, 'f1': 0.5135712366802926}, 5594.693464988843)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 46]
+[92mINFO [0m:      Score: 0.2565809118943972, velocity_score: 0.14717110397890487, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4515907541995959, velocity_score: 0.2926981442288532, time_score: 0.9878498407259855.
+[92mINFO [0m:      Score: 0.604418438899208, velocity_score: 0.4369298138668036, time_score: 0.9801338731778156.
+[92mINFO [0m:      Score: 0.7263126344706468, velocity_score: 0.5799845745818678, time_score: 0.9713912048917897.
+[92mINFO [0m:      Score: 0.8244441337617605, velocity_score: 0.7216538021139601, time_score: 0.9613804532873266.
+[92mINFO [0m:      Score: 0.9048986934126422, velocity_score: 0.8618148334658964, time_score: 0.9525169341216845.
+[92mINFO [0m:      Score: 0.9683888230790105, velocity_score: 1.0, time_score: 0.9387149390619474.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (46, 1.403174561882019, {'accuracy': 0.521, 'precision': 0.5309294074312984, 'recall': 0.521, 'f1': 0.5191943407713618}, 5715.914572540671)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 47]
+[92mINFO [0m:      Score: 0.25637844046595065, velocity_score: 0.14703789309330578, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4517594354033619, velocity_score: 0.292679335387954, time_score: 0.989681197952903.
+[92mINFO [0m:      Score: 0.6045397754214619, velocity_score: 0.43688053407402994, time_score: 0.98102069594969.
+[92mINFO [0m:      Score: 0.7259298257626101, velocity_score: 0.5797552897922252, time_score: 0.9706649863816484.
+[92mINFO [0m:      Score: 0.824562350269092, velocity_score: 0.7214281724879525, time_score: 0.9621030036674995.
+[92mINFO [0m:      Score: 0.9048822551345489, velocity_score: 0.861437037336765, time_score: 0.9529424016013275.
+[92mINFO [0m:      Score: 0.969708563492119, velocity_score: 1.0, time_score: 0.9411983145069083.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (47, 1.4107180435180664, {'accuracy': 0.5173, 'precision': 0.527566152134828, 'recall': 0.5173, 'f1': 0.5162930388171914}, 5836.979625222273)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 48]
+[92mINFO [0m:      Score: 0.25612719697881586, velocity_score: 0.1468726368890475, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45104880278526055, velocity_score: 0.2921680492848658, time_score: 0.9887067485796892.
+[92mINFO [0m:      Score: 0.6040828223926384, velocity_score: 0.4363780588391105, time_score: 0.9811488303426348.
+[92mINFO [0m:      Score: 0.7261811672970112, velocity_score: 0.5793372221235481, time_score: 0.972740624286838.
+[92mINFO [0m:      Score: 0.825233343563101, velocity_score: 0.7210010370659268, time_score: 0.9646956258332111.
+[92mINFO [0m:      Score: 0.9060751322880978, velocity_score: 0.8613385311761665, time_score: 0.9557134202693967.
+[92mINFO [0m:      Score: 0.9718097201806837, velocity_score: 1.0, time_score: 0.9451652473815058.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (48, 1.4016623218536377, {'accuracy': 0.5227, 'precision': 0.5283251647921923, 'recall': 0.5227, 'f1': 0.5207571327088233}, 5957.748043241911)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 49]
+[92mINFO [0m:      Score: 0.25602340925300565, velocity_score: 0.14680438407911403, time_score: 1.0.
+[92mINFO [0m:      Score: 0.451046933963745, velocity_score: 0.2920874967233938, time_score: 0.9896123353545428.
+[92mINFO [0m:      Score: 0.6041755061486699, velocity_score: 0.43632136063273314, time_score: 0.9819250324069274.
+[92mINFO [0m:      Score: 0.7258797661449701, velocity_score: 0.5790717346636964, time_score: 0.972407473133262.
+[92mINFO [0m:      Score: 0.8250060496004625, velocity_score: 0.7206778852153812, time_score: 0.96465301276523.
+[92mINFO [0m:      Score: 0.9063779996866579, velocity_score: 0.8610301825852721, time_score: 0.9567680356783363.
+[92mINFO [0m:      Score: 0.9726195628522556, velocity_score: 1.0, time_score: 0.946698542900507.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (49, 1.4173770336151124, {'accuracy': 0.5198, 'precision': 0.5282486729529843, 'recall': 0.5198, 'f1': 0.520323584855742}, 6078.780250801705)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 50]
+[92mINFO [0m:      Score: 0.2564116472915061, velocity_score: 0.14705973855193266, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45208092120250715, velocity_score: 0.29283770449806046, time_score: 0.9909565985748645.
+[92mINFO [0m:      Score: 0.6052184946158514, velocity_score: 0.4372897867833477, time_score: 0.9825319511591418.
+[92mINFO [0m:      Score: 0.7252573232755739, velocity_score: 0.5796765082611435, time_score: 0.9684837681821238.
+[92mINFO [0m:      Score: 0.8234410888229112, velocity_score: 0.720955589035275, time_score: 0.9598919423093775.
+[92mINFO [0m:      Score: 0.9046097992199911, velocity_score: 0.8611207692909834, time_score: 0.9527251068070602.
+[92mINFO [0m:      Score: 0.9712532256273428, velocity_score: 1.0, time_score: 0.9441130216127532.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 50 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (50, 1.4267404260635377, {'accuracy': 0.5197, 'precision': 0.5239310979837072, 'recall': 0.5197, 'f1': 0.5175017429013836}, 6201.946660980582)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 51]
+[92mINFO [0m:      Score: 0.25585525401123516, velocity_score: 0.14669381919112995, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4508200811259258, velocity_score: 0.2918927822567784, time_score: 0.9896638166872879.
+[92mINFO [0m:      Score: 0.6034644838851182, velocity_score: 0.4357924578735505, time_score: 0.9808475573658.
+[92mINFO [0m:      Score: 0.7251548648430823, velocity_score: 0.578316555767088, time_score: 0.9719355889893487.
+[92mINFO [0m:      Score: 0.8247719213942867, velocity_score: 0.7199947963253918, time_score: 0.9652380276177094.
+[92mINFO [0m:      Score: 0.9070325348581201, velocity_score: 0.8607433791192811, time_score: 0.9585833391402524.
+[92mINFO [0m:      Score: 0.9749966369621385, velocity_score: 1.0, time_score: 0.9512131102404239.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (51, 1.4311227062225342, {'accuracy': 0.5183, 'precision': 0.5265625428664243, 'recall': 0.5183000000000001, 'f1': 0.5169942149878077}, 6323.077811400406)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 52]
+[92mINFO [0m:      Score: 0.25540043403093016, velocity_score: 0.14639487422379546, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4507361783982338, velocity_score: 0.29163559206858386, time_score: 0.9918188143653912.
+[92mINFO [0m:      Score: 0.6037742860093581, velocity_score: 0.43563039792689007, time_score: 0.9833110186575844.
+[92mINFO [0m:      Score: 0.7253380650610881, velocity_score: 0.5781579038671895, time_score: 0.9730431383522836.
+[92mINFO [0m:      Score: 0.8251281508852475, velocity_score: 0.7196058642979594, time_score: 0.9669157061453157.
+[92mINFO [0m:      Score: 0.908132492197099, velocity_score: 0.8603012837659763, time_score: 0.9615954760484762.
+[92mINFO [0m:      Score: 0.976692637423357, velocity_score: 1.0, time_score: 0.9544469952449945.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (52, 1.4349273221969605, {'accuracy': 0.5253, 'precision': 0.5325052783966822, 'recall': 0.5253000000000001, 'f1': 0.5252919304240247}, 6444.559750491753)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 53]
+[92mINFO [0m:      Score: 0.2557731888538127, velocity_score: 0.14663986771636425, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45121465755015805, velocity_score: 0.2920434885728794, time_score: 0.9917363005870805.
+[92mINFO [0m:      Score: 0.6045295745110859, velocity_score: 0.43635983584750376, time_score: 0.9836024098895535.
+[92mINFO [0m:      Score: 0.7249549059383155, velocity_score: 0.5786614718246956, time_score: 0.9702462631086693.
+[92mINFO [0m:      Score: 0.8240995203857663, velocity_score: 0.7199522070339673, time_score: 0.9634744293272685.
+[92mINFO [0m:      Score: 0.9065912981573652, velocity_score: 0.8604932184256886, time_score: 0.9579080557862498.
+[92mINFO [0m:      Score: 0.9748251647674298, velocity_score: 1.0, time_score: 0.9508867475724584.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (53, 1.449930982017517, {'accuracy': 0.5172, 'precision': 0.5225257813834066, 'recall': 0.5172, 'f1': 0.5152536607696979}, 6565.644333949313)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 54]
+[92mINFO [0m:      Score: 0.2559557468564408, velocity_score: 0.14675989235656856, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4517657859288494, velocity_score: 0.2924445943469969, time_score: 0.9924360349989985.
+[92mINFO [0m:      Score: 0.6054840266153859, velocity_score: 0.43705229580177435, time_score: 0.9851374704509994.
+[92mINFO [0m:      Score: 0.7243844175961524, velocity_score: 0.5789347074985517, time_score: 0.9674412803948566.
+[92mINFO [0m:      Score: 0.823469956409675, velocity_score: 0.7200350743217512, time_score: 0.9616073084847814.
+[92mINFO [0m:      Score: 0.9060093054348236, velocity_score: 0.8604536356574559, time_score: 0.956658420369152.
+[92mINFO [0m:      Score: 0.9747451483622265, velocity_score: 1.0, time_score: 0.9507344898735556.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (54, 1.4522875621795654, {'accuracy': 0.5154, 'precision': 0.5214280622058083, 'recall': 0.5154, 'f1': 0.51505610815594}, 6686.6042838720605)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 55]
+[92mINFO [0m:      Score: 0.255994315774033, velocity_score: 0.1467852531040629, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45213750377404455, velocity_score: 0.2926627059474216, time_score: 0.9935120025671514.
+[92mINFO [0m:      Score: 0.6061187692048842, velocity_score: 0.43745269434426176, time_score: 0.9864638693349967.
+[92mINFO [0m:      Score: 0.7240923239214099, velocity_score: 0.5792844210976758, time_score: 0.9654270945423429.
+[92mINFO [0m:      Score: 0.8231495810102991, velocity_score: 0.7202411664589158, time_score: 0.9603673425151892.
+[92mINFO [0m:      Score: 0.9056537420242144, velocity_score: 0.8605054055810613, time_score: 0.9558020284542841.
+[92mINFO [0m:      Score: 0.974756387091308, velocity_score: 1.0, time_score: 0.9507558738413905.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 55 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (55, 1.4790161249160767, {'accuracy': 0.5235, 'precision': 0.5297779101283757, 'recall': 0.5235000000000001, 'f1': 0.5220590100707099}, 6808.822682764381)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 56]
+[92mINFO [0m:      Score: 0.2556339024583726, velocity_score: 0.14654830933635027, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4514682381579991, velocity_score: 0.2921287094271932, time_score: 0.9932046652355992.
+[92mINFO [0m:      Score: 0.6054837389202006, velocity_score: 0.43674703959493905, time_score: 0.9866904024306834.
+[92mINFO [0m:      Score: 0.724328833286462, velocity_score: 0.5786366235488589, time_score: 0.9680762173193933.
+[92mINFO [0m:      Score: 0.8237789574335973, velocity_score: 0.719828798822301, time_score: 0.962819261309914.
+[92mINFO [0m:      Score: 0.9067241973824594, velocity_score: 0.8602091730405343, time_score: 0.9585573071327418.
+[92mINFO [0m:      Score: 0.9764289187571318, velocity_score: 1.0, time_score: 0.9539434404218472.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (56, 1.479706565475464, {'accuracy': 0.5181, 'precision': 0.5244499089914638, 'recall': 0.5181, 'f1': 0.5177865885199961}, 6930.087024896406)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 57]
+[92mINFO [0m:      Score: 0.25543552568013966, velocity_score: 0.1464179337824269, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45122996874155924, velocity_score: 0.29191500508408075, time_score: 0.9933692116694618.
+[92mINFO [0m:      Score: 0.6053463745304837, velocity_score: 0.43645027601420844, time_score: 0.9874769839841911.
+[92mINFO [0m:      Score: 0.7241968742878433, velocity_score: 0.5783331492165695, time_score: 0.9684547289959903.
+[92mINFO [0m:      Score: 0.8240649184644397, velocity_score: 0.7195543045754992, time_score: 0.9640932316025205.
+[92mINFO [0m:      Score: 0.9075991913938319, velocity_score: 0.8601310029682084, time_score: 0.9606126782435718.
+[92mINFO [0m:      Score: 0.9776188458883285, velocity_score: 1.0, time_score: 0.9562175925844055.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (57, 1.5134751333236693, {'accuracy': 0.5155, 'precision': 0.524447044680694, 'recall': 0.5155, 'f1': 0.5145013665860202}, 7051.285782045685)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 58]
+[92mINFO [0m:      Score: 0.2556034336412285, velocity_score: 0.14652828294358058, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45158517649457225, velocity_score: 0.2921693526911338, time_score: 0.9938669789557639.
+[92mINFO [0m:      Score: 0.6060001836820653, velocity_score: 0.4369932441480793, time_score: 0.988177312280573.
+[92mINFO [0m:      Score: 0.7238094106527262, velocity_score: 0.5786778308312083, time_score: 0.9661079036348831.
+[92mINFO [0m:      Score: 0.8232606054452645, velocity_score: 0.7196362368489134, time_score: 0.9617479704233342.
+[92mINFO [0m:      Score: 0.9067591938332007, velocity_score: 0.8601367968907377, time_score: 0.9587254369246658.
+[92mINFO [0m:      Score: 0.9769808551678947, velocity_score: 1.0, time_score: 0.954997626489418.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (58, 1.5013277481079101, {'accuracy': 0.5262, 'precision': 0.5308383167399031, 'recall': 0.5262, 'f1': 0.5253542325462202}, 7172.567453755066)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 59]
+[92mINFO [0m:      Score: 0.254839590314229, velocity_score: 0.14602645630731145, time_score: 1.0.
+[92mINFO [0m:      Score: 0.45041589485211403, velocity_score: 0.29119430422136583, time_score: 0.9938307665519565.
+[92mINFO [0m:      Score: 0.6044424940017254, velocity_score: 0.43540208455937396, time_score: 0.9880382444996841.
+[92mINFO [0m:      Score: 0.725248350904676, velocity_score: 0.5777175704765926, time_score: 0.9739692732767511.
+[92mINFO [0m:      Score: 0.8252147704055084, velocity_score: 0.7191439997320552, time_score: 0.9679891773102699.
+[92mINFO [0m:      Score: 0.9088773822305141, velocity_score: 0.8599019206706735, time_score: 0.9637685364109392.
+[92mINFO [0m:      Score: 0.9791361439678441, velocity_score: 1.0, time_score: 0.95912509604709.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:      fit progress: (59, 1.5262943946838379, {'accuracy': 0.514, 'precision': 0.5200390588808798, 'recall': 0.514, 'f1': 0.512604449689377}, 7293.62182178162)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [ROUND 60]
+[92mINFO [0m:      Score: 0.25499633341757605, velocity_score: 0.14612939691810758, time_score: 1.0.
+[92mINFO [0m:      Score: 0.4507636079820837, velocity_score: 0.2914444193995733, time_score: 0.9943031864723113.
+[92mINFO [0m:      Score: 0.6050937023289071, velocity_score: 0.4359363608278564, time_score: 0.9887672097256767.
+[92mINFO [0m:      Score: 0.7245963007100614, velocity_score: 0.5779076630465808, time_score: 0.9710836724412307.
+[92mINFO [0m:      Score: 0.8245284202845119, velocity_score: 0.7191470946649953, time_score: 0.9660969181101206.
+[92mINFO [0m:      Score: 0.9084395697847311, velocity_score: 0.859872993392209, time_score: 0.9628207491264411.
+[92mINFO [0m:      Score: 0.9789617024864562, velocity_score: 1.0, time_score: 0.9587903851113581.
+[92mINFO [0m:      Best score was M = 7
+[92mINFO [0m:
+[92mINFO [0m:      configure_fit: strategy sampled 7 clients (out of 7)
+[92mINFO [0m:      aggregate_fit: received 7 results and 0 failures
+[92mINFO [0m:
+[92mINFO [0m:      Saving round 60 aggregated_ndarrays...
+[92mINFO [0m:
+[92mINFO [0m:      fit progress: (60, 1.5352861200332641, {'accuracy': 0.5127, 'precision': 0.5205769519859182, 'recall': 0.5126999999999999, 'f1': 0.512755107342221}, 7416.9129922883585)
+[92mINFO [0m:      configure_evaluate: no clients selected, skipping evaluation
+[92mINFO [0m:
+[92mINFO [0m:      [SUMMARY]
+[92mINFO [0m:      Run finished 60 round(s) in 7416.91s
+[92mINFO [0m:
+[92mINFO [0m:      Training local-execution FedMOpt iid/slow0/beta0.7/gamma12.0 2 ended
